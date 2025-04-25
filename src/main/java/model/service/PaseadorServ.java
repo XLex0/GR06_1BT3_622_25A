@@ -9,7 +9,7 @@ public class PaseadorServ extends UsuarioServ {
     @Override
     public Usuario prepareUsuario(Usuario usuario) {
 
-        if (usuario.getRol() == Rol.PASEADOR) {
+        if (usuario.getRol() == Rol.Paseador) {
             usuario.setTickets(new ArrayList<Ticket>());
             usuario.setMascotas(new ArrayList<Mascota>());
         }

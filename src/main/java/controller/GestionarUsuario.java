@@ -46,13 +46,13 @@ public class GestionarUsuario extends HttpServlet {
         String rol = req.getParameter("Rol");
 
         if (rol != null) {
-            if (Objects.equals(rol, Rol.CLIENTE.toString())) {
+            if (Objects.equals(rol, Rol.Cliente.toString())) {
 
                 List<Usuario> clientes = new ClienteServ().getAllUsuarios();
                 req.setAttribute("clientes", clientes);
                 req.getRequestDispatcher("jsp/pets.jsp").forward(req, resp);
 
-            } else if (Objects.equals(rol, Rol.PASEADOR.toString())) {
+            } else if (Objects.equals(rol, Rol.Paseador.toString())) {
 
                 List<Usuario> paseadores = new PaseadorServ().getAllUsuarios();
                 req.setAttribute("paseadores", paseadores);
@@ -79,10 +79,10 @@ public class GestionarUsuario extends HttpServlet {
                     Usuario usuario = null;
 
                     // Dependiendo del rol, buscamos el usuario
-                    if (Objects.equals(rol, Rol.CLIENTE.toString())) {
+                    if (Objects.equals(rol, Rol.Cliente.toString())) {
                         usuario = new ClienteServ().findUsuarioById(id); // Llamada para buscar cliente por ID
                         req.setAttribute("cliente", usuario); // Pasamos el cliente a la vista
-                    } else if (Objects.equals(rol, Rol.PASEADOR.toString())) {
+                    } else if (Objects.equals(rol, Rol.Paseador.toString())) {
                         usuario = new PaseadorServ().findUsuarioById(id); // Llamada para buscar paseador por ID
                         req.setAttribute("paseador", usuario); // Pasamos el paseador a la vista
                     } else {
@@ -118,11 +118,11 @@ public class GestionarUsuario extends HttpServlet {
             Usuario nuevoUsuario = new Usuario(nombre, apellido, email, telefono, contrasena, rol);
 
             boolean success = false;
-            if (rol == Rol.CLIENTE) {
+            if (rol == Rol.Cliente) {
                 ClienteServ clienteServ = new ClienteServ();
                 Usuario clientePreparado = clienteServ.prepareUsuario(nuevoUsuario);
                 success = clienteServ.createUsuario(clientePreparado);
-            } else if (rol == Rol.PASEADOR) {
+            } else if (rol == Rol.Paseador) {
                 PaseadorServ paseadorServ = new PaseadorServ();
                 Usuario paseadorPreparado = paseadorServ.prepareUsuario(nuevoUsuario);
                 success = paseadorServ.createUsuario(paseadorPreparado);
