@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0"
+             xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+
+    <persistence-unit name="Pets" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <!-- Declaración de las clases de entidad -->
+        <class>model.entities.Usuario</class>
+        <class>model.entities.Mascota</class>
+        <class>model.entities.Postulacion</class>
+        <class>model.entities.Ticket</class>
+
+        <properties>
+            <!-- Configuración de la conexión a PostgreSQL -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/mascotas"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="A20x21M76v"/>
+
+            <!-- Propiedades específicas de EclipseLink para PostgreSQL -->
+            <property name="eclipselink.target-database" value="PostgreSQL"/>
+            <property name="eclipselink.ddl-generation" value="update"/>
+            <!--<property name="eclipselink.logging.level" value="FINE"/-->
+        </properties>
+    </persistence-unit>
+</persistence>
