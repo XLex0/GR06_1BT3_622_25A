@@ -104,13 +104,48 @@ public class GestionarUsuario extends HttpServlet {
     }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String nombre = req.getParameter("nombre");
+            String apellido = req.getParameter("apellido");
+            String email = req.getParameter("email");
+            String telefono = req.getParameter("telefono");
+            String contrasena = req.getParameter("contrasena");
+            String rolStr = req.getParameter("rol");
 
+            Rol rol = Rol.valueOf(rolStr);
+
+            // Crear el objeto base
+            Usuario nuevoUsuario = new Usuario(nombre, apellido, email, telefono, contrasena, rol);
+
+            boolean success = false;
+            if (rol == Rol.CLIENTE) {
+                ClienteServ clienteServ = new ClienteServ();
+                Usuario clientePreparado = clienteServ.prepareUsuario(nuevoUsuario);
+                success = clienteServ.createUsuario(clientePreparado);
+            } else if (rol == Rol.PASEADOR) {
+                PaseadorServ paseadorServ = new PaseadorServ();
+                Usuario paseadorPreparado = paseadorServ.prepareUsuario(nuevoUsuario);
+                success = paseadorServ.createUsuario(paseadorPreparado);
+            }
+
+            setFlash(req, success, "Usuario creado con éxito", "Error al crear usuario.");
+
+        } catch (Exception e) {
+            setFlash(req, false, "", "Error al procesar la solicitud.");
+        }
+
+        resp.sendRedirect("UsuarioController?route=list");
     }
 
+    private void setFlash(HttpServletRequest req, boolean success, String ok, String fail) {
+        HttpSession session = req.getSession();
+        if (success) {
+            session.setAttribute("messageType", "success");
+            session.setAttribute("message", ok);
+        } else {
+            session.setAttribute("messageType", "error");
+            session.setAttribute("message", fail);
+        }
+    }
 
 }
-
-
-
-
-

@@ -21,7 +21,7 @@ public class Usuario {
     @Column(length = 20)
     private Rol rol;
 
-    // Relación con Mascota (uno a muchos)
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mascota> mascotas;
 
