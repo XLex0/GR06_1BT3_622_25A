@@ -28,6 +28,14 @@
       <version>3.1.0</version>
     </dependency>
 
+    <!--
+https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.2</version>
+    </dependency>
+
     <!-- MySQL Connector -->
     <dependency>
       <groupId>com.mysql</groupId>
@@ -153,9 +161,9 @@
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>2.15.0</version>  <!-- Asegúrate de usar una versión
-			compatible con tu versión de Jackson -->
+      <version>2.15.0</version>
     </dependency>
+
 
   </dependencies>
 </project>

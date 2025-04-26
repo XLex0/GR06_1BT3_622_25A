@@ -17,13 +17,15 @@ public class Usuario {
     private String apellido;
     private String email;
     private String telefono;
-    private String contraseña;
+    @Column(name = "contraseña")
+    private String contrasena;
+
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Rol rol;
 
-    // Relación con Mascota (uno a muchos)
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mascota> mascotas;
 
@@ -39,12 +41,12 @@ public class Usuario {
     public Usuario() {}
 
     // Constructor con parámetros
-    public Usuario(String nombre, String apellido, String email, String telefono, String contraseña, Rol rol) {
+    public Usuario(String nombre, String apellido, String email, String telefono, String contrasena, Rol rol) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.telefono = telefono;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.rol = rol;
     }
 
@@ -89,12 +91,12 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contraseña) {
+        this.contrasena = contraseña;
     }
 
     public Rol getRol() {
