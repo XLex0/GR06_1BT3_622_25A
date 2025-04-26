@@ -1,8 +1,8 @@
-package controllers.service;
+package controller.service;
 
 
-import model.entities.dao.MascotaDAO;
-import model.entities.entities.Mascota;
+import model.dao.MascotaDAO;
+import model.entities.Mascota;
 
 import java.util.List;
 

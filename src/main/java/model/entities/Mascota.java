@@ -1,7 +1,6 @@
-package model.entities.entities;
+package model.entities;
 
 import jakarta.persistence.*;
-import model.entities.Usuario;
 
 import java.lang.Float;
 

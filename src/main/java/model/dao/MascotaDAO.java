@@ -1,9 +1,9 @@
-package model.entities.dao;
+package model.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import model.entities.entities.Mascota;
+import model.entities.Mascota;
 
 import java.util.List;
 

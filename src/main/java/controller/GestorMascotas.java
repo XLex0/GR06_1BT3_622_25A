@@ -1,9 +1,9 @@
-package controllers;
+package controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import controllers.service.MascotaService;
+import controller.service.MascotaService;
 
 import java.io.IOException;
 
