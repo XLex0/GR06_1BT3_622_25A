@@ -1,6 +1,8 @@
 package model.entities;
 
 import jakarta.persistence.*;
+import model.entities.entities.Mascota;
+
 import java.util.List;
 
 @Entity
