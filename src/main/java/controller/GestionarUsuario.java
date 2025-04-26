@@ -104,6 +104,8 @@ public class GestionarUsuario extends HttpServlet {
     }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        boolean success = false;
+
         try {
             String nombre = req.getParameter("nombre");
             String apellido = req.getParameter("apellido");
@@ -114,10 +116,8 @@ public class GestionarUsuario extends HttpServlet {
 
             Rol rol = Rol.valueOf(rolStr);
 
-            // Crear el objeto base
             Usuario nuevoUsuario = new Usuario(nombre, apellido, email, telefono, contrasena, rol);
 
-            boolean success = false;
             if (rol == Rol.Cliente) {
                 ClienteServ clienteServ = new ClienteServ();
                 Usuario clientePreparado = clienteServ.prepareUsuario(nuevoUsuario);
@@ -128,13 +128,12 @@ public class GestionarUsuario extends HttpServlet {
                 success = paseadorServ.createUsuario(paseadorPreparado);
             }
 
-            setFlash(req, success, "Usuario creado con éxito", "Error al crear usuario.");
-
         } catch (Exception e) {
-            setFlash(req, false, "", "Error al procesar la solicitud.");
+
         }
 
-        resp.sendRedirect("UsuarioController?route=list");
+        req.getSession().setAttribute("success", success);
+        resp.sendRedirect(req.getContextPath() + "/auth/message.jsp");
     }
 
     private void setFlash(HttpServletRequest req, boolean success, String ok, String fail) {
