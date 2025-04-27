@@ -1,6 +1,9 @@
 package model.entities;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -11,9 +14,15 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fecha;
-    private String hora;
-    private String duracion;
+    @Column(name = "fecha")
+    private LocalDate fecha; // ✅ cambiado
+
+    @Column(name = "hora")
+    private LocalTime hora;  // ✅ cambiado
+
+    @Column(name = "duracion")
+    private String duracion; // puede seguir como String
+
     private Boolean asignado;
 
     @ManyToOne
@@ -27,11 +36,11 @@ public class Ticket {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
 
-    public String getHora() { return hora; }
-    public void setHora(String hora) { this.hora = hora; }
+    public LocalTime getHora() { return hora; }
+    public void setHora(LocalTime hora) { this.hora = hora; }
 
     public String getDuracion() { return duracion; }
     public void setDuracion(String duracion) { this.duracion = duracion; }

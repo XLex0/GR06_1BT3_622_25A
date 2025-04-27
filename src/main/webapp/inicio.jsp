@@ -90,6 +90,7 @@
 </section>
 
 <a href="mascotas/registro.jsp">Nueva mascota</a>
+<a href="ticket/tickets.jsp">Nuevo Ticket</a>
 <a href="index.jsp">Salir</a>
 
 </body>
