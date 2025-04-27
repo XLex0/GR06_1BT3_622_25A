@@ -15,8 +15,8 @@ import model.service.PostulacionServ;
 
 import java.io.IOException;
 
-@WebServlet("/GestionarPostulacionController")
-public class GestionarPostulacionController extends HttpServlet {
+@WebServlet("/PostulacionController")
+public class GestionarPostulacion extends HttpServlet {
 
     private PostulacionServ postulacionServ = new PostulacionServ();
 

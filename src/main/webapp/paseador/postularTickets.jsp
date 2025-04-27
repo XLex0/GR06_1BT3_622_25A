@@ -41,7 +41,7 @@
             <td>${ticket.hora}</td>
             <td>${ticket.duracion}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/GestionarPostulacionController" method="post">
+                <form action="${pageContext.request.contextPath}/PostulacionController" method="post">
                     <input type="hidden" name="ticketId" value="${ticket.id}" />
                     <button type="submit">Postularme</button>
                 </form>
