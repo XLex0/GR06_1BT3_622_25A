@@ -28,7 +28,7 @@ CREATE TABLE Ticket (
     id SERIAL PRIMARY KEY,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    duracion TIME WITHOUT TIME ZONE NOT NULL, -- <-- CORREGIDO aquí
+    duracion TIME WITHOUT TIME ZONE NOT NULL, 
     asignado BOOLEAN DEFAULT FALSE,
     usuario_id INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
