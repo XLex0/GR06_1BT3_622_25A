@@ -12,8 +12,8 @@
 </head>
 <body>
 
-<div class="card-container">
-    <div class="card">
+<div class="m-card-container">
+    <div class="m-card">
         <h1 class="<%= (success != null && success) ? "success" : "error" %>">
             <% if (success != null && success) { %>
             🎉 ¡Ticket creado con éxito!

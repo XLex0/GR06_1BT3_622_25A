@@ -12,18 +12,18 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<!-- Header -->
-<header class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);">
-    <div class="container d-flex justify-content-between align-items-center py-2">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <i class="fas fa-dog fa-2x text-white me-2"></i>
-            <span class="fw-bold text-white">PetGo</span>
+<!-- Navbar personalizado -->
+<nav class="navbar-custom">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand d-flex align-items-center text-white" href="#">
+            <i class="fas fa-dog fa-2x me-2"></i>
+            <span class="fw-bold">PetGo</span>
         </a>
         <div class="d-flex gap-2">
-            <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-outline-light rounded-pill px-4">Cerrar Sesión</a>
+            <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-outline-light">Cerrar Sesión</a>
         </div>
     </div>
-</header>
+</nav>
 
 <!-- Sección de bienvenida -->
 <main class="flex-grow-1 d-flex align-items-center justify-content-center text-center bg-light">
@@ -85,6 +85,7 @@
     </div>
 </main>
 
+<!-- Footer -->
 <footer class="bg-light text-center text-muted py-4 mt-auto">
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
 </footer>

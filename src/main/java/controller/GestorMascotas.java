@@ -43,6 +43,7 @@ public class GestorMascotas extends HttpServlet {
     }
 
     private void saveNewPet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        boolean success = false;
         try {
             String nombre = req.getParameter("nombre");
             String raza = req.getParameter("raza");
@@ -52,23 +53,14 @@ public class GestorMascotas extends HttpServlet {
             String genero = req.getParameter("genero");
             Long usuarioId = Long.parseLong(req.getParameter("usuario"));
 
-            boolean success = petService.createPet(nombre, raza, edad, peso, comportamiento, genero, usuarioId);
-            setFlash(req, success, "Mascota registrada con éxito", "Error al registrar la mascota.");
+            success = petService.createPet(nombre, raza, edad, peso, comportamiento, genero, usuarioId);
         } catch (Exception e) {
-            setFlash(req, false, "", "Error al procesar la solicitud.");
         }
-        resp.sendRedirect("GestionarMascotaController?route=list");
+        req.getSession().setAttribute("success", success);
+        resp.sendRedirect(req.getContextPath() + "/mascotas/message.jsp");
     }
 
 
-    private void setFlash(HttpServletRequest req, boolean success, String ok, String fail) {
-        HttpSession session = req.getSession();
-        if (success) {
-            session.setAttribute("messageType", "success");
-            session.setAttribute("message", ok);
-        } else {
-            session.setAttribute("messageType", "error");
-            session.setAttribute("message", fail);
-        }
-    }
+
+
 }

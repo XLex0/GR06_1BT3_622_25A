@@ -8,7 +8,7 @@ import model.entities.Mascota;
 import java.util.List;
 
 public class MascotaDAO {
-    private static final String PERSISTENCE_UNIT = "ProyectoMascotas";
+    private static final String PERSISTENCE_UNIT = "Pets";
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
     public void create(String nombre, String raza, Integer edad,

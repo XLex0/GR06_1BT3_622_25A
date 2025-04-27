@@ -16,9 +16,9 @@
     <div class="m-card">
         <h1 class="<%= (success != null && success) ? "success" : "error" %>">
             <% if (success != null && success) { %>
-            🎉 ¡Usuario creado con éxito!
+            🎉 ¡Mascota creado con éxito!
             <% } else { %>
-            ❌ Hubo un error al crear el usuario.
+            ❌ Hubo un error al crear mascota.
             <% } %>
         </h1>
 
