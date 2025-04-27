@@ -56,6 +56,15 @@
     </style>
 </head>
 <body>
+<div style="background-color: #e3e3e3; padding: 10px;">
+    <a href="${pageContext.request.contextPath}/paseador/registrarTicket.jsp">Registrar Ticket</a> |
+    <a href="${pageContext.request.contextPath}/GestionarTicketController?route=listar">Postular a Ticket</a> |
+    <a href="${pageContext.request.contextPath}/GestionarTicketController?route=listar">Listar Mis Tickets</a> |
+    <a href="${pageContext.request.contextPath}/CerrarSesionController">Cerrar Sesión</a>
+</div>
+
+
+<hr>
 
 <header>
     <h1>¡Hola, Usuario!</h1>
