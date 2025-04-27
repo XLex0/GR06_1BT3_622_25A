@@ -26,9 +26,6 @@ public class GestorMascotas extends HttpServlet {
         String route = req.getParameter("route");
 
         switch (route) {
-            case "list":
-                listPets(req, resp);
-                break;
             case "saveNew":
                 saveNewPet(req, resp);
                 break;
@@ -37,10 +34,6 @@ public class GestorMascotas extends HttpServlet {
         }
     }
 
-    private void listPets(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("pets", petService.getAllPets());
-        req.getRequestDispatcher("jsp/pets.jsp").forward(req, resp);
-    }
 
     private void saveNewPet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean success = false;

@@ -20,13 +20,4 @@ public class MascotaService {
             return false;
         }
     }
-
-
-    public Mascota findPetById(Long id) {
-        return mascotaDAO.findById(id);
-    }
-
-    public List<Mascota> getAllPets() {
-        return mascotaDAO.findAll();
-    }
 }
