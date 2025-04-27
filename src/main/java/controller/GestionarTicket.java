@@ -8,39 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.service.TicketService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-@WebServlet("/TicketController")
-public class GestionarTicket extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private final TicketService ticketService = new TicketService();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        router(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        router(req, resp);
-    }
-
-    private void router(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String route = req.getParameter("route");
-        if ("list".equals(route)) {
-            listarTickets(req, resp);
-        } else {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
-        }
-    }
-
-    private void listarTickets(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("tickets", ticketService.listarTodosTickets());
-        req.getRequestDispatcher("paseador/postularTickets.jsp").forward(req, resp);
-    }
-}
-
-
-/*
 @WebServlet("/TicketController")
 public class GestionarTicket extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -96,4 +66,3 @@ public class GestionarTicket extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/ticket/messageTicket.jsp");
     }
 }
-*/
