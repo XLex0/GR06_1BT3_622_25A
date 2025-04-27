@@ -18,14 +18,6 @@ public abstract class UsuarioServ {
         }
     }
 
-    public Usuario findUsuarioById(Long id) {
-        return usuarioDAO.findById(id);
-    }
-
-    public List<Usuario> getAllUsuarios() {
-        return usuarioDAO.findAll();
-    }
-
 
     public abstract Usuario prepareUsuario(Usuario usuario);
 }

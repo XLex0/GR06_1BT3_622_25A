@@ -1,7 +1,6 @@
 package model.entities;
 
 import jakarta.persistence.*;
-
 import java.lang.Float;
 
 @Entity

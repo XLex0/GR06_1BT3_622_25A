@@ -27,6 +27,13 @@ public class MascotaDAO {
         }
     }
 
+
+
+
+
+
+
+
     public List<Mascota> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
