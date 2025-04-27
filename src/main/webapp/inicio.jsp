@@ -90,7 +90,8 @@
 </section>
 
 <a href="mascotas/registro.jsp">Nueva mascota</a>
-<a href="ticket/tickets.jsp">Nuevo Ticket</a>
+<a href="ticket/registro.jsp">Nuevo Ticket</a>
+<a href="${pageContext.request.contextPath}/TicketController?route=list">Postular</a>
 <a href="index.jsp">Salir</a>
 
 </body>

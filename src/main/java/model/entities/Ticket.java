@@ -15,13 +15,13 @@ public class Ticket {
     private Long id;
 
     @Column(name = "fecha")
-    private LocalDate fecha; // ✅ cambiado
+    private LocalDate fecha; // cambiado
 
     @Column(name = "hora")
-    private LocalTime hora;  // ✅ cambiado
+    private LocalTime hora;  // cambiado
 
     @Column(name = "duracion")
-    private String duracion; // puede seguir como String
+    private String duracion; // String
 
     private Boolean asignado;
 

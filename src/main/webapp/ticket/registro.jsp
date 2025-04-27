@@ -93,7 +93,7 @@
     <% session.removeAttribute("message"); session.removeAttribute("messageType"); } %>
 
     <h2>Registrar nuevo paseo</h2>
-    <!-- ✅ CORREGIDO: el form ahora usa contextPath -->
+
     <form action="<%= request.getContextPath() %>/TicketController?route=saveNew" method="post">
         <div class="form-group">
             <label>Fecha:</label>
