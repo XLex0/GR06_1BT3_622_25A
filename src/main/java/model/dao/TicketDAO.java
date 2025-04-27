@@ -8,11 +8,9 @@ import model.entities.Ticket;
 import java.util.List;
 
 public class TicketDAO {
-
     private static final String PERSISTENCE_UNIT = "Pets";
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
-    // Crear un nuevo ticket
     public void registrarTicket(Ticket ticket) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -24,33 +22,7 @@ public class TicketDAO {
         }
     }
 
-    // Buscar ticket por ID
-    public Ticket findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Ticket.class, id);
-        } finally {
-            em.close();
-        }
-    }
-
-    // Eliminar un ticket por ID
-    public void eliminarTicket(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            Ticket ticket = em.find(Ticket.class, id);
-            if (ticket != null) {
-                em.getTransaction().begin();
-                em.remove(ticket);
-                em.getTransaction().commit();
-            }
-        } finally {
-            em.close();
-        }
-    }
-
-    // Listar todos los tickets
-    public List<Ticket> listarTickets() {
+   public List<Ticket> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT t FROM Ticket t", Ticket.class).getResultList();
@@ -59,11 +31,10 @@ public class TicketDAO {
         }
     }
 
-    // Listar tickets no asignados
-    public List<Ticket> listarTicketsDisponibles() {
+    public Ticket findById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT t FROM Ticket t WHERE t.asignado = FALSE", Ticket.class).getResultList();
+            return em.find(Ticket.class, id);
         } finally {
             em.close();
         }

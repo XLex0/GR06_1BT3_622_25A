@@ -27,27 +27,27 @@
 
 <table border="1">
     <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Duración</th>
-            <th>Acción</th>
-        </tr>
+    <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Duración</th>
+        <th>Acción</th>
+    </tr>
     </thead>
     <tbody>
-        <c:forEach var="ticket" items="${tickets}">
-            <tr>
-                <td>${ticket.fecha}</td>
-                <td>${ticket.hora}</td>
-                <td>${ticket.duracion}</td>
-                <td>
-                    <form action="${pageContext.request.contextPath}/GestionarPostulacionController" method="post">
-                        <input type="hidden" name="ticketId" value="${ticket.id}" />
-                        <button type="submit">Postularme</button>
-                    </form>
-                </td>
-            </tr>
-        </c:forEach>
+    <c:forEach var="ticket" items="${tickets}">
+        <tr>
+            <td>${ticket.fecha}</td>
+            <td>${ticket.hora}</td>
+            <td>${ticket.duracion}</td>
+            <td>
+                <form action="${pageContext.request.contextPath}/PostulacionController" method="post">
+                    <input type="hidden" name="ticketId" value="${ticket.id}" />
+                    <button type="submit">Postularme</button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 

@@ -1,31 +1,43 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: TOMMY
-  Date: 25/4/2025
-  Time: 14:44
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page import="model.entities.Rol" %>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Registrar Usuario</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/auth.css">
 </head>
 <body>
-<<<<<<< Updated upstream
-<h1>REGISTRO DE USUARIOS</h1>
-<a href="../index.jsp">Inicio</a>
-=======
-<div style="background-color: #e3e3e3; padding: 10px;">
-    <a href="${pageContext.request.contextPath}/paseador/registrarTicket.jsp">Registrar Ticket</a> |
-    <a href="${pageContext.request.contextPath}/ListarTicketsDisponiblesController">Postular a Ticket</a> |
-    <a href="${pageContext.request.contextPath}/GestionarTicketController?accion=listar">Listar Mis Tickets</a> |
-    <a href="${pageContext.request.contextPath}/CerrarSesionController">Cerrar Sesión</a>
-</div>
-<hr>
-
 <div class="navbar">
 </div>
->>>>>>> Stashed changes
 
+<div class="form-container">
+    <h1>Registrar Usuario</h1>
+    <form action="<%= request.getContextPath() %>/UsuarioController?route=create" method="POST" class="user-form">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required pattern="[0-9]{7,15}" title="Ingrese solo números (7 a 15 dígitos)">
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+
+        <label for="rol">Rol:</label>
+        <select id="rol" name="rol" required>
+            <option value="Cliente">Cliente</option>
+            <option value="Paseador">Paseador</option>
+        </select>
+
+        <button type="submit">Registrar Usuario</button>
+    </form>
+</div>
 </body>
 </html>
