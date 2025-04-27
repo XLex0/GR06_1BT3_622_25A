@@ -16,11 +16,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${contextPath}/css/styles.css">
+
+    <style>
+    @keyframes fadeUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .fade-up {
+        animation: fadeUp 0.8s ease forwards;
+    }
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
-<!-- Header -->
 <header class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);">
     <div class="container d-flex justify-content-between align-items-center py-2">
         <a class="navbar-brand d-flex align-items-center" href="${contextPath}/index.jsp">
@@ -33,7 +48,6 @@
     </div>
 </header>
 
-<!-- Main Content -->
 <main class="flex-grow-1 bg-light py-5">
     <div class="container">
 
@@ -41,7 +55,7 @@
 
         <div class="row g-4 justify-content-center">
             <c:forEach var="ticket" items="${tickets}">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4 fade-up">
                     <div class="card shadow-sm h-100 border-0 rounded-4">
                         <div class="card-body text-center d-flex flex-column justify-content-between">
                             <div>
@@ -54,7 +68,6 @@
                                 </p>
                             </div>
 
-                            <!-- Botón Ver Detalles -->
                             <button type="button"
                                 class="btn btn-outline-success w-100 rounded-pill mt-3"
                                 data-ticket-id="${ticket.id}"
@@ -71,23 +84,19 @@
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-light text-center text-muted py-4 mt-auto">
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
 </footer>
 
-<!-- Modal -->
 <div class="modal fade" id="PanelTicketModal" tabindex="-1" aria-labelledby="PanelTicketModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content rounded-4" id="modalTicketContent">
-      <!-- Aquí se cargará dinámicamente -->
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Script carga dinámica -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const PanelTicketModal = document.getElementById('PanelTicketModal');

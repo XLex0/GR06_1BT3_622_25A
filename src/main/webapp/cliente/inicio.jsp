@@ -38,17 +38,7 @@
                 </p>
 
                 <div class="row justify-content-center g-4 fade-in-up delay-3">
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-dog fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Mis Mascotas</h5>
-                                <p class="card-text text-muted">Gestiona tus mejores amigos fácilmente.</p>
-                                <a href="${pageContext.request.contextPath}/cliente/inicio.jsp" class="btn btn-success rounded-pill mt-2">Ver</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                     <div class="col-md-3">
                         <div class="card h-100 shadow-sm border-0 rounded-4">
                             <div class="card-body text-center">
                                 <i class="fas fa-paw fa-3x text-success mb-3"></i>

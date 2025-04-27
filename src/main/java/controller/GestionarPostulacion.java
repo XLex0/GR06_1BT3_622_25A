@@ -14,6 +14,7 @@ import model.entities.Usuario;
 import model.service.PostulacionServ;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/PostulacionController")
 public class GestionarPostulacion extends HttpServlet {
@@ -47,39 +48,59 @@ public class GestionarPostulacion extends HttpServlet {
 
     private void postularTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            Long ticketId = Long.parseLong(request.getParameter("ticketId"));
-            HttpSession session = request.getSession();
-            Long paseadorId = (Long) session.getAttribute("idUsuario");
+            String ticketIdStr = request.getParameter("ticketId");
+            String paseadorIdStr = request.getParameter("paseadorId");
 
-            if (paseadorId != null) {
+            if (ticketIdStr == null || paseadorIdStr == null) {
+                request.getSession().setAttribute("success", false);
+                request.getSession().setAttribute("message", "Parámetros inválidos.");
+                response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulaciones");
+                return;
+            }
+
+            Long ticketId = Long.parseLong(ticketIdStr);
+            Long paseadorId = Long.parseLong(paseadorIdStr);
+
+            TicketDAO ticketDAO = new TicketDAO();
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+            Ticket ticket = ticketDAO.findById(ticketId);
+            Usuario paseador = usuarioDAO.findById(paseadorId);
+
+            if (ticket != null && paseador != null) {
                 Postulacion postulacion = new Postulacion();
-                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
-
-                TicketDAO ticketDAO = new TicketDAO();
-                Ticket ticket = ticketDAO.findById(ticketId);
+                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()));
                 postulacion.setTicket(ticket);
-
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
-                Usuario paseador = usuarioDAO.findById(paseadorId);
                 postulacion.setUsuario(paseador);
-
-                postulacion.setAprobado(false);
 
                 postulacionServ.registrarPostulacion(postulacion);
 
-                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=PostulacionExitosa");
+                request.getSession().setAttribute("success", true);
+                request.getSession().setAttribute("message", "¡Postulación exitosa!");
+            } else if (ticket == null) {
+                request.getSession().setAttribute("success", false);
+                request.getSession().setAttribute("message", "Error: Ticket no encontrado.");
             } else {
-                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=ErrorPostulacion");
+                request.getSession().setAttribute("success", false);
+                request.getSession().setAttribute("message", "Error: Paseador no encontrado.");
             }
-        } catch (Exception e) {
+
+            response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulaciones");
+
+        } catch (NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            request.getSession().setAttribute("success", false);
+            request.getSession().setAttribute("message", "Parámetros inválidos.");
+            response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulaciones");
         }
     }
 
+
     private void listarPostulaciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lógica para listar las postulaciones (si fuera necesario)
-        request.setAttribute("postulaciones", postulacionServ.listarPostulaciones());
-        request.getRequestDispatcher("paseador/listarPostulaciones.jsp").forward(request, response);
+        List<Postulacion> postulaciones = postulacionServ.listarPostulaciones();
+        request.setAttribute("postulaciones", postulaciones);
+
+        request.getRequestDispatcher("paseador/PanelPostulaciones.jsp").forward(request, response);
     }
+
 }
