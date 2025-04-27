@@ -1,0 +1,158 @@
+/* Variables */
+:root {
+    --primary-color: #4CAF50;
+    --primary-hover: #45a049;
+    --background-color: #f7f7f7;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --secondary-color: #6c757d;
+    --success-color: #4CAF50;
+    --error-color: #f44336;
+}
+
+/* Estilo general */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar-custom {
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-custom a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.navbar-custom a:hover {
+    background-color: var(--primary-hover);
+    border-radius: 5px;
+}
+
+/* Header textos */
+h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+/* Formulario */
+.form-container {
+    background-color: var(--card-background);
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.user-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.user-form input, .user-form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.user-form button {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-form button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Footer */
+footer {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto;
+    font-size: 0.9rem;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Botones generales */
+.btn-success {
+    background-color: var(--primary-color);
+    border: none;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline-light {
+    font-weight: bold;
+    border-radius: 30px;
+}
+
+/* Efecto en los botones del navbar */
+.navbar .btn:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+/* Animaciones FadeIn */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.delay-3 {
+    animation-delay: 0.6s;
+}

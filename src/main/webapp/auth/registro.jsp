@@ -1,43 +1,73 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.entities.Rol" %>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registrar Usuario</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/auth.css">
-</head>
-<body>
-<div class="navbar">
-</div>
+<%
+    Boolean success = (Boolean) session.getAttribute("success");
+    String message = (String) session.getAttribute("message");
+    session.removeAttribute("success");
+    session.removeAttribute("message");
+%>
 
-<div class="form-container">
-    <h1>Registrar Usuario</h1>
-    <form action="<%= request.getContextPath() %>/UsuarioController?route=create" method="POST" class="user-form">
+<div class="p-3">
+    <h2 class="text-success mb-4 text-center">Registrar Usuario</h2>
 
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+    <% if (success != null) { %>
+        <div class="alert <%= success ? "alert-success" : "alert-danger" %> alert-dismissible fade show" role="alert">
+            <i class="fas <%= success ? "fa-check-circle" : "fa-exclamation-triangle" %> me-2"></i>
+            <%= (message != null) ? message : (success ? "¡Usuario registrado exitosamente!" : "Error al registrar usuario.") %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    <% } %>
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
+    <form action="<%= request.getContextPath() %>/UsuarioController?route=create" method="POST" class="user-form" style="max-width: 400px; margin: 0 auto;">
 
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" required>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" required>
+        </div>
 
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" required pattern="[0-9]{7,15}" title="Ingrese solo números (7 a 15 dígitos)">
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" class="form-control" required>
+        </div>
 
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" id="contrasena" name="contrasena" required>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
 
-        <label for="rol">Rol:</label>
-        <select id="rol" name="rol" required>
-            <option value="Cliente">Cliente</option>
-            <option value="Paseador">Paseador</option>
-        </select>
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" class="form-control" required pattern="[0-9]{7,15}" title="Ingrese solo números (7 a 15 dígitos)">
+        </div>
 
-        <button type="submit">Registrar Usuario</button>
+        <div class="mb-3">
+            <label for="contrasena" class="form-label">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" class="form-control" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="rol" class="form-label">Rol:</label>
+            <select id="rol" name="rol" class="form-select" required>
+                <option value="Cliente">Cliente</option>
+                <option value="Paseador">Paseador</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 rounded-pill">
+            <i class="fas fa-user-plus me-2"></i> Registrar Usuario
+        </button>
+
     </form>
 </div>
-</body>
-</html>
+
+<% if (success != null && success) { %>
+<script>
+    setTimeout(function() {
+        var modal = bootstrap.Modal.getInstance(document.getElementById('registroModal'));
+        if (modal) {
+            modal.hide();
+        }
+        window.location.href = "<%= request.getContextPath() %>/index.jsp";
+    }, 3000);
+</script>
+<% } %>

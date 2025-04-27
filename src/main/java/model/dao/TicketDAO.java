@@ -22,7 +22,7 @@ public class TicketDAO {
         }
     }
 
-   public List<Ticket> findAll() {
+    public List<Ticket> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT t FROM Ticket t", Ticket.class).getResultList();

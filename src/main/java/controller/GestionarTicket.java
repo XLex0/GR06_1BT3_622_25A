@@ -35,14 +35,33 @@ public class GestionarTicket extends HttpServlet {
             case "saveNew":
                 guardarNuevoTicket(req, resp);
                 break;
+            case "verDetalles": //
+                verDetallesTicket(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
         }
     }
 
+    private void verDetallesTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            Long ticketId = Long.parseLong(req.getParameter("ticketId"));
+            Ticket ticket = ticketService.buscarTicketPorId(ticketId);
+
+            if (ticket != null) {
+                req.setAttribute("ticket", ticket);
+                req.getRequestDispatcher("paseador/PanelTicket.jsp").forward(req, resp);
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Ticket no encontrado");
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de ticket no válido");
+        }
+    }
+
     private void listarTickets(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("tickets", ticketService.listarTodosTickets());
-        req.getRequestDispatcher("paseador/postularTickets.jsp").forward(req, resp);
+        req.getRequestDispatcher("paseador/PanelPostulador.jsp").forward(req, resp);
     }
 
     private void guardarNuevoTicket(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -50,11 +69,12 @@ public class GestionarTicket extends HttpServlet {
         try {
             String fechaStr = req.getParameter("fecha");
             String horaStr = req.getParameter("hora");
-            String duracion = req.getParameter("duracion");
+            String duracionStr = req.getParameter("duracion");
             Long usuarioId = Long.parseLong(req.getParameter("usuarioId"));
 
             LocalDate fecha = LocalDate.parse(fechaStr);
             LocalTime hora = LocalTime.parse(horaStr);
+            LocalTime duracion = LocalTime.parse(duracionStr); // 🔥 Corrección
 
             exito = ticketService.crearTicket(fecha, hora, duracion, usuarioId);
 
@@ -65,4 +85,5 @@ public class GestionarTicket extends HttpServlet {
         req.getSession().setAttribute("success", exito);
         resp.sendRedirect(req.getContextPath() + "/ticket/messageTicket.jsp");
     }
+
 }

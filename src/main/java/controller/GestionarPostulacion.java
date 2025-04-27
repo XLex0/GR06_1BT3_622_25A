@@ -67,9 +67,9 @@ public class GestionarPostulacion extends HttpServlet {
 
                 postulacionServ.registrarPostulacion(postulacion);
 
-                response.sendRedirect("paseador/postularTickets.jsp?mensaje=PostulacionExitosa");
+                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=PostulacionExitosa");
             } else {
-                response.sendRedirect("paseador/postularTickets.jsp?mensaje=ErrorPostulacion");
+                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=ErrorPostulacion");
             }
         } catch (Exception e) {
             e.printStackTrace();

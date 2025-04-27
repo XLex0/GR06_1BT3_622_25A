@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Tickets - PetGo</title>
+
     <style>
         body {
             margin: 0;
@@ -78,19 +79,24 @@
         }
     </style>
 </head>
+
 <body>
 
 <header>
-    <h1>¡Nuevo paseo!</h1>
+    <h1>¡Nuevo Paseo!</h1>
 </header>
 
 <div class="content">
 
     <% if(session.getAttribute("message") != null) { %>
-    <div class="mensaje <%= session.getAttribute("messageType") %>">
-        <%= session.getAttribute("message") %>
-    </div>
-    <% session.removeAttribute("message"); session.removeAttribute("messageType"); } %>
+        <div class="mensaje <%= session.getAttribute("messageType") %>">
+            <%= session.getAttribute("message") %>
+        </div>
+        <%
+            session.removeAttribute("message");
+            session.removeAttribute("messageType");
+        %>
+    <% } %>
 
     <h2>Registrar nuevo paseo</h2>
 
@@ -99,20 +105,25 @@
             <label>Fecha:</label>
             <input type="date" name="fecha" required>
         </div>
+
         <div class="form-group">
             <label>Hora:</label>
             <input type="time" name="hora" required>
         </div>
+
         <div class="form-group">
-            <label>Duración:</label>
-            <input type="text" name="duracion" placeholder="Ejemplo: 1 hora" required>
+            <label>Duración (hh:mm):</label>
+            <input type="time" name="duracion" step="1" required placeholder="Ejemplo: 01:30">
         </div>
+
         <div class="form-group">
             <label>ID Cliente:</label>
             <input type="number" name="usuarioId" required>
         </div>
+
         <button type="submit">Crear Ticket</button>
     </form>
+
 </div>
 
 </body>

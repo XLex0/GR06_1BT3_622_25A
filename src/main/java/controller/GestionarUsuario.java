@@ -105,6 +105,7 @@ public class GestionarUsuario extends HttpServlet {
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean success = false;
+        String message = "";
 
         try {
             String nombre = req.getParameter("nombre");
@@ -128,13 +129,26 @@ public class GestionarUsuario extends HttpServlet {
                 success = paseadorServ.createUsuario(paseadorPreparado);
             }
 
-        } catch (Exception e) {
+            if (success) {
+                message = "¡Usuario creado con éxito!";
+            } else {
+                message = "Error al crear el usuario.";
+            }
 
+        } catch (Exception e) {
+            success = false;
+            message = "Ocurrió un error: " + e.getMessage();
         }
 
-        req.getSession().setAttribute("success", success);
-        resp.sendRedirect(req.getContextPath() + "/auth/message.jsp");
+        HttpSession session = req.getSession();
+        session.setAttribute("success", success);
+        session.setAttribute("message", message);
+
+        resp.sendRedirect(req.getContextPath() + "/index.jsp");
     }
+
+
+
 
     private void setFlash(HttpServletRequest req, boolean success, String ok, String fail) {
         HttpSession session = req.getSession();

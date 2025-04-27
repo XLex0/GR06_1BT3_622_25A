@@ -1,7 +1,6 @@
 package model.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,13 +14,13 @@ public class Ticket {
     private Long id;
 
     @Column(name = "fecha")
-    private LocalDate fecha; // cambiado
+    private LocalDate fecha;
 
     @Column(name = "hora")
-    private LocalTime hora;  // cambiado
+    private LocalTime hora;
 
     @Column(name = "duracion")
-    private String duracion; // String
+    private LocalTime duracion; // 🔥 Ahora LocalTime
 
     private Boolean asignado;
 
@@ -42,8 +41,8 @@ public class Ticket {
     public LocalTime getHora() { return hora; }
     public void setHora(LocalTime hora) { this.hora = hora; }
 
-    public String getDuracion() { return duracion; }
-    public void setDuracion(String duracion) { this.duracion = duracion; }
+    public LocalTime getDuracion() { return duracion; }
+    public void setDuracion(LocalTime duracion) { this.duracion = duracion; }
 
     public Boolean getAsignado() { return asignado; }
     public void setAsignado(Boolean asignado) { this.asignado = asignado; }

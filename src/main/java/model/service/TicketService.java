@@ -11,12 +11,13 @@ import java.util.List;
 public class TicketService {
     private final TicketDAO ticketDAO = new TicketDAO();
 
-    public boolean crearTicket(LocalDate fecha, LocalTime hora, String duracion, Long usuarioId) {
+    // 🔥 Cambiado: LocalTime en duracion
+    public boolean crearTicket(LocalDate fecha, LocalTime hora, LocalTime duracion, Long usuarioId) {
         try {
             Ticket ticket = new Ticket();
             ticket.setFecha(fecha);
             ticket.setHora(hora);
-            ticket.setDuracion(duracion);
+            ticket.setDuracion(duracion); // Ahora es LocalTime
             ticket.setAsignado(false);
 
             Usuario usuario = new Usuario();

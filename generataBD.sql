@@ -24,12 +24,11 @@ CREATE TABLE Mascota (
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
 );
 
--- Crear tabla Ticket
 CREATE TABLE Ticket (
     id SERIAL PRIMARY KEY,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    duracion VARCHAR(50) NOT NULL,
+    duracion TIME WITHOUT TIME ZONE NOT NULL, -- <-- CORREGIDO aquí
     asignado BOOLEAN DEFAULT FALSE,
     usuario_id INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
