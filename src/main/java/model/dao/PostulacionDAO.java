@@ -24,21 +24,6 @@ public class PostulacionDAO {
         }
     }
 
-    // Eliminar una postulación
-    public void eliminarPostulacion(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            Postulacion postulacion = em.find(Postulacion.class, id);
-            if (postulacion != null) {
-                em.getTransaction().begin();
-                em.remove(postulacion);
-                em.getTransaction().commit();
-            }
-        } finally {
-            em.close();
-        }
-    }
-
     // Listar todas las postulaciones
     public List<Postulacion> listarPostulaciones() {
         EntityManager em = emf.createEntityManager();
@@ -49,13 +34,4 @@ public class PostulacionDAO {
         }
     }
 
-    // Listar una postulación por ID
-    public Postulacion listarPostulacion(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Postulacion.class, id);
-        } finally {
-            em.close();
-        }
-    }
 }

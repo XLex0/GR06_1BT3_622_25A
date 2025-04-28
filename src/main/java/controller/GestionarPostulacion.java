@@ -12,6 +12,8 @@ import model.entities.Postulacion;
 import model.entities.Ticket;
 import model.entities.Usuario;
 import model.service.PostulacionServ;
+import model.service.TicketService;
+import model.service.UsuarioServ;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,6 +65,7 @@ public class GestionarPostulacion extends HttpServlet {
 
             TicketDAO ticketDAO = new TicketDAO();
             UsuarioDAO usuarioDAO = new UsuarioDAO();
+
 
             Ticket ticket = ticketDAO.findById(ticketId);
             Usuario paseador = usuarioDAO.findById(paseadorId);
