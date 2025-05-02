@@ -2,12 +2,10 @@ package controller.service;
 
 
 import model.dao.MascotaDAO;
-import model.entities.Mascota;
-
-import java.util.List;
+import model.factory.DAOFactory;
 
 public class MascotaService {
-    private final MascotaDAO mascotaDAO = new MascotaDAO();
+    MascotaDAO mascotaDAO = new DAOFactory().getMascotaDAO();
 
     public boolean createPet(String nombre, String raza, Integer edad,
                              Float peso, String comportamiento,

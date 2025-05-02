@@ -2,11 +2,12 @@ package model.service;
 
 import model.dao.PostulacionDAO;
 import model.entities.Postulacion;
+import model.factory.DAOFactory;
 
 import java.util.List;
 
 public class PostulacionServ {
-    private PostulacionDAO postulacionDAO = new PostulacionDAO();
+    private PostulacionDAO postulacionDAO = new DAOFactory().getPostulacionDAO();
 
     // Registrar una nueva postulación
     public void registrarPostulacion(Postulacion postulacion) {
