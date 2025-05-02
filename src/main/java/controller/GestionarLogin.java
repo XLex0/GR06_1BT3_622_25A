@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -47,9 +48,11 @@ public class GestionarLogin extends HttpServlet {
         boolean login = false;
         String mensaje = "Error al iniciar sesión.";
         if (rol == Rol.Cliente) {
+            System.out.println(rolStr);
             ClienteServ clienteServ = new ClienteServ();
-            user = clienteServ.ingresar(password, email);
+            user = clienteServ.ingresar(email, password);
             if (user != null) {
+                System.out.printf("Usuario encontrado exitosamente.\n");
                 login = true;
                 mensaje = "Usuario ingresado correctamente";
                 HttpSession session = req.getSession();
@@ -58,7 +61,7 @@ public class GestionarLogin extends HttpServlet {
             }
         } else if (rol == Rol.Paseador) {
             PaseadorServ paseadorServ = new PaseadorServ();
-            user = paseadorServ.ingresar(password, email);
+            user = paseadorServ.ingresar(email, password);
             if (user != null) {
                 login = true;
                 mensaje = "Usuario ingresado correctamente";
@@ -70,7 +73,13 @@ public class GestionarLogin extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("success", login);
         session.setAttribute("message", mensaje);
-        resp.sendRedirect(req.getContextPath() + "/index.jsp");
+
+        System.out.println(login);
+        if(login) {
+            resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
+        }else {
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+        }
     }
 
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

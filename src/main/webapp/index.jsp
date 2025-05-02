@@ -67,8 +67,8 @@
                     <i class="fas fa-person-walking fa-8x text-success"></i>
                 </div>
                 <div>
-                    <a href="cliente/inicio.jsp" class="btn btn-success btn-lg rounded-pill px-5 py-3">
-                        Empezar Ahora
+                    <a href="auth/login.jsp" class="btn btn-success btn-lg rounded-pill px-5 py-3">
+                        Iniciar Sesión
                     </a>
                 </div>
             </div>
