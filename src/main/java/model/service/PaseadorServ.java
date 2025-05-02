@@ -23,7 +23,7 @@ public class PaseadorServ extends UsuarioServ {
 
         if (usuario != null) {
             if (usuario.getContrasena().equals(password)) {
-                if (usuario.getRol() == Rol.Cliente) {
+                if (usuario.getRol() == Rol.Paseador) {
                     return usuario;
                 } else {
                     return null;
