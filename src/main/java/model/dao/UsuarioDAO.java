@@ -42,4 +42,18 @@ public class UsuarioDAO {
             em.close();
         }
     }
+
+    public Usuario findByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }        finally {
+            em.close();
+        }
+    }
+
 }

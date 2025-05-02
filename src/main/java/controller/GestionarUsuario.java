@@ -53,7 +53,6 @@ public class GestionarUsuario extends HttpServlet {
             Rol rol = Rol.valueOf(rolStr);
 
             Usuario nuevoUsuario = new Usuario(nombre, apellido, email, telefono, contrasena, rol);
-
             if (rol == Rol.Cliente) {
                 ClienteServ clienteServ = new ClienteServ();
                 Usuario clientePreparado = clienteServ.prepareUsuario(nuevoUsuario);
