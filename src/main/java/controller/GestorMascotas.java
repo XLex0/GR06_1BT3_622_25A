@@ -34,7 +34,6 @@ public class GestorMascotas extends HttpServlet {
         }
     }
 
-
     private void saveNewPet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean success = false;
         try {
@@ -52,8 +51,5 @@ public class GestorMascotas extends HttpServlet {
         req.getSession().setAttribute("success", success);
         resp.sendRedirect(req.getContextPath() + "/mascotas/message.jsp");
     }
-
-
-
 
 }
