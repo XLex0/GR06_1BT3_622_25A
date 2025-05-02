@@ -48,11 +48,10 @@ public class GestionarLogin extends HttpServlet {
         boolean login = false;
         String mensaje = "Error al iniciar sesión.";
         if (rol == Rol.Cliente) {
-            System.out.println(rolStr);
+
             ClienteServ clienteServ = new ClienteServ();
             user = clienteServ.ingresar(email, password);
             if (user != null) {
-                System.out.printf("Usuario encontrado exitosamente.\n");
                 login = true;
                 mensaje = "Usuario ingresado correctamente";
                 HttpSession session = req.getSession();
@@ -74,7 +73,6 @@ public class GestionarLogin extends HttpServlet {
         session.setAttribute("success", login);
         session.setAttribute("message", mensaje);
 
-        System.out.println(login);
         if(login) {
             resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
         }else {
