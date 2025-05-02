@@ -1,23 +1,22 @@
 package model.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import model.entities.Mascota;
 
 import java.util.List;
 
 public class MascotaDAO {
-    private static final String PERSISTENCE_UNIT = "Pets";
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+    private final EntityManager em;
+
+    public MascotaDAO(EntityManager em) {
+        this.em = em;
+    }
 
     public void create(String nombre, String raza, Integer edad,
-                       Float peso, String comportamiento,
-                       String genero, Long usuarioId) {
+            Float peso, String comportamiento,
+            String genero, Long usuarioId) {
 
         Mascota pet = new Mascota(nombre, raza, edad, peso, comportamiento, genero, usuarioId);
-
-        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(pet);
@@ -27,15 +26,7 @@ public class MascotaDAO {
         }
     }
 
-
-
-
-
-
-
-
     public List<Mascota> findAll() {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT p FROM Mascota p", Mascota.class).getResultList();
         } finally {
@@ -44,7 +35,6 @@ public class MascotaDAO {
     }
 
     public Mascota findById(Long id) {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.find(Mascota.class, id);
         } finally {

@@ -1,16 +1,16 @@
 package controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.service.TicketService;
 import model.entities.Ticket;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import model.service.TicketService;
 
 @WebServlet("/TicketController")
 public class GestionarTicket extends HttpServlet {
@@ -44,7 +44,8 @@ public class GestionarTicket extends HttpServlet {
         }
     }
 
-    private void verDetallesTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void verDetallesTicket(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         try {
             Long ticketId = Long.parseLong(req.getParameter("ticketId"));
             Ticket ticket = ticketService.buscarTicketPorId(ticketId);

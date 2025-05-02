@@ -11,6 +11,7 @@ import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
 import model.entities.Ticket;
 import model.entities.Usuario;
+import model.factory.DAOFactory;
 import model.service.PostulacionServ;
 
 import java.io.IOException;
@@ -21,12 +22,14 @@ public class GestionarPostulacion extends HttpServlet {
     private PostulacionServ postulacionServ = new PostulacionServ();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         router(request, response);
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         router(request, response);
     }
 
@@ -55,11 +58,11 @@ public class GestionarPostulacion extends HttpServlet {
                 Postulacion postulacion = new Postulacion();
                 postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
 
-                TicketDAO ticketDAO = new TicketDAO();
+                TicketDAO ticketDAO = new DAOFactory().getTicketDAO();
                 Ticket ticket = ticketDAO.findById(ticketId);
                 postulacion.setTicket(ticket);
 
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
                 Usuario paseador = usuarioDAO.findById(paseadorId);
                 postulacion.setUsuario(paseador);
 
@@ -77,7 +80,8 @@ public class GestionarPostulacion extends HttpServlet {
         }
     }
 
-    private void listarPostulaciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void listarPostulaciones(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // Lógica para listar las postulaciones (si fuera necesario)
         request.setAttribute("postulaciones", postulacionServ.listarPostulaciones());
         request.getRequestDispatcher("paseador/listarPostulaciones.jsp").forward(request, response);
