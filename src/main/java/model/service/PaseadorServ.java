@@ -1,5 +1,6 @@
 package model.service;
 
+import model.dao.UsuarioDAO;
 import model.entities.Ticket;
 import model.entities.*;
 import java.util.ArrayList;
@@ -14,5 +15,24 @@ public class PaseadorServ extends UsuarioServ {
             usuario.setMascotas(new ArrayList<Mascota>());
         }
         return usuario;
+    }
+
+    public Usuario ingresar(String email, String password) {
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = usuarioDAO.findByEmail(email);
+
+        if (usuario != null) {
+            if (usuario.getContrasena().equals(password)) {
+                if (usuario.getRol() == Rol.Cliente) {
+                    return usuario;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }

@@ -20,4 +20,5 @@ public abstract class UsuarioServ {
 
 
     public abstract Usuario prepareUsuario(Usuario usuario);
+    public abstract Usuario ingresar(String email, String password);
 }
