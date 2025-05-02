@@ -17,7 +17,6 @@ public abstract class UsuarioServ {
         }
     }
 
-
     public abstract Usuario prepararUsuario(Usuario usuario);
     public abstract Usuario ingresar(String email, String password);
 }

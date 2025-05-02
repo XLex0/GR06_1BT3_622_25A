@@ -1,12 +1,14 @@
 package model.service;
 
-import model.dao.UsuarioDAO;
-import model.entities.*;
-
 import java.util.ArrayList;
 
-public class ClienteServ extends UsuarioServ {
+import model.dao.UsuarioDAO;
+import model.entities.Postulacion;
+import model.entities.Rol;
+import model.entities.Usuario;
+import model.factory.DAOFactory;
 
+public class ClienteServ extends UsuarioServ {
 
     @Override
     public Usuario prepararUsuario(Usuario usuario) {
@@ -18,7 +20,7 @@ public class ClienteServ extends UsuarioServ {
     }
 
     public Usuario ingresar(String email, String password) {
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
         Usuario usuario = usuarioDAO.findByEmail(email);
 
         if (usuario == null) {
@@ -38,4 +40,3 @@ public class ClienteServ extends UsuarioServ {
 
 
 };
-
