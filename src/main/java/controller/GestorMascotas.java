@@ -3,7 +3,7 @@ package controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import controller.service.MascotaService;
+import model.service.MascotaService;
 
 import java.io.IOException;
 
@@ -34,7 +34,6 @@ public class GestorMascotas extends HttpServlet {
         }
     }
 
-
     private void saveNewPet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean success = false;
         try {
@@ -52,8 +51,5 @@ public class GestorMascotas extends HttpServlet {
         req.getSession().setAttribute("success", success);
         resp.sendRedirect(req.getContextPath() + "/mascotas/message.jsp");
     }
-
-
-
 
 }
