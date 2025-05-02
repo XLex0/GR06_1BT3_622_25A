@@ -2,11 +2,10 @@ package model.service;
 
 import model.dao.UsuarioDAO;
 import model.entities.Usuario;
-
-import java.util.List;
+import model.factory.DAOFactory;
 
 public abstract class UsuarioServ {
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
 
     public boolean createUsuario(Usuario usuario) {
         try {
@@ -17,7 +16,6 @@ public abstract class UsuarioServ {
             return false;
         }
     }
-
 
     public abstract Usuario prepareUsuario(Usuario usuario);
 }

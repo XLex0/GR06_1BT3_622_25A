@@ -1,14 +1,17 @@
 package controller;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-import model.entities.*;
-import model.service.*;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.entities.Rol;
+import model.entities.Usuario;
+import model.service.ClienteServ;
+import model.service.PaseadorServ;
 
 @WebServlet("/UsuarioController")
 public class GestionarUsuario extends HttpServlet {
@@ -81,9 +84,5 @@ public class GestionarUsuario extends HttpServlet {
 
         resp.sendRedirect(req.getContextPath() + "/index.jsp");
     }
-
-
-
-
 
 }

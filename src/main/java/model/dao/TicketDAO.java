@@ -1,18 +1,18 @@
 package model.dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import model.entities.Ticket;
-
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
+import model.entities.Ticket;
+
 public class TicketDAO {
-    private static final String PERSISTENCE_UNIT = "Pets";
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+    private final EntityManager em;
+
+    public TicketDAO(EntityManager em) {
+        this.em = em;
+    }
 
     public void registrarTicket(Ticket ticket) {
-        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(ticket);
@@ -23,7 +23,6 @@ public class TicketDAO {
     }
 
     public List<Ticket> findAll() {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT t FROM Ticket t", Ticket.class).getResultList();
         } finally {
@@ -32,7 +31,6 @@ public class TicketDAO {
     }
 
     public Ticket findById(Long id) {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.find(Ticket.class, id);
         } finally {
