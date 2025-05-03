@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class PaseadorServ extends UsuarioServ {
 
     @Override
-    public Usuario prepareUsuario(Usuario usuario) {
+    public Usuario prepararUsuario(Usuario usuario) {
 
         if (usuario.getRol() == Rol.Paseador) {
             usuario.setTickets(new ArrayList<Ticket>());
@@ -20,19 +20,16 @@ public class PaseadorServ extends UsuarioServ {
     public Usuario ingresar(String email, String password) {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario usuario = usuarioDAO.findByEmail(email);
-
-        if (usuario != null) {
-            if (usuario.getContrasena().equals(password)) {
-                if (usuario.getRol() == Rol.Paseador) {
-                    return usuario;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        } else {
+        if (usuario == null) {
             return null;
         }
+        if (!usuario.getContrasena().equals(password)) {
+            return null;
+        }
+        if (usuario.getRol() != Rol.Paseador) {
+            return null;
+        }
+        return usuario;
     }
+
 }

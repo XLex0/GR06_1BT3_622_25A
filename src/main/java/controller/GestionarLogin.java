@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -17,73 +16,60 @@ public class GestionarLogin extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String route = req.getParameter("route");
-        if (route.equals("login")) {
-            login(req, resp);
-        } else if (route.equals("logout")) {
-            logout(req, resp);
-        } else {
-            resp.getWriter().write("Unknown route");
-        }
+        ruta(req, resp);
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String route = req.getParameter("route");
-        if (route.equals("login")) {
+        ruta(req, resp);
+    }
+    private void ruta(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String ruta = req.getParameter("route");
+        if ("login".equals(ruta)) {
             login(req, resp);
-        } else if (route.equals("logout")) {
+        } else if ("logout".equals(ruta)) {
             logout(req, resp);
         } else {
             resp.getWriter().write("Unknown route");
         }
     }
 
-    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        String rolStr = req.getParameter("rol");
-        Rol rol = Rol.valueOf(rolStr);
-        Usuario user = null;
-        boolean login = false;
-        String mensaje = "Error al iniciar sesión.";
-        if (rol == Rol.Cliente) {
-
-            ClienteServ clienteServ = new ClienteServ();
-            user = clienteServ.ingresar(email, password);
-            if (user != null) {
+        private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            String email = req.getParameter(    "email");
+            String contrasena = req.getParameter("password");
+            String rolStr = req.getParameter("rol");
+            Rol rol = Rol.valueOf(rolStr);
+            Usuario usuario = null;
+            boolean login = false;
+            String mensaje = "Error al iniciar sesión.";
+            if (rol == Rol.Cliente) {
+                ClienteServ clienteServ = new ClienteServ();
+                usuario = clienteServ.ingresar(email, contrasena);
+            } else if (rol == Rol.Paseador) {
+                PaseadorServ paseadorServ = new PaseadorServ();
+                usuario = paseadorServ.ingresar(email, contrasena);
+            }
+            if (usuario != null) {
                 login = true;
                 mensaje = "Usuario ingresado correctamente";
                 HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                session.setAttribute("rol", "Cliente");
+                session.setAttribute("user", usuario);
+                session.setAttribute("rol", rol.name());
             }
-        } else if (rol == Rol.Paseador) {
-            PaseadorServ paseadorServ = new PaseadorServ();
-            user = paseadorServ.ingresar(email, password);
-            if (user != null) {
-                login = true;
-                mensaje = "Usuario ingresado correctamente";
-                HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                session.setAttribute("rol", "Paseador");
-            }
-        }
-        HttpSession session = req.getSession();
-        session.setAttribute("success", login);
-        session.setAttribute("message", mensaje);
+            HttpSession sesion = req.getSession();
+            sesion.setAttribute("success", login);
+            sesion.setAttribute("message", mensaje);
 
-        if(login) {
-            resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
-        }else {
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            if(login) {
+                resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
+            }else {
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            }
         }
-    }
 
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if (session != null) {
-            session.invalidate();
+        HttpSession sesion = req.getSession();
+        if (sesion != null) {
+            sesion.invalidate();
         }
         req.setAttribute("messageType", "info");
         req.setAttribute("message", "You have successfully logged out.");
