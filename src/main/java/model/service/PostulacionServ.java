@@ -1,19 +1,40 @@
 package model.service;
 
 import model.dao.PostulacionDAO;
+import model.dao.TicketDAO;
+import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
+import model.entities.Ticket;
+import model.entities.Usuario;
 import model.factory.DAOFactory;
 
 import java.util.List;
 
 public class PostulacionServ {
     private PostulacionDAO postulacionDAO = new DAOFactory().getPostulacionDAO();
+    private TicketDAO ticketDAO = new DAOFactory().getTicketDAO();
+    private UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
 
-    // Registrar una nueva postulación
-    public void registrarPostulacion(Postulacion postulacion) {
-        postulacionDAO.registrarPostulacion(postulacion);
+    // Método refactorizado que maneja la lógica de negocio
+    public boolean registrarPostulacion(Long ticketId, Long paseadorId, Postulacion postulacion) {
+        try {
+            Ticket ticket = ticketDAO.findById(ticketId);
+            Usuario paseador = usuarioDAO.findById(paseadorId);
+
+            if (ticket != null && paseador != null) {
+                postulacion.setTicket(ticket);
+                postulacion.setUsuario(paseador);
+                postulacion.setAprobado(false);
+
+                postulacionDAO.registrarPostulacion(postulacion);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-
     // Eliminar una postulación por ID
     public void eliminarPostulacion(Long id) {
         postulacionDAO.eliminarPostulacion(id);

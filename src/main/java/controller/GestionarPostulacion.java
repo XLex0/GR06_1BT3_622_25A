@@ -49,6 +49,7 @@ public class GestionarPostulacion extends HttpServlet {
     }
 
     private void postularTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        boolean success = false;
         try {
             Long ticketId = Long.parseLong(request.getParameter("ticketId"));
             HttpSession session = request.getSession();
@@ -58,25 +59,18 @@ public class GestionarPostulacion extends HttpServlet {
                 Postulacion postulacion = new Postulacion();
                 postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
 
-                TicketDAO ticketDAO = new DAOFactory().getTicketDAO();
-                Ticket ticket = ticketDAO.findById(ticketId);
-                postulacion.setTicket(ticket);
-
-                UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
-                Usuario paseador = usuarioDAO.findById(paseadorId);
-                postulacion.setUsuario(paseador);
-
-                postulacion.setAprobado(false);
-
-                postulacionServ.registrarPostulacion(postulacion);
-
-                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=PostulacionExitosa");
-            } else {
-                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=ErrorPostulacion");
+                // Delegar la lógica a PostulacionServ
+                success = postulacionServ.registrarPostulacion(ticketId, paseadorId, postulacion);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+        }
+        request.getSession().setAttribute("success", success);
+        if (success) {
+            response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=PostulacionExitosa");
+        } else {
+            response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=ErrorPostulacion");
         }
     }
 
