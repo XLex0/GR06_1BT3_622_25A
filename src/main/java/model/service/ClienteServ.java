@@ -6,7 +6,7 @@ import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
 import model.entities.Rol;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
+import model.factory.DAOFactoria;
 
 public class ClienteServ extends UsuarioServ {
 
@@ -20,7 +20,7 @@ public class ClienteServ extends UsuarioServ {
     }
 
     public Usuario ingresar(String email, String password) {
-        UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
+        UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
         Usuario usuario = usuarioDAO.findByEmail(email);
 
         if (usuario != null) {

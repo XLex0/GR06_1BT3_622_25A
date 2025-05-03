@@ -12,7 +12,7 @@ public class MascotaDAO {
         this.em = em;
     }
 
-    public void create(String nombre, String raza, Integer edad,
+    public void crear(String nombre, String raza, Integer edad,
             Float peso, String comportamiento,
             String genero, Long usuarioId) {
 
@@ -26,7 +26,7 @@ public class MascotaDAO {
         }
     }
 
-    public List<Mascota> findAll() {
+    public List<Mascota> buscarTodasLasMascotas() {
         try {
             return em.createQuery("SELECT p FROM Mascota p", Mascota.class).getResultList();
         } finally {
@@ -34,7 +34,7 @@ public class MascotaDAO {
         }
     }
 
-    public Mascota findById(Long id) {
+    public Mascota buscarPorId(Long id) {
         try {
             return em.find(Mascota.class, id);
         } finally {

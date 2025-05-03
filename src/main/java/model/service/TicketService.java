@@ -7,10 +7,10 @@ import java.util.List;
 import model.dao.TicketDAO;
 import model.entities.Ticket;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
+import model.factory.DAOFactoria;
 
 public class TicketService {
-    private final TicketDAO ticketDAO = new DAOFactory().getTicketDAO();
+    private final TicketDAO ticketDAO = new DAOFactoria().obtenerTicketDAO();
 
     // 🔥 Cambiado: LocalTime en duracion
     public boolean crearTicket(LocalDate fecha, LocalTime hora, LocalTime duracion, Long usuarioId) {

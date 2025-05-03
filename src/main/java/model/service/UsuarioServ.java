@@ -2,10 +2,10 @@ package model.service;
 
 import model.dao.UsuarioDAO;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
+import model.factory.DAOFactoria;
 
 public abstract class UsuarioServ {
-    private final UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
+    private final UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
 
     public boolean createUsuario(Usuario usuario) {
         try {

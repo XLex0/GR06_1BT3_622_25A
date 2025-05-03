@@ -1,20 +1,15 @@
 package controller;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.dao.TicketDAO;
-import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
-import model.entities.Ticket;
-import model.entities.Usuario;
-import model.factory.DAOFactory;
 import model.service.PostulacionServ;
-
-import java.io.IOException;
 
 @WebServlet("/PostulacionController")
 public class GestionarPostulacion extends HttpServlet {

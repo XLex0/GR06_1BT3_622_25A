@@ -7,12 +7,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.service.MascotaService;
+import model.service.MascotaServicio;
 
 @WebServlet("/mascotas")
 public class GestorMascotas extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final MascotaService petService = new MascotaService();
+    private final MascotaServicio petService = new MascotaServicio();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,15 +28,15 @@ public class GestorMascotas extends HttpServlet {
         String route = req.getParameter("route");
 
         switch (route) {
-            case "saveNew":
-                saveNewPet(req, resp);
+            case "guardarMascota":
+                guardarMascota(req, resp);
                 break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
         }
     }
 
-    private void saveNewPet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void guardarMascota(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean success = false;
         try {
             String nombre = req.getParameter("nombre");
@@ -47,7 +47,7 @@ public class GestorMascotas extends HttpServlet {
             String genero = req.getParameter("genero");
             Long usuarioId = Long.parseLong(req.getParameter("usuario"));
 
-            success = petService.createPet(nombre, raza, edad, peso, comportamiento, genero, usuarioId);
+            success = petService.crearMascota(nombre, raza, edad, peso, comportamiento, genero, usuarioId);
         } catch (Exception e) {
         }
         req.getSession().setAttribute("success", success);

@@ -6,14 +6,14 @@ import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
 import model.entities.Ticket;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
+import model.factory.DAOFactoria;
 
 import java.util.List;
 
 public class PostulacionServ {
-    private PostulacionDAO postulacionDAO = new DAOFactory().getPostulacionDAO();
-    private TicketDAO ticketDAO = new DAOFactory().getTicketDAO();
-    private UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
+    private PostulacionDAO postulacionDAO = new DAOFactoria().obtenerPostulacionDAO();
+    private TicketDAO ticketDAO = new DAOFactoria().obtenerTicketDAO();
+    private UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
 
     // Método refactorizado que maneja la lógica de negocio
     public boolean registrarPostulacion(Long ticketId, Long paseadorId, Postulacion postulacion) {
@@ -35,6 +35,7 @@ public class PostulacionServ {
             return false;
         }
     }
+
     // Eliminar una postulación por ID
     public void eliminarPostulacion(Long id) {
         postulacionDAO.eliminarPostulacion(id);

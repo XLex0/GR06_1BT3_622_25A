@@ -7,27 +7,27 @@ import model.dao.PostulacionDAO;
 import model.dao.TicketDAO;
 import model.dao.UsuarioDAO;
 
-public class DAOFactory implements IDAOFactory {
+public class DAOFactoria implements InterfazDAOFactoria {
     private static final String PERSISTENCE_UNIT = "Pets";
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
     @Override
-    public MascotaDAO getMascotaDAO() {
+    public MascotaDAO obtenerMascotaDAO() {
         return new MascotaDAO(emf.createEntityManager());
     }
 
     @Override
-    public TicketDAO getTicketDAO() {
+    public TicketDAO obtenerTicketDAO() {
         return new TicketDAO(emf.createEntityManager());
     }
 
     @Override
-    public UsuarioDAO getUsuarioDAO() {
+    public UsuarioDAO obtenerUsuarioDAO() {
         return new UsuarioDAO(emf.createEntityManager());
     }
 
     @Override
-    public PostulacionDAO getPostulacionDAO() {
+    public PostulacionDAO obtenerPostulacionDAO() {
         return new PostulacionDAO(emf.createEntityManager());
     }
 
