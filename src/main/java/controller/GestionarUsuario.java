@@ -7,8 +7,6 @@ import model.entities.*;
 import model.service.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 @WebServlet("/UsuarioController")
 public class GestionarUsuario extends HttpServlet {
@@ -16,21 +14,21 @@ public class GestionarUsuario extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        router(req, resp);
+        enrutador(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        router(req, resp);
+        enrutador(req, resp);
     }
 
-    private void router(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String route = req.getParameter("route");
+    private void enrutador(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String ruta = req.getParameter("route");
 
-        switch (route) {
+        switch (ruta) {
 
             case "create":
-                createUser(req, resp);
+                crearUsuario(req, resp);
                 break;
 
             default:
@@ -38,50 +36,43 @@ public class GestionarUsuario extends HttpServlet {
         }
     }
 
-    private void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean success = false;
-        String message = "";
+    private void crearUsuario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        boolean exito = false;
+        String mensaje = "";
 
         try {
-            String nombre = req.getParameter("nombre");
-            String apellido = req.getParameter("apellido");
-            String email = req.getParameter("email");
-            String telefono = req.getParameter("telefono");
-            String contrasena = req.getParameter("contrasena");
-            String rolStr = req.getParameter("rol");
+            Usuario nuevoUsuario = obtenerUsuario(req);
 
-            Rol rol = Rol.valueOf(rolStr);
+            // Usamos la factory para obtener el servicio adecuado
+            UsuarioServ usuarioServ = UsuarioServFactory.getServicio(nuevoUsuario.getRol());
+            Usuario usuarioPreparado = usuarioServ.prepararUsuario(nuevoUsuario);
+            exito = usuarioServ.crearUsuario(usuarioPreparado);
 
-            Usuario nuevoUsuario = new Usuario(nombre, apellido, email, telefono, contrasena, rol);
-            if (rol == Rol.Cliente) {
-                ClienteServ clienteServ = new ClienteServ();
-                Usuario clientePreparado = clienteServ.prepareUsuario(nuevoUsuario);
-                success = clienteServ.createUsuario(clientePreparado);
-            } else if (rol == Rol.Paseador) {
-                PaseadorServ paseadorServ = new PaseadorServ();
-                Usuario paseadorPreparado = paseadorServ.prepareUsuario(nuevoUsuario);
-                success = paseadorServ.createUsuario(paseadorPreparado);
-            }
-
-            if (success) {
-                message = "¡Usuario creado con éxito!";
-            } else {
-                message = "Error al crear el usuario.";
-            }
+            mensaje = exito ? "¡Usuario creado con éxito!" : "Error al crear el usuario.";
 
         } catch (Exception e) {
-            success = false;
-            message = "Ocurrió un error: " + e.getMessage();
+            exito = false;
+            mensaje = "Ocurrió un error: " + e.getMessage();
         }
 
-        HttpSession session = req.getSession();
-        session.setAttribute("success", success);
-        session.setAttribute("message", message);
+        HttpSession sesion = req.getSession();
+        sesion.setAttribute("success", exito);
+        sesion.setAttribute("message", mensaje);
 
         resp.sendRedirect(req.getContextPath() + "/index.jsp");
     }
 
 
+    private Usuario obtenerUsuario(HttpServletRequest req) {
+        String nombre = req.getParameter("nombre");
+        String apellido = req.getParameter("apellido");
+        String email = req.getParameter("email");
+        String telefono = req.getParameter("telefono");
+        String contrasena = req.getParameter("contrasena");
+        String rolStr = req.getParameter("rol");
+        Rol rol = Rol.valueOf(rolStr);
+        return new Usuario(nombre, apellido, email, telefono, contrasena, rol);
+    }
 
 
 
