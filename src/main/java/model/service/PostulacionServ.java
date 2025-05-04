@@ -16,12 +16,14 @@ public class PostulacionServ {
     private UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
 
     // Método refactorizado que maneja la lógica de negocio
-    public boolean registrarPostulacion(Long ticketId, Long paseadorId, Postulacion postulacion) {
+    public boolean registrarPostulacion(Long ticketId, Long paseadorId) {
         try {
             Ticket ticket = ticketDAO.findById(ticketId);
             Usuario paseador = usuarioDAO.findById(paseadorId);
 
             if (ticket != null && paseador != null) {
+                Postulacion postulacion = new Postulacion();
+                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
                 postulacion.setTicket(ticket);
                 postulacion.setUsuario(paseador);
                 postulacion.setAprobado(false);
@@ -29,6 +31,7 @@ public class PostulacionServ {
                 postulacionDAO.registrarPostulacion(postulacion);
                 return true;
             }
+
             return false;
         } catch (Exception e) {
             e.printStackTrace();

@@ -51,16 +51,13 @@ public class GestionarPostulacion extends HttpServlet {
             Long paseadorId = (Long) session.getAttribute("idUsuario");
 
             if (paseadorId != null) {
-                Postulacion postulacion = new Postulacion();
-                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
-
-                // Delegar la lógica a PostulacionServ
-                success = postulacionServ.registrarPostulacion(ticketId, paseadorId, postulacion);
+                // Delegar la creación y lógica al servicio
+                success = postulacionServ.registrarPostulacion(ticketId, paseadorId);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         request.getSession().setAttribute("success", success);
         if (success) {
             response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=PostulacionExitosa");
