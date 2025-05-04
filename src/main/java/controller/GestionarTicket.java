@@ -69,14 +69,11 @@ public class GestionarTicket extends HttpServlet {
     private void guardarNuevoTicket(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean exito = false;
         try {
-            String fechaStr = req.getParameter("fecha");
-            String horaStr = req.getParameter("hora");
-            String duracionStr = req.getParameter("duracion");
+            //Refactoring Inline Variable
+            LocalDate fecha = LocalDate.parse(req.getParameter("fecha"));
+            LocalTime hora = LocalTime.parse(req.getParameter("hora"));
+            LocalTime duracion = LocalTime.parse(req.getParameter("duracion"));
             Long usuarioId = Long.parseLong(req.getParameter("usuarioId"));
-
-            LocalDate fecha = LocalDate.parse(fechaStr);
-            LocalTime hora = LocalTime.parse(horaStr);
-            LocalTime duracion = LocalTime.parse(duracionStr); // 🔥 Corrección
 
             exito = ticketService.crearTicket(fecha, hora, duracion, usuarioId);
 
