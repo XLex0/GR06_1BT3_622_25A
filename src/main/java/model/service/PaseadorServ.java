@@ -3,6 +3,9 @@ package model.service;
 import model.dao.UsuarioDAO;
 import model.entities.Ticket;
 import model.entities.*;
+import model.factory.DAOFactoria;
+import model.factory.DAOFactory;
+
 import java.util.ArrayList;
 
 public class PaseadorServ extends UsuarioServ {
@@ -18,7 +21,7 @@ public class PaseadorServ extends UsuarioServ {
     }
 
     public Usuario ingresar(String email, String password) {
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
         Usuario usuario = usuarioDAO.findByEmail(email);
         if (usuario == null) {
             return null;

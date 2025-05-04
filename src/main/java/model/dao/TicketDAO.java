@@ -11,6 +11,9 @@ public class TicketDAO {
     private static final String PERSISTENCE_UNIT = "Pets";
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
+    public TicketDAO(EntityManager entityManager) {
+    }
+
     public void registrarTicket(Ticket ticket) {
         EntityManager em = emf.createEntityManager();
         try {

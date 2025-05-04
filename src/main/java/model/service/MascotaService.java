@@ -1,10 +1,12 @@
 package model.service;
 
 import model.dao.MascotaDAO;
+import model.factory.DAOFactoria;
+import model.factory.DAOFactory;
 import model.factory.MascotaDAOFactory;
 
 public class MascotaService {
-    MascotaDAO mascotaDAO = new MascotaDAO(new MascotaDAOFactory().getDAO());
+    MascotaDAO mascotaDAO = new DAOFactoria().obtenerMascotaDAO();
 
     public boolean createPet(String nombre, String raza, Integer edad,
             Float peso, String comportamiento,

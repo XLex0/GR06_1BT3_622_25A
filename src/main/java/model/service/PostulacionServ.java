@@ -23,7 +23,7 @@ public class PostulacionServ {
 
             if (ticket != null && paseador != null) {
                 Postulacion postulacion = new Postulacion();
-                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
+                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()));
                 postulacion.setTicket(ticket);
                 postulacion.setUsuario(paseador);
                 postulacion.setAprobado(false);

@@ -3,13 +3,14 @@ package model.service;
 import model.dao.TicketDAO;
 import model.entities.Ticket;
 import model.entities.Usuario;
+import model.factory.DAOFactoria;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 public class TicketService {
-    private final TicketDAO ticketDAO = new TicketDAO();
+    private final TicketDAO ticketDAO = new DAOFactoria().obtenerTicketDAO();
 
     // 🔥 Cambiado: LocalTime en duracion
     public boolean crearTicket(LocalDate fecha, LocalTime hora, LocalTime duracion, Long usuarioId) {

@@ -11,6 +11,9 @@ public class UsuarioDAO {
     private static final String PERSISTENCE_UNIT = "Pets";
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
+    public UsuarioDAO(EntityManager entityManager) {
+    }
+
     public void create(Usuario usuario) {
         EntityManager em = emf.createEntityManager();
         try {
