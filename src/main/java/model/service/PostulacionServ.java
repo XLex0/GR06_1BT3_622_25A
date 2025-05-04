@@ -2,7 +2,6 @@ package model.service;
 
 import model.dao.PostulacionDAO;
 import model.entities.Postulacion;
-import model.factory.DAOFactory;
 
 import java.util.List;
 

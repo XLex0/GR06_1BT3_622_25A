@@ -7,7 +7,6 @@ import java.util.List;
 import model.dao.TicketDAO;
 import model.entities.Ticket;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
 
 public class TicketService {
     private final TicketDAO ticketDAO = new DAOFactory().getTicketDAO();

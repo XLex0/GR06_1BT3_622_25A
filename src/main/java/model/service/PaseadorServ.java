@@ -7,7 +7,6 @@ import model.entities.Mascota;
 import model.entities.Rol;
 import model.entities.Ticket;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
 
 public class PaseadorServ extends UsuarioServ {
 

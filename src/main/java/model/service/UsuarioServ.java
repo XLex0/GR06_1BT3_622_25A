@@ -2,7 +2,6 @@ package model.service;
 
 import model.dao.UsuarioDAO;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
 
 public abstract class UsuarioServ {
     private final UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();

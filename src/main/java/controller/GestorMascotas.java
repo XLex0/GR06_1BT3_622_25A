@@ -5,7 +5,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import controller.service.MascotaService;
+import model.service.*;
 
 @WebServlet("/mascotas")
 public class GestorMascotas extends HttpServlet {

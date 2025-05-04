@@ -6,7 +6,6 @@ import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
 import model.entities.Rol;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
 
 public class ClienteServ extends UsuarioServ {
 

@@ -11,7 +11,7 @@ import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
 import model.entities.Ticket;
 import model.entities.Usuario;
-import model.factory.DAOFactory;
+import model.factory.DAOFactoria;
 import model.service.PostulacionServ;
 
 import java.io.IOException;
@@ -58,11 +58,11 @@ public class GestionarPostulacion extends HttpServlet {
                 Postulacion postulacion = new Postulacion();
                 postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
 
-                TicketDAO ticketDAO = new DAOFactory().getTicketDAO();
+                TicketDAO ticketDAO = new DAOFactoria().obtenerTicketDAO();
                 Ticket ticket = ticketDAO.findById(ticketId);
                 postulacion.setTicket(ticket);
 
-                UsuarioDAO usuarioDAO = new DAOFactory().getUsuarioDAO();
+                UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
                 Usuario paseador = usuarioDAO.findById(paseadorId);
                 postulacion.setUsuario(paseador);
 

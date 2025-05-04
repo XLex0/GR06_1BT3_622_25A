@@ -10,8 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.entities.Rol;
 import model.entities.Usuario;
-import model.service.ClienteServ;
-import model.service.PaseadorServ;
+import model.service.*;
 
 @WebServlet("/UsuarioController")
 public class GestionarUsuario extends HttpServlet {
