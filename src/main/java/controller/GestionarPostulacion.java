@@ -7,13 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.dao.TicketDAO;
-import model.dao.UsuarioDAO;
 import model.entities.Postulacion;
 import model.entities.Ticket;
 import model.entities.Usuario;
 import model.service.PostulacionServ;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/PostulacionController")
 public class GestionarPostulacion extends HttpServlet {
@@ -40,6 +40,12 @@ public class GestionarPostulacion extends HttpServlet {
             case "listarPostulaciones":
                 listarPostulaciones(request, response);
                 break;
+            case "aceptarPostulacion":
+                actualizarEstadoPostulacion(request, response);
+                break;
+            case "listarPostulacionesCliente":
+                listarPostulacionesByCliente(request, response);
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida.");
         }
@@ -47,39 +53,89 @@ public class GestionarPostulacion extends HttpServlet {
 
     private void postularTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            Long ticketId = Long.parseLong(request.getParameter("ticketId"));
-            HttpSession session = request.getSession();
-            Long paseadorId = (Long) session.getAttribute("idUsuario");
+            String ticketIdStr = request.getParameter("ticketId");
 
-            if (paseadorId != null) {
+            HttpSession session = request.getSession(false);
+            Usuario paseador = (Usuario) (session != null ? session.getAttribute("usuario") : null);
+
+            if (ticketIdStr == null || paseador == null) {
+                request.getSession().setAttribute("success", false);
+                request.getSession().setAttribute("message", "Parámetros inválidos o sesión expirada.");
+                response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulaciones");
+                return;
+            }
+
+            Long ticketId = Long.parseLong(ticketIdStr);
+
+            TicketDAO ticketDAO = new TicketDAO();
+            Ticket ticket = ticketDAO.findById(ticketId);
+
+            if (ticket != null) {
                 Postulacion postulacion = new Postulacion();
-                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()).toString());
-
-                TicketDAO ticketDAO = new TicketDAO();
-                Ticket ticket = ticketDAO.findById(ticketId);
+                postulacion.setFecha(new java.sql.Date(System.currentTimeMillis()));
                 postulacion.setTicket(ticket);
-
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
-                Usuario paseador = usuarioDAO.findById(paseadorId);
                 postulacion.setUsuario(paseador);
-
-                postulacion.setAprobado(false);
 
                 postulacionServ.registrarPostulacion(postulacion);
 
-                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=PostulacionExitosa");
+                request.getSession().setAttribute("success", true);
+                request.getSession().setAttribute("message", "¡Postulación exitosa!");
             } else {
-                response.sendRedirect("paseador/PanelPostulador.jsp?mensaje=ErrorPostulacion");
+                request.getSession().setAttribute("success", false);
+                request.getSession().setAttribute("message", "Error: Ticket no encontrado.");
             }
-        } catch (Exception e) {
+
+            response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulaciones");
+
+        } catch (NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            request.getSession().setAttribute("success", false);
+            request.getSession().setAttribute("message", "Parámetros inválidos.");
+            response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulaciones");
         }
     }
 
     private void listarPostulaciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lógica para listar las postulaciones (si fuera necesario)
-        request.setAttribute("postulaciones", postulacionServ.listarPostulaciones());
-        request.getRequestDispatcher("paseador/listarPostulaciones.jsp").forward(request, response);
+        List<Postulacion> postulaciones = postulacionServ.listarPostulaciones();
+        request.setAttribute("postulaciones", postulaciones);
+        request.getRequestDispatcher("paseador/PanelPostulaciones.jsp").forward(request, response);
+    }
+
+    private void actualizarEstadoPostulacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String idStr = request.getParameter("postulacionId");
+
+            if (idStr != null) {
+                Long id = Long.parseLong(idStr);
+                postulacionServ.aceptarPostulacion(id);
+                request.getSession().setAttribute("success", true);
+                request.getSession().setAttribute("message", "Postulación aceptada correctamente.");
+            } else {
+                request.getSession().setAttribute("success", false);
+                request.getSession().setAttribute("message", "ID de postulación inválido.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("success", false);
+            request.getSession().setAttribute("message", "Error al aceptar la postulación.");
+        }
+
+        response.sendRedirect(request.getContextPath() + "/PostulacionController?route=listarPostulacionesCliente");
+    }
+
+    private void listarPostulacionesByCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Usuario cliente = (Usuario) session.getAttribute("usuario");
+
+        if (cliente == null) {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        List<Postulacion> postulaciones = postulacionServ.listarPostulacionesPorCliente(cliente.getId());
+
+        request.setAttribute("postulaciones", postulaciones);
+        request.getRequestDispatcher("cliente/PanelPostulaciones.jsp").forward(request, response);
     }
 }

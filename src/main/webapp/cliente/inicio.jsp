@@ -12,7 +12,6 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<!-- Navbar personalizado -->
 <nav class="navbar-custom">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand d-flex align-items-center text-white" href="#">
@@ -25,7 +24,6 @@
     </div>
 </nav>
 
-<!-- Sección de bienvenida -->
 <main class="flex-grow-1 d-flex align-items-center justify-content-center text-center bg-light">
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -38,16 +36,6 @@
                 </p>
 
                 <div class="row justify-content-center g-4 fade-in-up delay-3">
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-dog fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Mis Mascotas</h5>
-                                <p class="card-text text-muted">Gestiona tus mejores amigos fácilmente.</p>
-                                <a href="${pageContext.request.contextPath}/cliente/inicio.jsp" class="btn btn-success rounded-pill mt-2">Ver</a>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-3">
                         <div class="card h-100 shadow-sm border-0 rounded-4">
                             <div class="card-body text-center">
@@ -78,6 +66,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="card h-100 shadow-sm border-0 rounded-4">
+                            <div class="card-body text-center">
+                                <i class="fas fa-user-check fa-3x text-success mb-3"></i>
+                                <h5 class="card-title">Aceptar Postulaciones</h5>
+                                <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
+                                <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -85,7 +83,6 @@
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-light text-center text-muted py-4 mt-auto">
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
 </footer>

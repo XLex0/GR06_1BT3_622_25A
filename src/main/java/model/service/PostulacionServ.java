@@ -13,18 +13,16 @@ public class PostulacionServ {
         postulacionDAO.registrarPostulacion(postulacion);
     }
 
-    // Eliminar una postulación por ID
-    public void eliminarPostulacion(Long id) {
-        postulacionDAO.eliminarPostulacion(id);
-    }
-
     // Listar todas las postulaciones
     public List<Postulacion> listarPostulaciones() {
         return postulacionDAO.listarPostulaciones();
     }
 
-    // Buscar una postulación específica
-    public Postulacion listarPostulacion(Long id) {
-        return postulacionDAO.listarPostulacion(id);
+    public void aceptarPostulacion(Long id) {
+        postulacionDAO.aceptarPostulacion(id);
+    }
+
+    public List<Postulacion> listarPostulacionesPorCliente(Long clienteId) {
+        return postulacionDAO.listarPostulacionesPorCliente(clienteId);
     }
 }

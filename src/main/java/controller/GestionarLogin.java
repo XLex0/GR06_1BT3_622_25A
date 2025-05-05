@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -9,6 +8,7 @@ import model.service.*;
 
 import java.io.IOException;
 import java.io.Serial;
+
 @WebServlet("/LoginController")
 public class GestionarLogin extends HttpServlet {
 
@@ -47,15 +47,15 @@ public class GestionarLogin extends HttpServlet {
         Usuario user = null;
         boolean login = false;
         String mensaje = "Error al iniciar sesión.";
-        if (rol == Rol.Cliente) {
 
+        if (rol == Rol.Cliente) {
             ClienteServ clienteServ = new ClienteServ();
             user = clienteServ.ingresar(email, password);
             if (user != null) {
                 login = true;
                 mensaje = "Usuario ingresado correctamente";
                 HttpSession session = req.getSession();
-                session.setAttribute("user", user);
+                session.setAttribute("usuario", user);
                 session.setAttribute("rol", "Cliente");
             }
         } else if (rol == Rol.Paseador) {
@@ -65,17 +65,18 @@ public class GestionarLogin extends HttpServlet {
                 login = true;
                 mensaje = "Usuario ingresado correctamente";
                 HttpSession session = req.getSession();
-                session.setAttribute("user", user);
+                session.setAttribute("usuario", user);
                 session.setAttribute("rol", "Paseador");
             }
         }
+
         HttpSession session = req.getSession();
         session.setAttribute("success", login);
         session.setAttribute("message", mensaje);
 
-        if(login) {
+        if (login) {
             resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
-        }else {
+        } else {
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
         }
     }

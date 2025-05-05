@@ -24,21 +24,6 @@ public class PostulacionDAO {
         }
     }
 
-    // Eliminar una postulación
-    public void eliminarPostulacion(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            Postulacion postulacion = em.find(Postulacion.class, id);
-            if (postulacion != null) {
-                em.getTransaction().begin();
-                em.remove(postulacion);
-                em.getTransaction().commit();
-            }
-        } finally {
-            em.close();
-        }
-    }
-
     // Listar todas las postulaciones
     public List<Postulacion> listarPostulaciones() {
         EntityManager em = emf.createEntityManager();
@@ -49,13 +34,34 @@ public class PostulacionDAO {
         }
     }
 
-    // Listar una postulación por ID
-    public Postulacion listarPostulacion(Long id) {
+    public void aceptarPostulacion(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Postulacion.class, id);
+            em.getTransaction().begin();
+            Postulacion postulacion = em.find(Postulacion.class, id);
+            if (postulacion != null) {
+                postulacion.setAprobado(true);
+            }
+            em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
+    public List<Postulacion> listarPostulacionesPorCliente(Long clienteId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery(
+                            "SELECT p FROM Postulacion p " +
+                                    "JOIN FETCH p.usuario paseador " +
+                                    "JOIN FETCH p.ticket t " +
+                                    "JOIN FETCH t.usuario cliente " +
+                                    "WHERE t.usuario.id = :clienteId", Postulacion.class)
+                    .setParameter("clienteId", clienteId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+
 }

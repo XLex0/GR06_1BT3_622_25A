@@ -18,7 +18,7 @@
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/mascotas"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="A20x21M76v"/>
+            <property name="jakarta.persistence.jdbc.password" value="Admin"/>
 
             <!-- Propiedades específicas de EclipseLink para PostgreSQL -->
             <property name="eclipselink.target-database" value="PostgreSQL"/>
