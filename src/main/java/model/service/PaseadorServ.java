@@ -4,7 +4,7 @@ import model.dao.UsuarioDAO;
 import model.entities.Ticket;
 import model.entities.*;
 import model.factory.DAOFactoria;
-import model.factory.DAOFactory;
+
 
 import java.util.ArrayList;
 

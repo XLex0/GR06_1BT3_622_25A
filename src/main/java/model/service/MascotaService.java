@@ -2,8 +2,7 @@ package model.service;
 
 import model.dao.MascotaDAO;
 import model.factory.DAOFactoria;
-import model.factory.DAOFactory;
-import model.factory.MascotaDAOFactory;
+
 
 public class MascotaService {
     MascotaDAO mascotaDAO = new DAOFactoria().obtenerMascotaDAO();

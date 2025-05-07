@@ -1,5 +1,8 @@
-package model.service;
+package model.factory;
 import  model.entities.Rol;
+import model.service.ClienteServ;
+import model.service.PaseadorServ;
+import model.service.UsuarioServ;
 
 public class UsuarioServFactory {
 

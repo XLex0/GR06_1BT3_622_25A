@@ -10,6 +10,7 @@ import model.dao.TicketDAO;
 import model.entities.Postulacion;
 import model.entities.Ticket;
 import model.entities.Usuario;
+import model.factory.DAOFactoria;
 import model.service.PostulacionServ;
 
 import java.io.IOException;
@@ -68,7 +69,7 @@ public class GestionarPostulacion extends HttpServlet {
 
             Long ticketId = Long.parseLong(ticketIdStr);
 
-            TicketDAO ticketDAO = new TicketDAO();
+            TicketDAO ticketDAO = new DAOFactoria().obtenerTicketDAO();
             Ticket ticket = ticketDAO.findById(ticketId);
 
             if (ticket != null) {

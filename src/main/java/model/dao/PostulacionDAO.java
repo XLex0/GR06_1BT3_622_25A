@@ -6,15 +6,18 @@ import jakarta.persistence.Persistence;
 import model.entities.Postulacion;
 
 import java.util.List;
+import model.entities.Postulacion;
 
 public class PostulacionDAO {
 
-    private static final String PERSISTENCE_UNIT = "Pets";
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+    private final EntityManager em;
+
+    public PostulacionDAO(EntityManager em) {
+        this.em = em;
+    }
 
     // Registrar una nueva postulación
     public void registrarPostulacion(Postulacion postulacion) {
-        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(postulacion);
@@ -24,9 +27,9 @@ public class PostulacionDAO {
         }
     }
 
+
     // Listar todas las postulaciones
     public List<Postulacion> listarPostulaciones() {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT p FROM Postulacion p", Postulacion.class).getResultList();
         } finally {
@@ -35,7 +38,6 @@ public class PostulacionDAO {
     }
 
     public void aceptarPostulacion(Long id) {
-        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             Postulacion postulacion = em.find(Postulacion.class, id);
@@ -48,7 +50,6 @@ public class PostulacionDAO {
         }
     }
     public List<Postulacion> listarPostulacionesPorCliente(Long clienteId) {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery(
                             "SELECT p FROM Postulacion p " +

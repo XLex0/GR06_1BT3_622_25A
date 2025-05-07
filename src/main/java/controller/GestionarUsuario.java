@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.entities.*;
+import model.factory.UsuarioServFactory;
 import model.service.*;
 
 import java.io.IOException;

@@ -1,9 +1,10 @@
 package model.service;
 
-import model.dao.MascotaDAO;
+
 import model.dao.UsuarioDAO;
 import model.entities.*;
-import model.factory.MascotaDAOFactory;
+import model.factory.DAOFactoria;
+
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class ClienteServ extends UsuarioServ {
     }
 
     public Usuario ingresar(String email, String password) {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(new MascotaDAOFactory().getDAO());
+        UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
         Usuario usuario = usuarioDAO.findByEmail(email);
 
         if (usuario == null) {

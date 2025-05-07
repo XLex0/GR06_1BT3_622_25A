@@ -27,8 +27,7 @@ public class DAOFactoria implements InterfazDAOFactoria {
     }
 
     @Override
-    public PostulacionDAO obtenerPostulacionDAO() {
-        return new PostulacionDAO(emf.createEntityManager());
+    public PostulacionDAO obtenerPostulacionDAO(){return new PostulacionDAO(emf.createEntityManager());
     }
 
 }
