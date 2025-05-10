@@ -1,16 +1,15 @@
 package model.service;
 
-import model.dao.UsuarioDAO;
 import model.entities.Usuario;
 import model.factory.DAOFactoria;
 
 
 public abstract class UsuarioServ {
-    private final UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
+    private final DAOFactoria factoria = new DAOFactoria();
 
     public boolean crearUsuario(Usuario usuario) {
         try {
-            usuarioDAO.create(usuario);
+            factoria.obtenerUsuarioDAO().create(usuario);
             return true;
         } catch (Exception e) {
             System.err.println("Error al crear usuario: " + e.getMessage());

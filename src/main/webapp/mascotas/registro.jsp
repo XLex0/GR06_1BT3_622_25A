@@ -37,10 +37,7 @@
             <option value="Macho">Macho</option>
             <option value="Hembra">Hembra</option>
         </select>
-
-        <label for="usuario">ID de Usuario:</label>
-        <input type="number" id="usuario" name="usuario" required min="1">
-
+ 
         <button type="submit">Registrar Mascota</button>
     </form>
 </div>

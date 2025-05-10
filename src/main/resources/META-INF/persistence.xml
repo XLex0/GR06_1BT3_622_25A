@@ -22,8 +22,8 @@
 
             <!-- Propiedades específicas de EclipseLink para PostgreSQL -->
             <property name="eclipselink.target-database" value="PostgreSQL"/>
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
-            <!--<property name="eclipselink.logging.level" value="FINE"/-->
+            <property name="eclipselink.ddl-generation" value="none"/>
+             <!--<property name="eclipselink.logging.level" value="FINE"/-->
         </properties>
     </persistence-unit>
 </persistence>

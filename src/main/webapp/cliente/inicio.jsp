@@ -43,7 +43,8 @@
                                 <h5 class="card-title">Registrar Mascota</h5>
                                 <p class="card-text text-muted">Agrega una nueva mascota a tu perfil.</p>
                                 <a href="${pageContext.request.contextPath}/mascotas/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Registrar</a>
-                            </div>
+                                <a href="${pageContext.request.contextPath}/mascotas?route=list" class="btn btn-outline-success rounded-pill mt-2">Mascotas</a>
+                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">

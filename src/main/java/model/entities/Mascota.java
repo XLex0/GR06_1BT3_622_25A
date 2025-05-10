@@ -31,7 +31,7 @@ public class Mascota {
 
     /**
      * Este campo te permite recibir sólo el ID en el JSON:
-     *     { "nombre": "...", "raza": "...", …, "usuarioId": 42 }
+     * { "nombre": "...", "raza": "...", …, "usuarioId": 42 }
      */
     @Column(name = "usuario_id", nullable = false)
     private Long usuarioId;
@@ -44,12 +44,13 @@ public class Mascota {
     @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
     private Usuario usuario;
 
-    public Mascota() {}
+    public Mascota() {
+    }
 
     /** Constructor «ligero» que sólo recibe el usuarioId */
     public Mascota(String nombre, String raza, Integer edad,
-                   Float peso, String comportamiento,
-                   String genero, Long usuarioId) {
+            Float peso, String comportamiento,
+            String genero, Long usuarioId) {
         this.nombre = nombre;
         this.raza = raza;
         this.edad = edad;
@@ -64,6 +65,7 @@ public class Mascota {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -71,6 +73,7 @@ public class Mascota {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -78,6 +81,7 @@ public class Mascota {
     public String getRaza() {
         return raza;
     }
+
     public void setRaza(String raza) {
         this.raza = raza;
     }
@@ -85,6 +89,7 @@ public class Mascota {
     public Integer getEdad() {
         return edad;
     }
+
     public void setEdad(Integer edad) {
         this.edad = edad;
     }
@@ -92,6 +97,7 @@ public class Mascota {
     public Float getPeso() {
         return peso;
     }
+
     public void setPeso(Float peso) {
         this.peso = peso;
     }
@@ -99,6 +105,7 @@ public class Mascota {
     public String getComportamiento() {
         return comportamiento;
     }
+
     public void setComportamiento(String comportamiento) {
         this.comportamiento = comportamiento;
     }
@@ -106,6 +113,7 @@ public class Mascota {
     public String getGenero() {
         return genero;
     }
+
     public void setGenero(String genero) {
         this.genero = genero;
     }
@@ -114,6 +122,7 @@ public class Mascota {
     public Long getUsuarioId() {
         return usuarioId;
     }
+
     public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
     }
@@ -122,6 +131,7 @@ public class Mascota {
     public Usuario getUsuario() {
         return usuario;
     }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         this.usuarioId = (usuario != null ? usuario.getId() : null);

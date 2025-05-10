@@ -1,6 +1,5 @@
 package model.service;
 
-import model.dao.UsuarioDAO;
 import model.entities.Ticket;
 import model.entities.*;
 import model.factory.DAOFactoria;
@@ -9,6 +8,7 @@ import model.factory.DAOFactoria;
 import java.util.ArrayList;
 
 public class PaseadorServ extends UsuarioServ {
+    private final DAOFactoria factoria = new DAOFactoria();
 
     @Override
     public Usuario prepararUsuario(Usuario usuario) {
@@ -21,8 +21,7 @@ public class PaseadorServ extends UsuarioServ {
     }
 
     public Usuario ingresar(String email, String password) {
-        UsuarioDAO usuarioDAO = new DAOFactoria().obtenerUsuarioDAO();
-        Usuario usuario = usuarioDAO.findByEmail(email);
+         Usuario usuario = factoria.obtenerUsuarioDAO().findByEmail(email);
         if (usuario == null) {
             return null;
         }

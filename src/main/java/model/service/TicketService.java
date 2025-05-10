@@ -1,6 +1,5 @@
 package model.service;
 
-import model.dao.TicketDAO;
 import model.entities.Ticket;
 import model.entities.Usuario;
 import model.factory.DAOFactoria;
@@ -10,7 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class TicketService {
-    private final TicketDAO ticketDAO = new DAOFactoria().obtenerTicketDAO();
+    private final DAOFactoria factoria = new DAOFactoria();
 
     // 🔥 Cambiado: LocalTime en duracion
     public boolean crearTicket(LocalDate fecha, LocalTime hora, LocalTime duracion, Long usuarioId) {
@@ -25,7 +24,7 @@ public class TicketService {
             usuario.setId(usuarioId);
             ticket.setUsuario(usuario);
 
-            ticketDAO.registrarTicket(ticket);
+            factoria.obtenerTicketDAO().registrarTicket(ticket);
 
             return true;
         } catch (Exception e) {
@@ -35,10 +34,10 @@ public class TicketService {
     }
 
     public Ticket buscarTicketPorId(Long id) {
-        return ticketDAO.findById(id);
+        return factoria.obtenerTicketDAO().findById(id);
     }
 
     public List<Ticket> listarTodosTickets() {
-        return ticketDAO.findAll();
+        return factoria.obtenerTicketDAO().findAll();
     }
 }

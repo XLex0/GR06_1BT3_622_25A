@@ -22,7 +22,7 @@
             <% } %>
         </h1>
 
-        <form action="<%= request.getContextPath() %>/index.jsp" method="GET">
+        <form action="<%= request.getContextPath() %>/cliente/inicio.jsp" method="GET">
             <button type="submit" class="ok-button">OK</button>
         </form>
     </div>
