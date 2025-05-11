@@ -1,12 +1,9 @@
 package model.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import model.entities.Postulacion;
 
 import java.util.List;
-import model.entities.Postulacion;
 
 public class PostulacionDAO {
 
@@ -16,53 +13,44 @@ public class PostulacionDAO {
         this.em = em;
     }
 
-    // Registrar una nueva postulación
     public void registrarPostulacion(Postulacion postulacion) {
-        try {
-            em.getTransaction().begin();
-            em.persist(postulacion);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        em.getTransaction().begin();
+        em.persist(postulacion);
+        em.getTransaction().commit();
     }
 
-
-    // Listar todas las postulaciones
     public List<Postulacion> listarPostulaciones() {
-        try {
-            return em.createQuery("SELECT p FROM Postulacion p", Postulacion.class).getResultList();
-        } finally {
-            em.close();
-        }
+        return em.createQuery("SELECT p FROM Postulacion p", Postulacion.class).getResultList();
     }
 
-    public void aceptarPostulacion(Long id) {
-        try {
-            em.getTransaction().begin();
-            Postulacion postulacion = em.find(Postulacion.class, id);
-            if (postulacion != null) {
-                postulacion.setAprobado(true);
-            }
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+    public Postulacion findById(Long id) {
+        return em.find(Postulacion.class, id);
     }
+
+    public void update(Postulacion postulacion) {
+        em.getTransaction().begin();
+        em.merge(postulacion);
+        em.getTransaction().commit();
+    }
+
     public List<Postulacion> listarPostulacionesPorCliente(Long clienteId) {
-        try {
-            return em.createQuery(
-                            "SELECT p FROM Postulacion p " +
-                                    "JOIN FETCH p.usuario paseador " +
-                                    "JOIN FETCH p.ticket t " +
-                                    "JOIN FETCH t.usuario cliente " +
-                                    "WHERE t.usuario.id = :clienteId", Postulacion.class)
-                    .setParameter("clienteId", clienteId)
-                    .getResultList();
-        } finally {
-            em.close();
-        }
+        return em.createQuery(
+                        "SELECT p FROM Postulacion p " +
+                                "JOIN FETCH p.usuario paseador " +
+                                "JOIN FETCH p.ticket t " +
+                                "JOIN FETCH t.usuario cliente " +
+                                "WHERE t.usuario.id = :clienteId", Postulacion.class)
+                .setParameter("clienteId", clienteId)
+                .getResultList();
     }
 
-
+    public void rechazarOtrasPostulaciones(Long ticketId, Long postulacionAceptadaId) {
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Postulacion p SET p.aprobado = false " +
+                        "WHERE p.ticket.id = :ticketId AND p.id <> :idAceptada AND p.aprobado IS NULL")
+                .setParameter("ticketId", ticketId)
+                .setParameter("idAceptada", postulacionAceptadaId)
+                .executeUpdate();
+        em.getTransaction().commit();
+    }
 }

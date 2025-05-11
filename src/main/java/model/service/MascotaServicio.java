@@ -1,5 +1,6 @@
 package model.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import model.entities.Mascota;
@@ -24,8 +25,17 @@ public class MascotaServicio {
         return factoria.obtenerMascotaDAO().findAll();
     }
 
-    public List<Mascota> getPetsByUserId(Long id) {
+    /*public List<Mascota> getPetsByUserId(Long id) {
         return factoria.obtenerMascotaDAO().buscarTodosPorUsuarioId(id);
+    }*/
+
+    public List<Mascota> getPetsByUserId(Long userId) {
+        if (userId == null) {
+            return Collections.emptyList();
+        }
+
+        List<Mascota> mascotas = factoria.obtenerMascotaDAO().buscarTodosPorUsuarioId(userId);
+        return mascotas.isEmpty() ? Collections.emptyList() : mascotas;
     }
 
     public boolean actualizarMascota(String nombre, String raza, Integer edad,

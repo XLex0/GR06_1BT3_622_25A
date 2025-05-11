@@ -1,5 +1,6 @@
 package model.factory;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import model.dao.MascotaDAO;
@@ -10,6 +11,11 @@ import model.dao.UsuarioDAO;
 public class DAOFactoria implements InterfazDAOFactoria {
     private static final String PERSISTENCE_UNIT = "Pets";
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+
+
+    public EntityManager crearEntityManager() {
+        return emf.createEntityManager();
+    }
 
     @Override
     public MascotaDAO obtenerMascotaDAO() {
@@ -27,7 +33,7 @@ public class DAOFactoria implements InterfazDAOFactoria {
     }
 
     @Override
-    public PostulacionDAO obtenerPostulacionDAO(){return new PostulacionDAO(emf.createEntityManager());
+    public PostulacionDAO obtenerPostulacionDAO() {
+        return new PostulacionDAO(emf.createEntityManager());
     }
-
 }
