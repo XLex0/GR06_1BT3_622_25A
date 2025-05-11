@@ -29,13 +29,35 @@ public class MascotaServicio {
     }
 
     public boolean actualizarMascota(String nombre, String raza, Integer edad,
-            Float peso, String comportamiento, String genero, Long id) {
-        try {
-            factoria.obtenerMascotaDAO().actualizar(nombre, raza, edad, peso, comportamiento, genero, id);
-            return true;
-        } catch (Exception e) {
-            System.err.println("Error al actualizar mascota: " + e.getMessage());
-            return false;
-        }
+                                     Float peso, String comportamiento, String genero, Long id) {
+
+        if (!esNombreValido(nombre)) return false;
+        if (!esRazaValida(raza)) return false;
+        if (!esEdadValida(edad)) return false;
+        if (!esPesoValido(peso)) return false;
+
+        return  factoria.obtenerMascotaDAO().actualizar(nombre, raza, edad, peso, comportamiento, genero, id);
     }
+    public boolean inactivarMascota(Long id) {
+        return factoria.obtenerMascotaDAO().inactivarMascota(id);
+    }
+
+    private boolean esNombreValido(String nombre) {
+        return nombre != null && !nombre.trim().isEmpty();
+    }
+
+    private boolean esRazaValida(String raza) {
+        return raza != null && !raza.trim().isEmpty();
+    }
+
+    private boolean esEdadValida(Integer edad) {
+        return edad != null && edad > 0 && edad <= 25;
+    }
+
+    private boolean esPesoValido(Float peso) {
+        return peso != null && peso > 0 && peso <= 200;
+    }
+
+
+
 }

@@ -17,12 +17,14 @@ CREATE TABLE Mascota (
                          nombre VARCHAR(100) NOT NULL,
                          raza VARCHAR(100) NOT NULL,
                          edad INT NOT NULL,
+                         estado BOOLEAN NOT NULL DEFAULT TRUE,
                          peso DECIMAL(5,2),
                          comportamiento TEXT,
                          genero VARCHAR(10),
                          usuario_id INT NOT NULL,
                          FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
 );
+
 
 -- Crear tabla Ticket
 CREATE TABLE Ticket (

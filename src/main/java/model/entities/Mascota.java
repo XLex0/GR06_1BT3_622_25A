@@ -1,7 +1,6 @@
 package model.entities;
 
 import jakarta.persistence.*;
-import java.lang.Float;
 
 @Entity
 @Table(name = "mascota")
@@ -20,6 +19,9 @@ public class Mascota {
     @Column(nullable = false)
     private Integer edad;
 
+    @Column(nullable = false)
+    private boolean estado = true; // se inicializa con true por defecto (activo)
+
     @Column(precision = 5, scale = 2)
     private Float peso;
 
@@ -29,17 +31,9 @@ public class Mascota {
     @Column(length = 10)
     private String genero;
 
-    /**
-     * Este campo te permite recibir sólo el ID en el JSON:
-     * { "nombre": "...", "raza": "...", …, "usuarioId": 42 }
-     */
     @Column(name = "usuario_id", nullable = false)
     private Long usuarioId;
 
-    /**
-     * Si en algún momento necesitas la entidad Usuario,
-     * la puedes mapear en lazy (opcional):
-     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
     private Usuario usuario;
@@ -47,10 +41,10 @@ public class Mascota {
     public Mascota() {
     }
 
-    /** Constructor «ligero» que sólo recibe el usuarioId */
+    /** Constructor sin el campo `estado`, que se guarda como TRUE por defecto */
     public Mascota(String nombre, String raza, Integer edad,
-            Float peso, String comportamiento,
-            String genero, Long usuarioId) {
+                   Float peso, String comportamiento,
+                   String genero, Long usuarioId) {
         this.nombre = nombre;
         this.raza = raza;
         this.edad = edad;
@@ -58,9 +52,10 @@ public class Mascota {
         this.comportamiento = comportamiento;
         this.genero = genero;
         this.usuarioId = usuarioId;
+        this.estado = true; // aseguramos que inicia activa
     }
 
-    // --- Getters y setters ---
+    // --- Getters y Setters ---
 
     public Long getId() {
         return id;
@@ -94,6 +89,14 @@ public class Mascota {
         this.edad = edad;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
     public Float getPeso() {
         return peso;
     }
@@ -118,7 +121,6 @@ public class Mascota {
         this.genero = genero;
     }
 
-    /** Sólo el ID del usuario, para JSON de entrada/salida */
     public Long getUsuarioId() {
         return usuarioId;
     }
@@ -127,7 +129,6 @@ public class Mascota {
         this.usuarioId = usuarioId;
     }
 
-    /** Acceso opcional a la entidad Usuario si la necesitas en código */
     public Usuario getUsuario() {
         return usuario;
     }
