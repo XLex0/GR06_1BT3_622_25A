@@ -22,25 +22,6 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<% if (success != null && message != null) { %>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: '<%= success ? "success" : "error" %>',
-            title: '<%= success ? "¡Éxito!" : "¡Error!" %>',
-            text: '<%= message %>',
-            timer: 3000,
-            timerProgressBar: true,
-            showConfirmButton: false
-        });
-    });
-</script>
-<%
-    session.removeAttribute("success");
-    session.removeAttribute("message");
-}
-%>
-
 <header class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);">
     <div class="container d-flex justify-content-between align-items-center py-2">
         <a class="navbar-brand d-flex align-items-center" href="${pageContext.request.contextPath}/index.jsp">
@@ -138,14 +119,20 @@
             if (result.isConfirmed) {
                 const form = document.createElement("form");
                 form.method = "POST";
-                form.action = `${'${pageContext.request.contextPath}'}/PostulacionController?route=${aceptar ? 'aceptarPostulacion' : 'rechazarPostulacion'}`;
+                form.action = '${pageContext.request.contextPath}/PostulacionController?route=actualizarEstadoPostulacion';
 
-                const input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "postulacionId";
-                input.value = postulacionId;
+                const idInput = document.createElement("input");
+                idInput.type = "hidden";
+                idInput.name = "postulacionId";
+                idInput.value = postulacionId;
 
-                form.appendChild(input);
+                const accionInput = document.createElement("input");
+                accionInput.type = "hidden";
+                accionInput.name = "accion";
+                accionInput.value = aceptar ? "aceptar" : "rechazar";
+
+                form.appendChild(idInput);
+                form.appendChild(accionInput);
                 document.body.appendChild(form);
                 form.submit();
             }
