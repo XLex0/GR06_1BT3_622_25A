@@ -57,23 +57,3 @@ CREATE TABLE Postulacion (
                              FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
 );
 
-
-CREATE VIEW vista_ticket_mascota AS
-SELECT
-    t.id AS ticket_id,
-    t.fecha,
-    t.hora,
-    t.duracion,
-    t.asignado,
-    t.usuario_id AS cliente_id,
-    m.id AS mascota_id,
-    m.nombre AS nombre_mascota,
-    m.raza,
-    m.edad,
-    m.peso,
-    m.comportamiento,
-    m.genero,
-    m.usuario_id AS dueño_id
-FROM Ticket t
-         JOIN Ticket_Mascota tm ON t.id = tm.ticket_id
-         JOIN Mascota m ON tm.mascota_id = m.id;

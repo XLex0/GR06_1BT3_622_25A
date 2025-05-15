@@ -14,16 +14,21 @@
         <class>model.entities.Ticket</class>
 
         <properties>
-            <!-- Configuración de la conexión a PostgreSQL -->
-            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/mascotas"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="Admin"/>
+            <!-- Habilita la creación automática de las tablas en la BD remota -->
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
 
-            <!-- Propiedades específicas de EclipseLink para PostgreSQL -->
+            <!-- Configuración para conexión a PostgreSQL en Railway -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://ballast.proxy.rlwy.net:16868/railway"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="gxFiOGuWkPrapovtxDflSHARcAXZgjCT"/>
+
+            <!-- Dialecto de base de datos -->
             <property name="eclipselink.target-database" value="PostgreSQL"/>
-            <property name="eclipselink.ddl-generation" value="none"/>
-             <!--<property name="eclipselink.logging.level" value="FINE"/-->
+
+            <!-- (Opcional) Mostrar en consola los SQL generados -->
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>
