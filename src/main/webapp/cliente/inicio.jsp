@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -36,49 +37,59 @@
                 </p>
 
                 <div class="row justify-content-center g-4 fade-in-up delay-3">
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-paw fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Registrar Mascota</h5>
-                                <p class="card-text text-muted">Agrega una nueva mascota a tu perfil.</p>
-                                <a href="${pageContext.request.contextPath}/mascotas/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Registrar</a>
-                                <a href="${pageContext.request.contextPath}/mascotas?route=list" class="btn btn-outline-success rounded-pill mt-2">Mascotas</a>
-                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-ticket-alt fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Crear Ticket</h5>
-                                <p class="card-text text-muted">Solicita paseos para tu mascota.</p>
-                                <a href="${pageContext.request.contextPath}/ticket/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Crear</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-hand-paper fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Postular Tickets</h5>
-                                <p class="card-text text-muted">¿Paseador? Postúlate a tickets abiertos.</p>
-                                <a href="${pageContext.request.contextPath}/TicketController?route=list" class="btn btn-outline-success rounded-pill mt-2">Postular</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-user-check fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Aceptar Postulaciones</h5>
-                                <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
-                                <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+                    <!-- Tarjetas para CLIENTE -->
+                    <c:if test="${sessionScope.rol == 'Cliente'}">
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-paw fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Registrar Mascota</h5>
+                                    <p class="card-text text-muted">Agrega una nueva mascota a tu perfil.</p>
+                                    <a href="${pageContext.request.contextPath}/mascotas/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Registrar</a>
+                                    <a href="${pageContext.request.contextPath}/mascotas?route=list" class="btn btn-outline-success rounded-pill mt-2">Mascotas</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-ticket-alt fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Crear Ticket</h5>
+                                    <p class="card-text text-muted">Solicita paseos para tu mascota.</p>
+                                    <a href="${pageContext.request.contextPath}/ticket/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Crear</a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Tarjetas para PASEADOR -->
+                    <c:if test="${sessionScope.rol == 'Paseador'}">
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hand-paper fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Postular Tickets</h5>
+                                    <p class="card-text text-muted">¿Paseador? Postúlate a tickets abiertos.</p>
+                                    <a href="${pageContext.request.contextPath}/TicketController?route=list" class="btn btn-outline-success rounded-pill mt-2">Postular</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user-check fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Aceptar Postulaciones</h5>
+                                    <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
+                                    <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                </div>
             </div>
         </div>
     </div>
