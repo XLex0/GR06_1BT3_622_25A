@@ -16,6 +16,17 @@ public abstract class UsuarioServ {
             return false;
         }
     }
+    public boolean actualizarUserServ(Usuario usuario) {
+        if (usuario.getNombre() == null || usuario.getNombre().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío o nulo.");
+        }
+        if (usuario.getApellido() == null || usuario.getApellido().isEmpty()) {
+            throw new IllegalArgumentException("El apellido no puede estar vacío o nulo.");
+        }
+        return true;
+    }
+
+
 
 
     public abstract Usuario prepararUsuario(Usuario usuario);
