@@ -65,6 +65,7 @@ public class GestionarLogin extends HttpServlet {
             }else {
                 resp.sendRedirect(req.getContextPath() + "/index.jsp");
             }
+            // hola mundo
         }
 
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
