@@ -19,11 +19,15 @@
             <i class="fas fa-dog fa-2x me-2"></i>
             <span class="fw-bold">PetGo</span>
         </a>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 align-items-center">
+            <button type="button" class="btn btn-outline-light rounded-circle" data-bs-toggle="modal" data-bs-target="#perfilModal" title="Editar Perfil">
+                <i class="fas fa-user"></i>
+            </button>
             <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-outline-light">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
+
 
 <main class="flex-grow-1 d-flex align-items-center justify-content-center text-center bg-light">
     <div class="container py-5">
@@ -99,7 +103,55 @@
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
 </footer>
 
+<!-- Modal de Perfil -->
+<div class="modal fade" id="perfilModal" tabindex="-1" aria-labelledby="perfilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="perfilModalLabel">Editar Perfil</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center mb-4 gap-3">
+                    <button id="btnEditarDatos" class="btn btn-outline-success">
+                        <i class="fas fa-user-edit me-2"></i>Actualizar Datos
+                    </button>
+                    <button id="btnEditarCredenciales" class="btn btn-outline-primary">
+                        <i class="fas fa-key me-2"></i>Cambiar Credenciales
+                    </button>
+                </div>
+                <div id="perfil-form-content" class="px-3">
+                    <!-- Aquí se cargará el formulario seleccionado -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para cargar formularios dinámicamente -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contenedor = document.getElementById('perfil-form-content');
+
+        document.getElementById('btnEditarDatos').addEventListener('click', function () {
+            fetch('${pageContext.request.contextPath}/auth/editarDatos.jsp')
+                .then(res => res.text())
+                .then(html => contenedor.innerHTML = html)
+                .catch(() => contenedor.innerHTML = '<p class="text-danger">Error al cargar el formulario de datos.</p>');
+        });
+
+        document.getElementById('btnEditarCredenciales').addEventListener('click', function () {
+            fetch('${pageContext.request.contextPath}/auth/editarCredenciales.jsp')
+                .then(res => res.text())
+                .then(html => contenedor.innerHTML = html)
+                .catch(() => contenedor.innerHTML = '<p class="text-danger">Error al cargar el formulario de credenciales.</p>');
+        });
+    });
+</script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>
