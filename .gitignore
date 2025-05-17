@@ -1,3 +1,5 @@
+jenkins_home_backup/
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
