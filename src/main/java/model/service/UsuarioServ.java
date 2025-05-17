@@ -1,5 +1,6 @@
 package model.service;
 
+import model.dao.UsuarioDAO;
 import model.entities.Usuario;
 import model.factory.DAOFactoria;
 
@@ -20,6 +21,7 @@ public abstract class UsuarioServ {
         }
     }
     public boolean actualizarUsuarioDatosServ(Usuario usuario) {
+
         if (usuario.getTelefono() == null || !usuario.getTelefono().matches("\\d{10}")) {
             return false;
         }
@@ -29,29 +31,46 @@ public abstract class UsuarioServ {
         if (usuario.getApellido() == null || usuario.getApellido().isEmpty()) {
             return false;
         }
-        return true;
+        System.out.println("llego aqui");
+         return factoria.obtenerUsuarioDAO().actualizar(usuario);
     }
 
-    public boolean validarContrasena(Usuario usuario, String password) {
-        if (usuario.getContrasena() == null ||
-                usuario.getContrasena().isEmpty() ||
-                !usuario.getContrasena().equals(password)) {
+    public boolean actualizarUsuarioCredencialesServ(Usuario usuario, String credenciales) {
+        UsuarioDAO dao = factoria.obtenerUsuarioDAO();
+        Usuario usuarioViejo=dao.findById(usuario.getId());
+        if(!validarContrasena(usuarioViejo, credenciales)){
             return false;
         }
-        if(password.length() < 6) {
+        if(!seguridadContrasena(usuario.getContrasena())){
             return false;
         }
-        return true;
+        if(usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
+            return false;
+        }
+        Usuario user = dao.findByEmail(usuario.getEmail());
+
+        if (!validarCorreo(user, usuario)){
+            return false;
+        }
+
+        return factoria.obtenerUsuarioDAO().actualizar(usuario);
+
     }
 
-    public boolean validarCorreo(Usuario usuario) {
-        if(usuario!=null) {
-            return false;
-        }
-        return true;
+    public boolean validarContrasena(Usuario usuarioViejo, String password) {
+        return usuarioViejo.getContrasena().equals(password);
     }
 
+    public boolean seguridadContrasena(String credenciales) {
+        return credenciales.length()>6;
+    }
 
+    public boolean validarCorreo(Usuario usuarioViejo, Usuario usuario) {
+        if (usuarioViejo.getEmail().equals(usuario.getEmail())&&usuarioViejo.getId().equals(usuario.getId())) {
+            return true;
+        }
+        return false;
+    }
 
 
     public abstract Usuario prepararUsuario(Usuario usuario);

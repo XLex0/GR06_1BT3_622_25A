@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class UsuarioServicioTest {
@@ -90,7 +91,7 @@ public class UsuarioServicioTest {
 
         Usuario userUsed = usuarioDAO.findByEmail("usuario@example.com");
         ClienteServ cliente = new ClienteServ();
-        boolean resultado = cliente.validarCorreo(userUsed);
+        boolean resultado = cliente.validarCorreo(userUsed, usuarioModificado);
 
         assertFalse(resultado);
         verify(usuarioDAO, never()).actualizar(any());
@@ -107,9 +108,9 @@ public class UsuarioServicioTest {
         ClienteServ cliente = new ClienteServ();
 
         Usuario viejo = usuarioDAO.findById(99L);
-        boolean resultado = cliente.validarContrasena(viejo, newPassword);
+        boolean resultado = cliente.seguridadContrasena(newPassword);
 
-        assertFalse(resultado);
+        assertTrue(resultado);
         verify(usuarioDAO).findById(99L);
         verify(usuarioDAO, never()).actualizar(any());
     }

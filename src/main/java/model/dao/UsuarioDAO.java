@@ -1,41 +1,29 @@
 package model.dao;
 
 import jakarta.persistence.EntityManager;
-import model.entities.Mascota;
 import model.entities.Usuario;
 
 import java.util.List;
 
 public class UsuarioDAO {
     private final EntityManager em;
+
     public UsuarioDAO(EntityManager em) {
         this.em = em;
     }
 
     public void create(Usuario usuario) {
-        try {
-            em.getTransaction().begin();
-            em.persist(usuario);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        em.getTransaction().begin();
+        em.persist(usuario);
+        em.getTransaction().commit();
     }
 
     public List<Usuario> findAll() {
-        try {
-            return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
-        } finally {
-            em.close();
-        }
+        return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
     }
 
     public Usuario findById(Long id) {
-        try {
-            return em.find(Usuario.class, id);
-        } finally {
-            em.close();
-        }
+        return em.find(Usuario.class, id);
     }
 
     public Usuario findByEmail(String email) {
@@ -45,8 +33,6 @@ public class UsuarioDAO {
                     .getSingleResult();
         } catch (Exception e) {
             return null;
-        } finally {
-            em.close();
         }
     }
 
@@ -57,7 +43,7 @@ public class UsuarioDAO {
             Usuario user = findById(usuario.getId());
 
             if (user != null) {
-                em.merge(usuario); // ahora sí se actualiza
+                em.merge(usuario);
                 em.getTransaction().commit();
                 status = true;
             } else {
@@ -67,6 +53,7 @@ public class UsuarioDAO {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
+            System.out.println("❌ Error en actualizar(): " + e);
             status = false;
         }
         return status;
