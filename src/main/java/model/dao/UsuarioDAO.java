@@ -1,62 +1,61 @@
 package model.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import model.entities.Usuario;
 
 import java.util.List;
 
 public class UsuarioDAO {
-    private static final String PERSISTENCE_UNIT = "Pets";
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+    private final EntityManager em;
 
-    public UsuarioDAO(EntityManager entityManager) {
+    public UsuarioDAO(EntityManager em) {
+        this.em = em;
     }
 
     public void create(Usuario usuario) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(usuario);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        em.getTransaction().begin();
+        em.persist(usuario);
+        em.getTransaction().commit();
     }
 
     public List<Usuario> findAll() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
-        } finally {
-            em.close();
-        }
+        return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
     }
 
-
-
-
     public Usuario findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Usuario.class, id);
-        } finally {
-            em.close();
-        }
+        return em.find(Usuario.class, id);
     }
 
     public Usuario findByEmail(String email) {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class)
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (Exception e) {
             return null;
-        }        finally {
-            em.close();
         }
     }
 
+    public Boolean actualizar(Usuario usuario) {
+        boolean status = false;
+        try {
+            em.getTransaction().begin();
+            Usuario user = findById(usuario.getId());
+
+            if (user != null) {
+                em.merge(usuario);
+                em.getTransaction().commit();
+                status = true;
+            } else {
+                em.getTransaction().rollback();
+            }
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("❌ Error en actualizar(): " + e);
+            status = false;
+        }
+        return status;
+    }
 }

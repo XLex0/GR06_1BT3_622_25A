@@ -23,7 +23,13 @@ public class Ticket {
     private LocalTime duracion; // 🔥 Ahora LocalTime
 
     private Boolean asignado;
-
+    @ManyToMany
+    @JoinTable(
+            name = "ticket_mascota",
+            joinColumns = @JoinColumn(name = "ticket_id"),
+            inverseJoinColumns = @JoinColumn(name = "mascota_id")
+    )
+    private List<Mascota> mascotas;
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;

@@ -2,6 +2,8 @@ package model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "mascota")
 public class Mascota {
@@ -33,6 +35,9 @@ public class Mascota {
 
     @Column(name = "usuario_id", nullable = false)
     private Long usuarioId;
+
+    @ManyToMany(mappedBy = "mascotas")
+    private List<Ticket> tickets;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", insertable = false, updatable = false)

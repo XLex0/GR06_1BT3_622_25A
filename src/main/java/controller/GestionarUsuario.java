@@ -31,10 +31,94 @@ public class GestionarUsuario extends HttpServlet {
             case "create":
                 crearUsuario(req, resp);
                 break;
-
+            case "datos":
+                editarDatos(req,resp);
+                break;
+            case "credenciales":
+                editarCredenciales(req,resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
         }
+    }
+
+    private void editarDatos(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        boolean exito = false;
+        String mensaje = "";
+
+        HttpSession sesion = req.getSession();
+        Usuario usuario = (Usuario) sesion.getAttribute("user");
+
+        String nombre = req.getParameter("nombre");
+        String apellido = req.getParameter("apellido");
+        String telefono = req.getParameter("telefono");
+
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setTelefono(telefono);
+
+        try {
+            UsuarioServ serv;
+            if (usuario.getRol().equals(Rol.Paseador)) {
+                serv = new PaseadorServ();
+            } else {
+                serv = new ClienteServ();
+            }
+
+            exito = serv.actualizarUsuarioDatosServ(usuario);
+            mensaje = exito ? "Datos actualizados correctamente." : "Error: datos inválidos.";
+
+            if (exito) {
+                sesion.setAttribute("user", usuario);
+            }
+
+        } catch (Exception e) {
+            mensaje = "Ocurrió un error al actualizar los datos.";
+        }
+
+        sesion.setAttribute("success", exito);
+        sesion.setAttribute("message", mensaje);
+        resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
+    }
+
+
+    private void editarCredenciales(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        boolean exito = false;
+        String mensaje = "";
+
+        HttpSession sesion = req.getSession();
+        Usuario usuario = (Usuario) sesion.getAttribute("user");
+
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String lastPassword = req.getParameter("lastPassword");
+
+        usuario.setContrasena(password);
+        usuario.setEmail(email);
+
+        try {
+            UsuarioServ serv;
+            if (usuario.getRol().equals(Rol.Paseador)) {
+                serv = new PaseadorServ();
+            } else {
+                serv = new ClienteServ();
+            }
+
+            exito = serv.actualizarUsuarioCredencialesServ(usuario, lastPassword);
+            mensaje = exito ? "Credenciales actualizadas correctamente." : "Error: contraseña actual incorrecta o correo en uso.";
+
+            // Si fue exitoso, puedes actualizar la sesión
+            if (exito) {
+                sesion.setAttribute("user", usuario);
+            }
+
+        } catch (Exception e) {
+            mensaje = "Ocurrió un error al actualizar las credenciales.";
+        }
+
+        sesion.setAttribute("success", exito);
+        sesion.setAttribute("message", mensaje);
+        resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
     }
 
     private void crearUsuario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

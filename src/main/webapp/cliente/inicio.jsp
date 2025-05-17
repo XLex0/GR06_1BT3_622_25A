@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,11 +19,15 @@
             <i class="fas fa-dog fa-2x me-2"></i>
             <span class="fw-bold">PetGo</span>
         </a>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 align-items-center">
+            <button type="button" class="btn btn-outline-light rounded-circle" data-bs-toggle="modal" data-bs-target="#perfilModal" title="Editar Perfil">
+                <i class="fas fa-user"></i>
+            </button>
             <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-outline-light">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
+
 
 <main class="flex-grow-1 d-flex align-items-center justify-content-center text-center bg-light">
     <div class="container py-5">
@@ -36,49 +41,59 @@
                 </p>
 
                 <div class="row justify-content-center g-4 fade-in-up delay-3">
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-paw fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Registrar Mascota</h5>
-                                <p class="card-text text-muted">Agrega una nueva mascota a tu perfil.</p>
-                                <a href="${pageContext.request.contextPath}/mascotas/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Registrar</a>
-                                <a href="${pageContext.request.contextPath}/mascotas?route=list" class="btn btn-outline-success rounded-pill mt-2">Mascotas</a>
-                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-ticket-alt fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Crear Ticket</h5>
-                                <p class="card-text text-muted">Solicita paseos para tu mascota.</p>
-                                <a href="${pageContext.request.contextPath}/ticket/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Crear</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-hand-paper fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Postular Tickets</h5>
-                                <p class="card-text text-muted">¿Paseador? Postúlate a tickets abiertos.</p>
-                                <a href="${pageContext.request.contextPath}/TicketController?route=list" class="btn btn-outline-success rounded-pill mt-2">Postular</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <div class="card-body text-center">
-                                <i class="fas fa-user-check fa-3x text-success mb-3"></i>
-                                <h5 class="card-title">Aceptar Postulaciones</h5>
-                                <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
-                                <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+                    <!-- Tarjetas para CLIENTE -->
+                    <c:if test="${sessionScope.rol == 'Cliente'}">
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-paw fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Registrar Mascota</h5>
+                                    <p class="card-text text-muted">Agrega una nueva mascota a tu perfil.</p>
+                                    <a href="${pageContext.request.contextPath}/mascotas/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Registrar</a>
+                                    <a href="${pageContext.request.contextPath}/mascotas?route=list" class="btn btn-outline-success rounded-pill mt-2">Mascotas</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-ticket-alt fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Crear Ticket</h5>
+                                    <p class="card-text text-muted">Solicita paseos para tu mascota.</p>
+                                    <a href="${pageContext.request.contextPath}/ticket/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Crear</a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Tarjetas para PASEADOR -->
+                    <c:if test="${sessionScope.rol == 'Paseador'}">
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hand-paper fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Postular Tickets</h5>
+                                    <p class="card-text text-muted">¿Paseador? Postúlate a tickets abiertos.</p>
+                                    <a href="${pageContext.request.contextPath}/TicketController?route=list" class="btn btn-outline-success rounded-pill mt-2">Postular</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user-check fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Aceptar Postulaciones</h5>
+                                    <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
+                                    <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                </div>
             </div>
         </div>
     </div>
@@ -88,7 +103,55 @@
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
 </footer>
 
+<!-- Modal de Perfil -->
+<div class="modal fade" id="perfilModal" tabindex="-1" aria-labelledby="perfilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="perfilModalLabel">Editar Perfil</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center mb-4 gap-3">
+                    <button id="btnEditarDatos" class="btn btn-outline-success">
+                        <i class="fas fa-user-edit me-2"></i>Actualizar Datos
+                    </button>
+                    <button id="btnEditarCredenciales" class="btn btn-outline-primary">
+                        <i class="fas fa-key me-2"></i>Cambiar Credenciales
+                    </button>
+                </div>
+                <div id="perfil-form-content" class="px-3">
+                    <!-- Aquí se cargará el formulario seleccionado -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para cargar formularios dinámicamente -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contenedor = document.getElementById('perfil-form-content');
+
+        document.getElementById('btnEditarDatos').addEventListener('click', function () {
+            fetch('${pageContext.request.contextPath}/auth/editarDatos.jsp')
+                .then(res => res.text())
+                .then(html => contenedor.innerHTML = html)
+                .catch(() => contenedor.innerHTML = '<p class="text-danger">Error al cargar el formulario de datos.</p>');
+        });
+
+        document.getElementById('btnEditarCredenciales').addEventListener('click', function () {
+            fetch('${pageContext.request.contextPath}/auth/editarCredenciales.jsp')
+                .then(res => res.text())
+                .then(html => contenedor.innerHTML = html)
+                .catch(() => contenedor.innerHTML = '<p class="text-danger">Error al cargar el formulario de credenciales.</p>');
+        });
+    });
+</script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>
