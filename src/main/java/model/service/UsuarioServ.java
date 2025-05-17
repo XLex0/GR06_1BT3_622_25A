@@ -7,6 +7,9 @@ import model.factory.DAOFactoria;
 public abstract class UsuarioServ {
     private final DAOFactoria factoria = new DAOFactoria();
 
+
+
+
     public boolean crearUsuario(Usuario usuario) {
         try {
             factoria.obtenerUsuarioDAO().create(usuario);
@@ -16,12 +19,34 @@ public abstract class UsuarioServ {
             return false;
         }
     }
-    public boolean actualizarUserServ(Usuario usuario) {
+    public boolean actualizarUsuarioDatosServ(Usuario usuario) {
+        if (usuario.getTelefono() == null || !usuario.getTelefono().matches("\\d{10}")) {
+            return false;
+        }
         if (usuario.getNombre() == null || usuario.getNombre().isEmpty()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacío o nulo.");
+            return false;
         }
         if (usuario.getApellido() == null || usuario.getApellido().isEmpty()) {
-            throw new IllegalArgumentException("El apellido no puede estar vacío o nulo.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validarContrasena(Usuario usuario, String password) {
+        if (usuario.getContrasena() == null ||
+                usuario.getContrasena().isEmpty() ||
+                !usuario.getContrasena().equals(password)) {
+            return false;
+        }
+        if(password.length() < 6) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validarCorreo(Usuario usuario) {
+        if(usuario!=null) {
+            return false;
         }
         return true;
     }

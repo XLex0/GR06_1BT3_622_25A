@@ -57,6 +57,8 @@ public class UsuarioDAO {
             Usuario user = findById(usuario.getId());
 
             if (user != null) {
+                em.merge(usuario); // ahora sí se actualiza
+                em.getTransaction().commit();
                 status = true;
             } else {
                 em.getTransaction().rollback();
@@ -69,5 +71,4 @@ public class UsuarioDAO {
         }
         return status;
     }
-
 }
