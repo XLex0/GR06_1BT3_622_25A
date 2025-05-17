@@ -20,22 +20,24 @@ public class Ticket {
     private LocalTime hora;
 
     @Column(name = "duracion")
-    private LocalTime duracion; // 🔥 Ahora LocalTime
+    private LocalTime duracion;
 
     private Boolean asignado;
-    @ManyToMany
-    @JoinTable(
-            name = "ticket_mascota",
-            joinColumns = @JoinColumn(name = "ticket_id"),
-            inverseJoinColumns = @JoinColumn(name = "mascota_id")
-    )
-    private List<Mascota> mascotas;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Postulacion> postulaciones;
+
+    @ManyToMany
+    @JoinTable(
+            name = "ticket_mascota",  // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "ticket_id"),  // Referencia al ticket
+            inverseJoinColumns = @JoinColumn(name = "mascota_id")  // Referencia a la mascota
+    )
+    private List<Mascota> mascotas;
 
     // Getters y Setters
     public Long getId() { return id; }
@@ -56,6 +58,11 @@ public class Ticket {
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
+    public Ticket(){}
+
     public List<Postulacion> getPostulaciones() { return postulaciones; }
     public void setPostulaciones(List<Postulacion> postulaciones) { this.postulaciones = postulaciones; }
+
+    public List<Mascota> getMascotas() { return mascotas; }
+    public void setMascotas(List<Mascota> mascotas) { this.mascotas = mascotas; }
 }

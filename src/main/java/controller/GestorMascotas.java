@@ -42,6 +42,9 @@ public class GestorMascotas extends HttpServlet {
             case "update":
                 actualizarMascota(req, resp);
                 break;
+            case "listarMascotaTicket":
+                listarMascotaTicket(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
         }
@@ -69,33 +72,7 @@ public class GestorMascotas extends HttpServlet {
         req.getSession().setAttribute("success", success);
         resp.sendRedirect(req.getContextPath() + "/mascotas/message.jsp");
     }
-
-    private void listarMascotas(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean success = false;
-        try {
-            Long idUser = getIdUserLoged(req);
-            if (idUser == null) {
-                resp.sendRedirect(req.getContextPath() + "/index.jsp");
-                return;
-            }
-
-            req.setAttribute("mascotas", petService.getPetsByUserId(idUser));
-            success = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error al listar mascotas: " + e.getMessage());
-            success = false;
-        }
-
-        req.getSession().setAttribute("success", success);
-        if (success) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/mascotas/lista.jsp");
-            dispatcher.forward(req, resp);
-        } else {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error al listar mascotas");
-        }
-    }
-
+    
     private void actualizarMascota(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean success = false;
         try {
@@ -124,6 +101,44 @@ public class GestorMascotas extends HttpServlet {
         } else {
             System.out.println("No hay usuario logueado");
             return null;
+        }
+
+    }
+
+    private void listarMascotas(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        listarMascotasConDestino(req, resp, "/mascotas/lista.jsp");
+    }
+
+    private void listarMascotaTicket(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        listarMascotasConDestino(req, resp, "/ticket/registro.jsp");
+    }
+
+    private void listarMascotasConDestino(HttpServletRequest req, HttpServletResponse resp, String jspDestino)
+            throws ServletException, IOException {
+        boolean success = false;
+        try {
+            Long idUser = getIdUserLoged(req);
+            if (idUser == null) {
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+                return;
+            }
+
+            req.setAttribute("mascotas", petService.getPetsByUserId(idUser));
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al listar mascotas: " + e.getMessage());
+            success = false;
+        }
+
+        req.getSession().setAttribute("success", success);
+        if (success) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher(jspDestino);
+            dispatcher.forward(req, resp);
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error al listar mascotas");
         }
     }
 }

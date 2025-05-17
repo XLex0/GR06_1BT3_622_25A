@@ -8,14 +8,10 @@ import model.entities.Ticket;
 import java.util.List;
 
 public class TicketDAO {
-    private static final String PERSISTENCE_UNIT = "Pets";
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
-
-    public TicketDAO(EntityManager entityManager) {
-    }
+    private final EntityManager em;
+    public TicketDAO(EntityManager em){this.em = em;}
 
     public void registrarTicket(Ticket ticket) {
-        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(ticket);
@@ -26,7 +22,6 @@ public class TicketDAO {
     }
 
     public List<Ticket> findAll() {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT t FROM Ticket t", Ticket.class).getResultList();
         } finally {
@@ -35,9 +30,21 @@ public class TicketDAO {
     }
 
     public Ticket findById(Long id) {
-        EntityManager em = emf.createEntityManager();
         try {
             return em.find(Ticket.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    //Sentencia para traer las mascotas asociadas
+    public List<Ticket> buscarTodosPorUsuario(Long usuarioId) {
+        try {
+            return em.createQuery(
+                            "SELECT DISTINCT t FROM Ticket t " +
+                                    "JOIN FETCH t.mascotas " +
+                                    "WHERE t.usuario.id = :usuarioId", Ticket.class)
+                    .setParameter("usuarioId", usuarioId)
+                    .getResultList();
         } finally {
             em.close();
         }
