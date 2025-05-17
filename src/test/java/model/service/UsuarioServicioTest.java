@@ -102,7 +102,7 @@ public class UsuarioServicioTest {
         Usuario usuarioOriginal = new Usuario();
         usuarioOriginal.setContrasena("newPassword");
 
-        String newPassword = "newPassword";
+        String newPassword = "NewPw";
 
         when(usuarioDAO.findById(99L)).thenReturn(usuarioOriginal);
         ClienteServ cliente = new ClienteServ();
