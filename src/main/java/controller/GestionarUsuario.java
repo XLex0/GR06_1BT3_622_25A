@@ -76,8 +76,8 @@ public class GestionarUsuario extends HttpServlet {
             mensaje = "Ocurrió un error al actualizar los datos.";
         }
 
-        sesion.setAttribute("success", exito);
-        sesion.setAttribute("message", mensaje);
+        sesion.setAttribute("successM", exito);
+        sesion.setAttribute("messageM", mensaje);
         resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
     }
 
@@ -116,8 +116,8 @@ public class GestionarUsuario extends HttpServlet {
             mensaje = "Ocurrió un error al actualizar las credenciales.";
         }
 
-        sesion.setAttribute("success", exito);
-        sesion.setAttribute("message", mensaje);
+        sesion.setAttribute("successM", exito);
+        sesion.setAttribute("messageM", mensaje);
         resp.sendRedirect(req.getContextPath() + "/cliente/inicio.jsp");
     }
 

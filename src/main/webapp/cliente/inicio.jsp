@@ -23,7 +23,8 @@
             <button type="button" class="btn btn-outline-light rounded-circle" data-bs-toggle="modal" data-bs-target="#perfilModal" title="Editar Perfil">
                 <i class="fas fa-user"></i>
             </button>
-            <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-outline-light">Cerrar Sesión</a>
+            <a href="${pageContext.request.contextPath}/LoginController?route=logout" class="btn btn-outline-light">Cerrar Sesión</a>
+
         </div>
     </div>
 </nav>
@@ -128,6 +129,31 @@
         </div>
     </div>
 </div>
+<!-- Modal de Mensaje -->
+<div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header ${sessionScope.successM ? 'bg-success' : 'bg-danger'} text-white">
+                <h5 class="modal-title" id="mensajeModalLabel">
+                    ${sessionScope.successM ? 'Éxito' : 'Error'}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>${sessionScope.messageM}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<c:if test="${not empty sessionScope.messageM}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = new bootstrap.Modal(document.getElementById('mensajeModal'));
+            modal.show();
+        });
+    </script>
+</c:if>
 
 <!-- Script para cargar formularios dinámicamente -->
 <script>
