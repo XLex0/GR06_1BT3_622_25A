@@ -9,7 +9,7 @@ public abstract class UsuarioServ {
     private final DAOFactoria factoria = new DAOFactoria();
 
 
-
+    private final int   LONGITUD_CONTRASENA=6;
 
     public boolean crearUsuario(Usuario usuario) {
         try {
@@ -37,32 +37,30 @@ public abstract class UsuarioServ {
 
     public boolean actualizarUsuarioCredencialesServ(Usuario usuario, String credenciales) {
         UsuarioDAO dao = factoria.obtenerUsuarioDAO();
-        Usuario usuarioViejo=dao.findById(usuario.getId());
-        if(!validarContrasena(usuarioViejo, credenciales)){
-            return false;
-        }
-        if(!seguridadContrasena(usuario.getContrasena())){
-            return false;
-        }
-        if(usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
-            return false;
-        }
-        Usuario user = dao.findByEmail(usuario.getEmail());
+        Usuario usuarioViejo = dao.findById(usuario.getId());
 
-        if (!validarCorreo(user, usuario)){
+        if (!validarActualizacionCredenciales(usuario, usuarioViejo, credenciales)) {
             return false;
         }
 
-        return factoria.obtenerUsuarioDAO().actualizar(usuario);
-
+        return dao.actualizar(usuario);
     }
+    private boolean validarActualizacionCredenciales(Usuario usuario, Usuario usuarioViejo, String credenciales) {
+        if (!validarContrasena(usuarioViejo, credenciales)) return false;
+        if (!esContrasenaSegura(usuario.getContrasena())) return false;
+        if (usuario.getEmail() == null || usuario.getEmail().isEmpty()) return false;
+
+        Usuario usuarioConEseCorreo = factoria.obtenerUsuarioDAO().findByEmail(usuario.getEmail());
+        return validarCorreo(usuarioConEseCorreo, usuario);
+    }
+
 
     public boolean validarContrasena(Usuario usuarioViejo, String password) {
         return usuarioViejo.getContrasena().equals(password);
     }
 
-    public boolean seguridadContrasena(String credenciales) {
-        return credenciales.length()>6;
+    public boolean esContrasenaSegura(String credenciales) {
+        return credenciales.length()>=LONGITUD_CONTRASENA;
     }
 
     public boolean validarCorreo(Usuario usuarioViejo, Usuario usuario) {

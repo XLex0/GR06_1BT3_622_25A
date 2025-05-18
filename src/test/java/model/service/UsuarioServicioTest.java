@@ -108,7 +108,7 @@ public class UsuarioServicioTest {
         ClienteServ cliente = new ClienteServ();
 
         Usuario viejo = usuarioDAO.findById(99L);
-        boolean resultado = cliente.seguridadContrasena(newPassword);
+        boolean resultado = cliente.esContrasenaSegura(newPassword);
 
         assertTrue(resultado);
         verify(usuarioDAO).findById(99L);
