@@ -62,7 +62,8 @@
                                     <i class="fas fa-ticket-alt fa-3x text-success mb-3"></i>
                                     <h5 class="card-title">Crear Ticket</h5>
                                     <p class="card-text text-muted">Solicita paseos para tu mascota.</p>
-                                    <a href="${pageContext.request.contextPath}/ticket/registro.jsp" class="btn btn-outline-success rounded-pill mt-2">Crear</a>
+                                    <a href="${pageContext.request.contextPath}/mascotas?route=listarMascotaTicket" class="btn btn-outline-success rounded-pill mt-2">Crear</a>
+                                    <a href="${pageContext.request.contextPath}/TicketController?route=listTicketsByUser" class="btn btn-outline-success rounded-pill mt-2">Mis tickets</a>
                                 </div>
                             </div>
                         </div>

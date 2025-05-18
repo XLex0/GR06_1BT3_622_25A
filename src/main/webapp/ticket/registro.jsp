@@ -1,130 +1,133 @@
- <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.entities.Mascota" %>
+
+<% List<Mascota> listaMascotas = (List<Mascota>) request.getAttribute("mascotas");
+    String contextPath = request.getContextPath();
+%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Tickets - PetGo</title>
-
+    <title>Crear Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #333;
+            background-color: #f5f9f6;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 2rem;
         }
-        header {
-            background: #4CAF50;
-            color: white;
-            padding: 20px;
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
             text-align: center;
         }
-        .content {
-            max-width: 800px;
-            margin: 30px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
+
         .form-group label {
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .checkbox-container {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f0f7f4;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+
+        .checkbox-container label {
+            margin-bottom: 0.5rem;
             display: block;
-            margin-bottom: 5px;
+            font-weight: 500;
         }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+
+        .form-check {
+            margin-left: 1rem;
         }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+
+        .btn-submit {
+            margin-top: 1.5rem;
+            background-color: #4caf50;
             border: none;
-            cursor: pointer;
-            border-radius: 4px;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
         }
-        button:hover {
-            background-color: #45A049;
+
+        .btn-submit:hover {
+            background-color: #43a047;
         }
-        .mensaje {
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
+
+        .no-tickets {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
         }
     </style>
 </head>
-
 <body>
+<div class="container">
+    <h1>Crear Ticket</h1>
 
-<header>
-    <h1>¡Nuevo Paseo!</h1>
-</header>
-
-<div class="content">
-
-    <% if(session.getAttribute("message") != null) { %>
-        <div class="mensaje <%= session.getAttribute("messageType") %>">
-            <%= session.getAttribute("message") %>
-        </div>
-        <%
-            session.removeAttribute("message");
-            session.removeAttribute("messageType");
-        %>
-    <% } %>
-
-    <h2>Registrar nuevo paseo</h2>
-
-    <form action="<%= request.getContextPath() %>/TicketController?route=saveNew" method="post">
-        <div class="form-group">
-            <label>Fecha:</label>
-            <input type="date" name="fecha" required>
+    <% if (listaMascotas == null || listaMascotas.isEmpty()) { %>
+    <div class="no-tickets">
+        <p>No tienes mascotas registradas aún.</p>
+    </div>
+    <% } else { %>
+    <form action="<%= contextPath %>/TicketController?route=saveNew" method="post">
+        <div class="form-group mb-3">
+            <label for="fecha">Fecha:</label>
+            <input type="date" class="form-control" name="fecha" id="fecha" required>
         </div>
 
-        <div class="form-group">
-            <label>Hora:</label>
-            <input type="time" name="hora" required>
+        <div class="form-group mb-3">
+            <label for="hora">Hora:</label>
+            <input type="time" class="form-control" name="hora" id="hora" required>
         </div>
 
-        <div class="form-group">
-            <label>Duración (hh:mm):</label>
-            <input type="time" name="duracion" step="1" required placeholder="Ejemplo: 01:30">
+        <div class="form-group mb-3">
+            <label for="duracion">Duración (hh:mm):</label>
+            <input type="time" class="form-control" name="duracion" id="duracion" step="1" required placeholder="Ejemplo: 01:30">
         </div>
 
-        <div class="form-group">
-            <label>ID Cliente:</label>
-            <input type="number" name="usuarioId" required>
+        <div class="checkbox-container">
+            <label><strong>Selecciona las mascotas para tu paseo:</strong></label>
+            <% for (Mascota mascota : listaMascotas) { %>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="<%= mascota.getId() %>" id="mascota-<%= mascota.getId() %>" name="mascotas">
+                <label class="form-check-label" for="mascota-<%= mascota.getId() %>">
+                    <%= mascota.getNombre() %>
+                </label>
+            </div>
+            <% } %>
         </div>
 
-        <button type="submit">Crear Ticket</button>
+        <button type="submit" class="btn btn-submit mt-4">
+            Crear Ticket
+        </button>
     </form>
-
+    <% } %>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
