@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import model.entities.Ticket;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class TicketDAO {
@@ -49,4 +51,33 @@ public class TicketDAO {
             em.close();
         }
     }
+    public boolean actualizar(LocalDate fecha, LocalTime hora, LocalTime duracion, Long ticketId) {
+        boolean status = false;
+        try {
+            em.getTransaction().begin();
+
+            Ticket ticket = em.find(Ticket.class, ticketId);
+            if (ticket == null) {
+                em.getTransaction().rollback();
+                return false;
+            }
+
+            ticket.setFecha(fecha);
+            ticket.setHora(hora);
+            ticket.setDuracion(duracion);
+
+            em.merge(ticket);
+
+            em.getTransaction().commit();
+            status = true;
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+        return status;
+    }
+
 }
