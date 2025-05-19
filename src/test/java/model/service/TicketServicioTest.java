@@ -87,6 +87,49 @@ public class TicketServicioTest {
         assertEquals(vigente.getFecha(), resultado.get(0).getFecha());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "null, '12:00', '01:00'",
+            "'2025-05-16', null, '01:00'",
+            "'2025-05-16', '12:00', null",
+            "null, null, null"
+    })
+    void given_ticket_when_campos_vacios_then_false(String fechaStr, String horaStr, String duracionStr) {
+        LocalDate fecha = "null".equals(fechaStr) ? null : LocalDate.parse(fechaStr);
+        LocalTime hora = "null".equals(horaStr) ? null : LocalTime.parse(horaStr);
+        LocalTime duracion = "null".equals(duracionStr) ? null : LocalTime.parse(duracionStr);
+
+        boolean resultado = ticketService.validarCampos(fecha, hora, duracion, 1L);
+        assertFalse(resultado);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "'2023-07-18'",
+            "'2024-05-31'",
+            "'2021-12-25'"
+    })
+    void given_fechaIngresadaAnteriorALaActual_when_actualizarTicket_then_false(String fechaIngresadaStr) {
+        LocalDate fechaIngresada = LocalDate.parse(fechaIngresadaStr);
+
+        boolean resultado = ticketService.validarFecha(fechaIngresada, 1L);
+
+        assertFalse(resultado);
+    }
+    @ParameterizedTest
+    @CsvSource({
+            "'00:10'",
+            "'00:29'",
+            "'03:01'",
+            "'04:00'"
+    })
+    void given_duracionInvalida_when_actualizarTicket_then_false(String duracionStr) {
+        LocalTime duracion = LocalTime.parse(duracionStr);
+        TicketService ticketService = new TicketService();
+        boolean resultado = ticketService.validarDuracion(duracion);
+        assertFalse(resultado);
+    }
+
 }
 
 

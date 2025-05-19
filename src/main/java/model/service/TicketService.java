@@ -87,4 +87,49 @@ public class TicketService {
         }
         return true;
     }
+
+    public boolean actualizarTicket(LocalDate fecha, LocalTime hora, LocalTime duracion, Long ticketId) {
+        if (!validarCampos(fecha, hora, duracion, ticketId)) {
+            return false;
+        }
+
+        if (!validarFecha(fecha, ticketId)) {
+            return false;
+        }
+
+        if (!validarDuracion(duracion)) {
+            return false;
+        }
+
+        return factoria.obtenerTicketDAO().actualizar(fecha, hora, duracion, ticketId);
+    }
+
+    public boolean validarCampos(LocalDate fecha, LocalTime hora, LocalTime duracion, Long id) {
+        if (fecha == null) {
+            return false;
+        }
+        if (hora == null) {
+            return false;
+        }
+        if (duracion == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validarFecha(LocalDate fechaIngresada, long l) {
+        if (fechaIngresada.isBefore(LocalDate.now())) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validarDuracion(LocalTime duracion) {
+        if (duracion == null) return false;
+        int minutosTotales = duracion.getHour() * 60 + duracion.getMinute();
+        if (minutosTotales < 30 || minutosTotales > 180) {
+            return false;
+        }
+        return true;
+    }
 }
