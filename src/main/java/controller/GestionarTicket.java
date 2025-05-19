@@ -51,6 +51,9 @@ public class GestionarTicket extends HttpServlet {
             case "listTicketsByUser":
                 listTicketsByUser(req, resp);
                 break;
+            case "update":
+                actualizarTicket(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
         }
@@ -148,6 +151,20 @@ public class GestionarTicket extends HttpServlet {
         } else {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error al listar tickets");
         }
+    }
+    private void actualizarTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        boolean success = false;
+        try{
+            LocalDate fecha = LocalDate.parse(req.getParameter("fecha"));
+            LocalTime hora = LocalTime.parse(req.getParameter("hora"));
+            LocalTime duracion = LocalTime.parse(req.getParameter("duracion"));
+            Long idUser = Long.parseLong(req.getParameter("id"));
+            success = ticketService.actualizarTicket(fecha, hora, duracion, idUser);
+
+        } catch (Exception e) {
+        }
+        req.getSession().setAttribute("success", success);
+        resp.sendRedirect(req.getContextPath() + "/ticket/messageAct.jsp");
     }
 
 }
