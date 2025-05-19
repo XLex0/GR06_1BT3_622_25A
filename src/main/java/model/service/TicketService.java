@@ -55,26 +55,24 @@ public class TicketService {
 
     public List<Ticket> findTicketPorId(Long userId) {
         List<Ticket> tickets = factoria.obtenerTicketDAO().buscarTodosPorUsuario(userId);
-
         if (!existenTickets(tickets)) {
             return Collections.emptyList();
         }
-
         return filtrarTicketsNoCaducados(tickets);
     }
 
     public List<Ticket> filtrarTicketsNoCaducados(List<Ticket> tickets) {
-        LocalDate hoy = LocalDate.now();
         List<Ticket> ticketsNoCaducados = new ArrayList<>();
-
         for (Ticket ticket : tickets) {
-            if (ticket.getFecha() != null) {
-                if (ticket.getFecha().isAfter(hoy)) {
-                    ticketsNoCaducados.add(ticket);
-                }
+            if (esTicketNoCaducado(ticket)) {
+                ticketsNoCaducados.add(ticket);
             }
         }
         return ticketsNoCaducados;
+    }
+
+    private boolean esTicketNoCaducado(Ticket ticket) {
+        return ticket.getFecha() != null && ticket.getFecha().isAfter(LocalDate.now());
     }
 
     public boolean existenTickets(List<Ticket> tickets) {
