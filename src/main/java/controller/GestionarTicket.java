@@ -48,6 +48,9 @@ public class GestionarTicket extends HttpServlet {
             case "verDetalles": //
                 verDetallesTicket(req, resp);
                 break;
+            case "listTicketsByUser":
+                listTicketsByUser(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida");
         }
@@ -119,6 +122,32 @@ public class GestionarTicket extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/ticket/messageTicket.jsp");
     }
 
+    //Lista todos los tickets del usuario. El ticket muestra las mascotas asociadas.
+    private void listTicketsByUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        boolean success = false;
+        try {
+            Long idUser = getIdUserLoged(req);
+            if (idUser == null) {
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+                return;
+            }
 
+            req.setAttribute("listatickets", ticketService.findTicketPorId(idUser));
+
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al listar tickets: " + e.getMessage());
+            success = false;
+        }
+
+        req.getSession().setAttribute("success", success);
+        if (success) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/ticket/lista.jsp");
+            dispatcher.forward(req, resp);
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error al listar tickets");
+        }
+    }
 
 }
