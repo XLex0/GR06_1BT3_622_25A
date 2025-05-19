@@ -106,7 +106,18 @@
 
         <div class="form-group mb-3">
             <label for="duracion">Duración (hh:mm):</label>
-            <input type="time" class="form-control" name="duracion" id="duracion" step="1" required placeholder="Ejemplo: 01:30">
+            <input
+                    type="time"
+                    class="form-control"
+                    name="duracion"
+                    id="duracion"
+                    step="60"
+                    min="00:30"
+                    max="03:00"
+                    required
+                    placeholder="Ejemplo: 01:30">
+            <small id="duracionHelp" class="form-text text-muted">La duración va desde los 30 minutos hasta las 3 horas.</small>
+
         </div>
 
         <div class="checkbox-container">
@@ -128,6 +139,8 @@
     <% } %>
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
