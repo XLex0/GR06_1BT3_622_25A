@@ -86,4 +86,18 @@ class PaseadorServicioTest {
         String msg = paseadorServ.generarMensaje(false);
         assertEquals("No se pudo guardar el perfil. Verifica los datos.", msg);
     }
+    @Test
+    void given_experienciaSoloEspacios_when_validar_then_false() {
+        String experiencia = "     ";
+        assertFalse(paseadorServ.validarExperiencia(experiencia));
+    }
+
+    @Test
+    void given_usuarioConRolNoPaseadorYExperienciaValida_when_guardarPerfil_then_noSeGuarda() {
+        Usuario u = new Usuario("Luis", "Martínez", "luis@gmail.com", "099", "abc", Rol.Cliente);
+        u.setExperiencia("Tengo experiencia caminando perros.");
+        u.setDisponible(true);
+        assertFalse(paseadorServ.guardarPerfil(u));
+        verify(usuarioDAO, never()).actualizar(any());
+    }
 }
