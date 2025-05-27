@@ -38,25 +38,20 @@
     }
 %>
 
-<header class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);">
+<header class="navbar navbar-expand-lg navbar-light shadow-sm bg-petgo">
     <div class="container d-flex justify-content-between align-items-center py-2">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <i class="fas fa-dog fa-2x text-white me-2"></i>
-            <span class="fw-bold text-white">PetGo</span>
+        <a class="navbar-brand d-flex align-items-center text-white fw-bold" href="#">
+            <i class="fas fa-dog fa-2x me-2"></i>PetGo
         </a>
         <div class="d-flex gap-2">
-            <!-- Botón de Login que abre el modal -->
-            <button type="button" class="btn btn-outline-light rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
-                Iniciar Sesión
-            </button>
-            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#registroModal">
-                Registrarse
+            <button type="button" class="btn btn-light rounded-pill px-4 btn-petgo" data-bs-toggle="modal" data-bs-target="#registroModal">
+                <i class="fas fa-user-plus me-2"></i> Registrarse
             </button>
         </div>
     </div>
 </header>
 
-<main class="flex-grow-1 d-flex align-items-center justify-content-center text-center" style="background-color: #fff;">
+<main class="flex-grow-1 d-flex align-items-center justify-content-center text-center bg-white">
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -67,12 +62,11 @@
                     Conecta con paseadores certificados que cuidan de tu mejor amigo.
                 </p>
                 <div class="mb-5">
-                    <i class="fas fa-person-walking fa-8x text-success"></i>
+                    <i class="fas fa-person-walking fa-8x text-success" style="animation: bounce 2s infinite;"></i>
                 </div>
                 <div>
-                    <!-- Botón grande que también abre el modal -->
-                    <button type="button" class="btn btn-success btn-lg rounded-pill px-5 py-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        Iniciar Sesión
+                    <button type="button" class="btn btn-success btn-lg rounded-pill px-5 py-3 btn-petgo" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
                     </button>
                 </div>
             </div>
@@ -91,7 +85,7 @@
 
 <!-- Modal de Registro -->
 <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-petgo-compact">
         <div class="modal-content">
             <div class="modal-header bg-petgo">
                 <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -103,7 +97,7 @@
 
 <!-- Modal de Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-petgo-compact">
         <div class="modal-content">
             <div class="modal-header bg-petgo">
                 <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Cerrar"></button>
