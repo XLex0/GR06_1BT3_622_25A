@@ -16,23 +16,26 @@ public class Usuario {
     private String apellido;
     private String email;
     private String telefono;
+
     @Column(name = "contraseña")
     private String contrasena;
-
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Rol rol;
+    @Column(length = 500)
+    private String experiencia;
+
+    private boolean disponible;
+
 
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mascota> mascotas;
 
-    // Relación con Ticket (uno a muchos)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
-    // Relación con Postulacion (uno a muchos)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Postulacion> postulaciones;
 
@@ -94,8 +97,8 @@ public class Usuario {
         return contrasena;
     }
 
-    public void setContrasena(String contraseña) {
-        this.contrasena = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public Rol getRol() {
@@ -105,6 +108,23 @@ public class Usuario {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+
+    public String getExperiencia() {
+        return experiencia;
+    }
+
+    public void setExperiencia(String experiencia) {
+        this.experiencia = experiencia;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
 
     public List<Mascota> getMascotas() {
         return mascotas;

@@ -103,6 +103,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-clipboard-list fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Mi Experiencia</h5>
+                                    <p class="card-text text-muted">Revisa tus paseos y gestiona tu disponibilidad.</p>
+                                    <a href="${pageContext.request.contextPath}/PaseadorController?route=verPerfil" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+
                     </c:if>
 
                 </div>
