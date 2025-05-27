@@ -78,28 +78,34 @@ public class PaseadorController extends HttpServlet {
             return new String[0];
         }
     }
-
+    private String construirExperiencia(String anios, String tipos, String servicios, String zonas, String horarios, String certificaciones) {
+        return "Años de experiencia: " + anios + ". "
+                + "Tipos de mascotas: " + tipos + ". "
+                + "Servicios ofrecidos: " + servicios + ". "
+                + "Zonas de trabajo: " + zonas + ". "
+                + "Horarios disponibles: " + horarios + ". "
+                + "Certificaciones: " + certificaciones + ".";
+    }
+    private String getParam(HttpServletRequest req, String name) {
+        return req.getParameter(name) != null ? req.getParameter(name).trim() : "";
+    }
+    private String unirValores(String[] valores) {
+        return (valores != null) ? String.join(", ", valores) : "Ninguno";
+    }
     private void actualizarPerfil(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession sesion = req.getSession();
         Usuario paseador = (Usuario) sesion.getAttribute("user");
 
         if (paseador != null) {
-            String[] tipos = req.getParameterValues("tipos");
-            String[] servicios = req.getParameterValues("servicios");
-            String tiposTexto = (tipos != null) ? String.join(", ", tipos) : "Ninguno";
-            String serviciosTexto = (servicios != null) ? String.join(", ", servicios) : "Ninguno";
+            String tiposTexto = unirValores(req.getParameterValues("tipos"));
+            String serviciosTexto = unirValores(req.getParameterValues("servicios"));
 
-            String anios = req.getParameter("anios");
-            String zonas = req.getParameter("zonas");
-            String horarios = req.getParameter("horarios");
-            String certificaciones = req.getParameter("certificaciones");
+            String anios = getParam(req, "anios");
+            String zonas = getParam(req, "zonas");
+            String horarios = getParam(req, "horarios");
+            String certificaciones = getParam(req, "certificaciones");
 
-            String experiencia = "Años de experiencia: " + anios + ". "
-                    + "Tipos de mascotas: " + tiposTexto + ". "
-                    + "Servicios ofrecidos: " + serviciosTexto + ". "
-                    + "Zonas de trabajo: " + zonas + ". "
-                    + "Horarios disponibles: " + horarios + ". "
-                    + "Certificaciones: " + certificaciones + ".";
+            String experiencia = construirExperiencia(anios, tiposTexto, serviciosTexto, zonas, horarios, certificaciones);
 
             boolean disponible = req.getParameter("disponible") != null;
 
