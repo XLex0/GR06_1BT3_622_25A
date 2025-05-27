@@ -19,20 +19,8 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-
 <!-- Header -->
-<header class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);">
-    <div class="container d-flex justify-content-between align-items-center py-2">
-        <a class="navbar-brand d-flex align-items-center" href="${contextPath}/index.jsp">
-            <i class="fas fa-dog fa-2x text-white me-2"></i>
-            <span class="fw-bold text-white">PetGo</span>
-        </a>
-        <div class="d-flex gap-2">
-            <a href="${contextPath}/index.jsp" class="btn btn-outline-light rounded-pill px-4">Cerrar Sesión</a>
-        </div>
-    </div>
-</header>
-
+<%@ include file="../includes/headerPostulador.jsp" %>
 <!-- Main Content -->
 <main class="flex-grow-1 bg-light py-5">
     <div class="container">

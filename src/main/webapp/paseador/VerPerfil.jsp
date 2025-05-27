@@ -2,7 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import="model.entities.Usuario" %>
-
+<%
+    String contextPath = request.getContextPath();
+%>
 <%
     HttpSession sesion = request.getSession();
     Usuario paseador = (Usuario) sesion.getAttribute("user");
@@ -24,14 +26,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-<header class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);">
-    <div class="container d-flex justify-content-between align-items-center py-2">
-        <a class="navbar-brand d-flex align-items-center text-white fw-bold" href="${pageContext.request.contextPath}/index.jsp">
-            <i class="fas fa-dog fa-2x me-2"></i>PetGo
-        </a>
-        <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-outline-light rounded-pill px-4">Cerrar Sesión</a>
-    </div>
-</header>
+<%@ include file="../includes/headerPostulador.jsp" %>
+
 <main class="flex-grow-1 py-5">
     <div class="container">
         <div class="mx-auto p-4 shadow bg-white rounded-4" style="max-width: 650px;">
