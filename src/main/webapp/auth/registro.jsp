@@ -8,14 +8,14 @@
 %>
 
 <div class="p-3">
-    <h2 class="text-success mb-4 text-center">Registrar Usuario</h2>
+    <h2 class="text-petgo mb-4 text-center"><i class="fas fa-user-plus me-2 text-petgo"></i>Registrar Usuario</h2>
 
     <% if (success != null) { %>
-        <div class="alert <%= success ? "alert-success" : "alert-danger" %> alert-dismissible fade show" role="alert">
-            <i class="fas <%= success ? "fa-check-circle" : "fa-exclamation-triangle" %> me-2"></i>
-            <%= (message != null) ? message : (success ? "¡Usuario registrado exitosamente!" : "Error al registrar usuario.") %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
+    <div class="alert <%= success ? "alert-success" : "alert-danger" %> alert-dismissible fade show" role="alert">
+        <i class="fas <%= success ? "fa-check-circle" : "fa-exclamation-triangle" %> me-2"></i>
+        <%= (message != null) ? message : (success ? "¡Usuario registrado exitosamente!" : "Error al registrar usuario.") %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
     <% } %>
 
     <form action="<%= request.getContextPath() %>/UsuarioController?route=create" method="POST" class="user-form" style="max-width: 400px; margin: 0 auto;">
@@ -48,12 +48,12 @@
         <div class="mb-4">
             <label for="rol" class="form-label">Rol:</label>
             <select id="rol" name="rol" class="form-select" required>
-                <option value="Cliente">Cliente</option>
-                <option value="Paseador">Paseador</option>
+                <option value="Cliente">🐾 Cliente</option>
+                <option value="Paseador">🐕 Paseador</option>
             </select>
         </div>
 
-        <button type="submit" class="btn btn-success w-100 rounded-pill">
+        <button type="submit" class="btn btn-petgo w-100 rounded-pill">
             <i class="fas fa-user-plus me-2"></i> Registrar Usuario
         </button>
 

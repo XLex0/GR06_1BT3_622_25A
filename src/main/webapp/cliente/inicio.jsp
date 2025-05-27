@@ -68,6 +68,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user-check fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Aceptar Postulaciones</h5>
+                                    <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
+                                    <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
+                                </div>
+                            </div>
+                        </div>
                     </c:if>
 
                     <!-- Tarjetas para PASEADOR -->
@@ -87,9 +97,9 @@
                             <div class="card h-100 shadow-sm border-0 rounded-4">
                                 <div class="card-body text-center">
                                     <i class="fas fa-user-check fa-3x text-success mb-3"></i>
-                                    <h5 class="card-title">Aceptar Postulaciones</h5>
-                                    <p class="card-text text-muted">Revisa y acepta postulaciones a tus tickets.</p>
-                                    <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulacionesCliente" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
+                                    <h5 class="card-title">Ver Postulaciones</h5>
+                                    <p class="card-text text-muted">Revisar estado de las postulaciones.</p>
+                                    <a href="${pageContext.request.contextPath}/PostulacionController?route=listarPostulaciones" class="btn btn-outline-success rounded-pill mt-2">Ver</a>
                                 </div>
                             </div>
                         </div>

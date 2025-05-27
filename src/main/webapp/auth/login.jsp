@@ -10,8 +10,8 @@
 <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100">
 
     <div class="text-center mb-4">
-        <i class="fas fa-paw fa-3x text-primary"></i>
-        <h1 class="mt-2 text-primary fw-bold">Bienvenido a PetGo</h1>
+        <i class="fas fa-paw fa-3x text-petgo"></i>
+        <h1 class="mt-2 text-petgo fw-bold">Bienvenido a PetGo</h1>
         <p class="text-muted">🐾 Pasea tu mascota con confianza 🐾</p>
     </div>
 
@@ -24,7 +24,7 @@
     <% } %>
 
     <div class="card shadow p-4" style="max-width: 400px; width: 100%; border-radius: 1rem;">
-        <h2 class="text-center text-primary mb-4"><i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión</h2>
+        <h2 class="text-center text-petgo mb-4"><i class="fas fa-sign-in-alt me-2 text-petgo"></i>Iniciar Sesión</h2>
 
         <form action="<%= request.getContextPath() %>/LoginController?route=login" method="POST" class="login-form">
 
@@ -46,7 +46,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 rounded-pill">
+            <button type="submit" class="btn btn-petgo w-100 rounded-pill">
                 <i class="fas fa-paw me-2"></i> Iniciar Sesión
             </button>
 
@@ -57,7 +57,7 @@
 
 <% if (success != null && success) { %>
 <script>
-    setTimeout(function() {
+    setTimeout(function () {
         window.location.href = "<%= request.getContextPath() %>/index.jsp";
     }, 2000);
 </script>

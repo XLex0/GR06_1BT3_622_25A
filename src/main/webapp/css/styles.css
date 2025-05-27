@@ -192,4 +192,22 @@ footer {
     background-color: var(--primary-hover);
 }
 
+.bg-petgo{
+    background-color: var(--primary-color) !Important;
+    color: white !Important;
+}
+.text-petgo {
+    color: var(--primary-color) !important;
+}
 
+.btn-petgo {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-petgo:hover {
+    background-color: var(--primary-hover) !important;
+}
