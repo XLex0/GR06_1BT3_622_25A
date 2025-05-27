@@ -66,6 +66,21 @@ public class UsuarioDAOTest {
         verify(transaction).begin();
         verify(transaction, never()).rollback();
     }
+    @Test
+    void given_errorDuringMerge_when_actualizar_then_rollbackCalled() {
+        Usuario u = new Usuario();
+        u.setId(10L);
+
+        when(em.find(Usuario.class, 10L)).thenReturn(u);
+        doThrow(new RuntimeException("Error al hacer merge")).when(em).merge(u);
+        when(transaction.isActive()).thenReturn(true);
+
+        boolean result = dao.actualizar(u);
+
+        assertFalse(result);
+        verify(transaction).begin();
+        verify(transaction).rollback();
+    }
 
 
 
