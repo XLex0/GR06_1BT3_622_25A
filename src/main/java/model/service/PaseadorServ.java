@@ -45,9 +45,13 @@ public class PaseadorServ extends UsuarioServ {
     }
 
     public boolean guardarPerfil(Usuario paseador) {
-        if (paseador == null || paseador.getRol() != Rol.Paseador) return false;
+        if (!esPaseadorValido(paseador)) return false;
         if (!validarExperiencia(paseador.getExperiencia())) return false;
         return usuarioDAO.actualizar(paseador);
+    }
+
+    private boolean esPaseadorValido(Usuario u) {
+        return u != null && u.getRol() == Rol.Paseador;
     }
 
     public String generarMensaje(boolean exito) {
