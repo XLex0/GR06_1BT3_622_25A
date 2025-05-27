@@ -1,37 +1,56 @@
 package model.service;
 
-import model.entities.Ticket;
+import model.dao.UsuarioDAO;
 import model.entities.*;
 import model.factory.DAOFactoria;
-
 
 import java.util.ArrayList;
 
 public class PaseadorServ extends UsuarioServ {
-    private final DAOFactoria factoria = new DAOFactoria();
+    private DAOFactoria factoria;
+    private UsuarioDAO usuarioDAO;
+
+    // Constructor por defecto (producción)
+    public PaseadorServ() {
+        this.factoria = new DAOFactoria();
+        this.usuarioDAO = factoria.obtenerUsuarioDAO();
+    }
+
+    // Constructor para test (inyección de DAO simulado)
+    public PaseadorServ(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
+    }
 
     @Override
     public Usuario prepararUsuario(Usuario usuario) {
-
         if (usuario.getRol() == Rol.Paseador) {
-            usuario.setTickets(new ArrayList<Ticket>());
-            usuario.setMascotas(new ArrayList<Mascota>());
+            usuario.setTickets(new ArrayList<>());
+            usuario.setMascotas(new ArrayList<>());
         }
         return usuario;
     }
 
     public Usuario ingresar(String email, String password) {
-         Usuario usuario = factoria.obtenerUsuarioDAO().findByEmail(email);
-        if (usuario == null) {
-            return null;
-        }
-        if (!usuario.getContrasena().equals(password)) {
-            return null;
-        }
-        if (usuario.getRol() != Rol.Paseador) {
+        Usuario usuario = usuarioDAO.findByEmail(email);
+        if (usuario == null || !usuario.getContrasena().equals(password) || usuario.getRol() != Rol.Paseador) {
             return null;
         }
         return usuario;
     }
 
+    public boolean validarExperiencia(String experiencia) {
+        if (experiencia == null || experiencia.trim().isEmpty()) return false;
+        String[] palabras = experiencia.trim().split("\\s+");
+        return palabras.length <= 60;
+    }
+
+    public boolean guardarPerfil(Usuario paseador) {
+        if (paseador == null || paseador.getRol() != Rol.Paseador) return false;
+        if (!validarExperiencia(paseador.getExperiencia())) return false;
+        return usuarioDAO.actualizar(paseador);
+    }
+
+    public String generarMensaje(boolean exito) {
+        return exito ? "Perfil configurado con éxito." : "No se pudo guardar el perfil. Verifica los datos.";
+    }
 }
