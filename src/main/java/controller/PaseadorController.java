@@ -90,7 +90,7 @@ public class PaseadorController extends HttpServlet {
         return req.getParameter(name) != null ? req.getParameter(name).trim() : "";
     }
     private String unirValores(String[] valores) {
-        return (valores != null) ? String.join(", ", valores) : "Ninguno";
+        return (valores != null) ? String.join(", ", valores) : "";
     }
     private void actualizarPerfil(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession sesion = req.getSession();

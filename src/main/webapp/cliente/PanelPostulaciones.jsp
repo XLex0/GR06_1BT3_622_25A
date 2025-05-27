@@ -1,16 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.entities.Postulacion" %>
 
 <%
     Boolean success = (Boolean) session.getAttribute("success");
     String message = (String) session.getAttribute("message");
+    String rol = (String) session.getAttribute("rol");
 %>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Perfil – PetGo</title>
+    <title>Mis Postulaciones – PetGo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -32,50 +36,109 @@
 
 <main class="flex-grow-1 bg-light py-5">
     <div class="container">
-        <h1 class="text-success fw-bold text-center mb-5">Mi Perfil</h1>
+        <h1 class="text-success fw-bold text-center mb-5">Mis Postulaciones</h1>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow-sm rounded-4 border-0">
-                    <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/PaseadorController?route=actualizarPerfil" method="post">
-                            <div class="mb-3">
-                                <label for="experiencia" class="form-label">Experiencia</label>
-                                <textarea class="form-control" id="experiencia" name="experiencia" rows="4"
-                                          placeholder="Ej. Tengo 2 años paseando perros...">${paseador.experiencia}</textarea>
-                            </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th><c:out value="${rol == 'Cliente' ? 'Paseador' : 'Cliente'}" /></th>
+                        <th>Teléfono</th>
+                        <th>Fecha del Paseo</th>
+                        <th>Hora</th>
+                        <th>Duración</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="postulacion" items="${postulaciones}">
+                        <tr>
+                            <td>${postulacion.id}</td>
+                            <td>${postulacion.fecha}</td>
 
-                            <div class="form-check form-switch mb-4">
-                                <input class="form-check-input" type="checkbox" id="disponible" name="disponible"
-                                ${paseador.disponible ? "checked" : ""}>
-                                <label class="form-check-label" for="disponible">Estoy disponible para paseos</label>
-                            </div>
+                            <c:choose>
+                                <c:when test="${rol == 'Cliente'}">
+                                    <td>${postulacion.usuario.nombre} ${postulacion.usuario.apellido}</td>
+                                    <td>${postulacion.usuario.telefono}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${postulacion.ticket.usuario.nombre} ${postulacion.ticket.usuario.apellido}</td>
+                                    <td>${postulacion.ticket.usuario.telefono}</td>
+                                </c:otherwise>
+                            </c:choose>
 
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-success rounded-pill">Guardar Cambios</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                            <td>${postulacion.ticket.fecha}</td>
+                            <td>${postulacion.ticket.hora}</td>
+                            <td>${postulacion.ticket.duracion} horas</td>
+
+                            <td>
+                                <c:choose>
+                                    <c:when test="${postulacion.aprobado == true}">Aceptado</c:when>
+                                    <c:when test="${postulacion.aprobado == false}">Rechazado</c:when>
+                                    <c:otherwise>Pendiente</c:otherwise>
+                                </c:choose>
+                            </td>
+
+                            <td>
+                                <c:if test="${rol == 'Cliente' && postulacion.aprobado == null}">
+                                    <button class="btn btn-success btn-sm me-1"
+                                            onclick="confirmarAccion(${postulacion.id}, true)">
+                                        Aceptar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm"
+                                            onclick="confirmarAccion(${postulacion.id}, false)">
+                                        Rechazar
+                                    </button>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
-
-        <c:if test="${not empty message}">
-            <script>
-                Swal.fire({
-                    icon: '${success ? "success" : "error"}',
-                    title: '${success ? "Éxito" : "Error"}',
-                    text: '${message}',
-                    confirmButtonColor: '#4CAF50'
-                });
-            </script>
-        </c:if>
     </div>
 </main>
 
 <footer class="bg-light text-center text-muted py-4 mt-auto">
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
 </footer>
+
+<script>
+    function confirmarAccion(postulacionId, aceptar) {
+        Swal.fire({
+            title: aceptar ? "¿Aceptar esta postulación?" : "¿Rechazar esta postulación?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: aceptar ? "Aceptar" : "Rechazar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: aceptar ? "#28a745" : "#dc3545"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = '${pageContext.request.contextPath}/PostulacionController?route=actualizarEstadoPostulacion';
+
+                const idInput = document.createElement("input");
+                idInput.type = "hidden";
+                idInput.name = "postulacionId";
+                idInput.value = postulacionId;
+
+                const accionInput = document.createElement("input");
+                accionInput.type = "hidden";
+                accionInput.name = "accion";
+                accionInput.value = aceptar ? "aceptar" : "rechazar";
+
+                form.appendChild(idInput);
+                form.appendChild(accionInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

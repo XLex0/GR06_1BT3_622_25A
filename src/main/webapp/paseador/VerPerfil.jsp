@@ -6,8 +6,12 @@
 <%
     HttpSession sesion = request.getSession();
     Usuario paseador = (Usuario) sesion.getAttribute("user");
-    request.setAttribute("tiposSeleccionadosAsString", String.join(",", (String[]) request.getAttribute("tiposSeleccionados")));
-    request.setAttribute("serviciosSeleccionadosAsString", String.join(",", (String[]) request.getAttribute("serviciosSeleccionados")));
+
+    String[] tipos = (String[]) request.getAttribute("tiposSeleccionados");
+    String[] servicios = (String[]) request.getAttribute("serviciosSeleccionados");
+
+    request.setAttribute("tiposSeleccionadosAsString", tipos != null ? String.join(",", tipos) : "");
+    request.setAttribute("serviciosSeleccionadosAsString", servicios != null ? String.join(",", servicios) : "");
 %>
 
 <!DOCTYPE html>
@@ -106,12 +110,12 @@ document.querySelector("form").addEventListener("submit", function (e) {
     const textoCompleto = [anios, zonas, horarios, certificaciones, ...tipos, ...servicios].join(" ");
     const palabraCount = textoCompleto.trim().split(/\s+/).length;
 
-    if (palabraCount > 61) {
+    if (palabraCount > 60) {
         e.preventDefault();
         Swal.fire({
             icon: 'error',
             title: 'Demasiadas palabras',
-            text: 'Tu información excede el límite de 120 palabras. Por favor resume tu perfil.',
+            text: 'Tu información excede el límite de 60 palabras. Por favor resume tu perfil.',
             confirmButtonColor: '#4CAF50'
         });
     }
