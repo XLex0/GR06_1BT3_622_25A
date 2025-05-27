@@ -1,3 +1,4 @@
+// ======= PaseadorController.java (actualizado) =======
 package controller;
 
 import jakarta.servlet.ServletException;
@@ -39,43 +40,83 @@ public class PaseadorController extends HttpServlet {
     }
 
     private void verPerfil(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        Usuario paseador = (Usuario) session.getAttribute("user");
+        HttpSession sesion = req.getSession();
+        Usuario paseador = (Usuario) sesion.getAttribute("user");
 
-        if (paseador == null) {
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
-            return;
+        if (paseador != null && paseador.getExperiencia() != null) {
+            req.setAttribute("anios", extraerDato(paseador.getExperiencia(), "Años de experiencia:"));
+            req.setAttribute("zonas", extraerDato(paseador.getExperiencia(), "Zonas de trabajo:"));
+            req.setAttribute("horarios", extraerDato(paseador.getExperiencia(), "Horarios disponibles:"));
+            req.setAttribute("certificaciones", extraerDato(paseador.getExperiencia(), "Certificaciones:"));
+            req.setAttribute("tiposSeleccionados", extraerLista(paseador.getExperiencia(), "Tipos de mascotas:"));
+            req.setAttribute("serviciosSeleccionados", extraerLista(paseador.getExperiencia(), "Servicios ofrecidos:"));
         }
 
         req.setAttribute("paseador", paseador);
         req.getRequestDispatcher("paseador/VerPerfil.jsp").forward(req, resp);
     }
 
-    private void actualizarPerfil(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        Usuario paseador = (Usuario) session.getAttribute("user");
+    private String extraerDato(String texto, String clave) {
+        try {
+            int inicio = texto.indexOf(clave);
+            if (inicio == -1) return "";
+            int fin = texto.indexOf(".", inicio);
+            return texto.substring(inicio + clave.length(), fin).trim();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-        if (paseador == null) {
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
-            return;
+    private String[] extraerLista(String texto, String clave) {
+        try {
+            int inicio = texto.indexOf(clave);
+            if (inicio == -1) return new String[0];
+            int fin = texto.indexOf(".", inicio);
+            String contenido = texto.substring(inicio + clave.length(), fin).trim();
+            return contenido.split("\\s*,\\s*");
+        } catch (Exception e) {
+            return new String[0];
+        }
+    }
+
+    private void actualizarPerfil(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession sesion = req.getSession();
+        Usuario paseador = (Usuario) sesion.getAttribute("user");
+
+        if (paseador != null) {
+            String[] tipos = req.getParameterValues("tipos");
+            String[] servicios = req.getParameterValues("servicios");
+            String tiposTexto = (tipos != null) ? String.join(", ", tipos) : "Ninguno";
+            String serviciosTexto = (servicios != null) ? String.join(", ", servicios) : "Ninguno";
+
+            String anios = req.getParameter("anios");
+            String zonas = req.getParameter("zonas");
+            String horarios = req.getParameter("horarios");
+            String certificaciones = req.getParameter("certificaciones");
+
+            String experiencia = "Años de experiencia: " + anios + ". "
+                    + "Tipos de mascotas: " + tiposTexto + ". "
+                    + "Servicios ofrecidos: " + serviciosTexto + ". "
+                    + "Zonas de trabajo: " + zonas + ". "
+                    + "Horarios disponibles: " + horarios + ". "
+                    + "Certificaciones: " + certificaciones + ".";
+
+            boolean disponible = req.getParameter("disponible") != null;
+
+            paseador.setExperiencia(experiencia);
+            paseador.setDisponible(disponible);
+
+            boolean exito = paseadorServ.guardarPerfil(paseador);
+            String mensaje = paseadorServ.generarMensaje(exito);
+
+            if (exito) {
+                sesion.setAttribute("user", paseador);
+            }
+
+            sesion.setAttribute("successM", exito);
+            sesion.setAttribute("messageM", mensaje);
         }
 
-        String experiencia = req.getParameter("experiencia");
-        boolean disponible = req.getParameter("disponible") != null;
-
-        paseador.setExperiencia(experiencia);
-        paseador.setDisponible(disponible);
-
-        boolean exito = paseadorServ.guardarPerfil(paseador);
-        String mensaje = paseadorServ.generarMensaje(exito);
-
-        if (exito) {
-            session.setAttribute("user", paseador);
-        }
-
-        req.setAttribute("paseador", paseador);
-        req.setAttribute("success", exito);
-        req.setAttribute("message", mensaje);
-        req.getRequestDispatcher("paseador/VerPerfil.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/PaseadorController?route=verPerfil");
     }
 }
