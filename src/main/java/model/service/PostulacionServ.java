@@ -22,16 +22,17 @@ public class PostulacionServ {
         }
     }
 
-    public List<Postulacion> listarPostulaciones() {
+    public List<Postulacion> listarPostulacionesPorPaseador(Long paseadorId) {
         EntityManager em = factoria.crearEntityManager();
         PostulacionDAO dao = new PostulacionDAO(em);
 
         try {
-            return dao.listarPostulaciones();
+            return dao.listarPostulacionesPorPaseador(paseadorId);
         } finally {
             if (em.isOpen()) em.close();
         }
     }
+
 
     public List<Postulacion> listarPostulacionesPorCliente(Long clienteId) {
         EntityManager em = factoria.crearEntityManager();

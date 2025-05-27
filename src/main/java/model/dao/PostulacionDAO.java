@@ -19,9 +19,13 @@ public class PostulacionDAO {
         em.getTransaction().commit();
     }
 
-    public List<Postulacion> listarPostulaciones() {
-        return em.createQuery("SELECT p FROM Postulacion p", Postulacion.class).getResultList();
+    public List<Postulacion> listarPostulacionesPorPaseador(Long paseadorId) {
+        return em.createQuery(
+                        "SELECT p FROM Postulacion p WHERE p.usuario.id = :paseadorId", Postulacion.class)
+                .setParameter("paseadorId", paseadorId)
+                .getResultList();
     }
+
 
     public Postulacion findById(Long id) {
         return em.find(Postulacion.class, id);

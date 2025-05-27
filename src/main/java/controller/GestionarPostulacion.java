@@ -120,10 +120,19 @@ public class GestionarPostulacion extends HttpServlet {
     }
 
     private void listarPostulaciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Postulacion> postulaciones = postulacionServ.listarPostulaciones();
+        HttpSession session = request.getSession();
+        Usuario paseador = (Usuario) session.getAttribute("user");
+
+        if (paseador == null) {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        List<Postulacion> postulaciones = postulacionServ.listarPostulacionesPorPaseador(paseador.getId());
         request.setAttribute("postulaciones", postulaciones);
         request.getRequestDispatcher("paseador/PanelPostulaciones.jsp").forward(request, response);
     }
+
 
     private void listarPostulacionesByCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
