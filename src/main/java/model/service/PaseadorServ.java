@@ -1,5 +1,6 @@
 package model.service;
 
+import jakarta.persistence.EntityManager;
 import model.dao.UsuarioDAO;
 import model.entities.*;
 import model.factory.DAOFactoria;
@@ -56,5 +57,17 @@ public class PaseadorServ extends UsuarioServ {
 
     public String generarMensaje(boolean exito) {
         return exito ? "Perfil configurado con éxito." : "No se pudo guardar el perfil. Verifica los datos.";
+    }
+
+    public Usuario buscarPorId(Long id) {
+        EntityManager em = factoria.crearEntityManager();
+        try {
+            return em.find(Usuario.class, id);
+        } catch (Exception e) {
+            System.err.println("Error al buscar paseador: " + e.getMessage());
+            return null;
+        } finally {
+            em.close();
+        }
     }
 }

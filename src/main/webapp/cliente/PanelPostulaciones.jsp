@@ -38,69 +38,89 @@
     <div class="container">
         <h1 class="text-success fw-bold text-center mb-5">Mis Postulaciones</h1>
 
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered align-middle">
-                <thead class="table-success">
-                    <tr>
-                        <th>ID</th>
-                        <th>Fecha</th>
-                        <th><c:out value="${rol == 'Cliente' ? 'Paseador' : 'Cliente'}" /></th>
-                        <th>Teléfono</th>
-                        <th>Fecha del Paseo</th>
-                        <th>Hora</th>
-                        <th>Duración</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="postulacion" items="${postulaciones}">
-                        <tr>
-                            <td>${postulacion.id}</td>
-                            <td>${postulacion.fecha}</td>
+        <div class="row g-4">
+            <c:forEach var="postulacion" items="${postulaciones}">
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-4 h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="mb-1 text-success">
+                                        <c:choose>
+                                            <c:when test="${rol == 'Cliente'}">
+                                                ${postulacion.usuario.nombre} ${postulacion.usuario.apellido}
+                                                <button class="btn btn-sm btn-link text-info p-0 ms-1"
+                                                        onclick="verPerfil(${postulacion.usuario.id})"
+                                                        title="Ver perfil del paseador">
+                                                    <i class="fas fa-circle-info fa-lg"></i>
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${postulacion.ticket.usuario.nombre} ${postulacion.ticket.usuario.apellido}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </h5>
+                                    <p class="mb-1 text-muted">
+                                        <i class="fas fa-phone me-1"></i>
+                                        <c:choose>
+                                            <c:when test="${rol == 'Cliente'}">${postulacion.usuario.telefono}</c:when>
+                                            <c:otherwise>${postulacion.ticket.usuario.telefono}</c:otherwise>
+                                        </c:choose>
+                                    </p>
+                                    <p class="mb-1"><strong>ID Ticket:</strong> ${postulacion.ticket.id}</p>
+                                    <p class="mb-1"><strong>Fecha paseo:</strong> ${postulacion.ticket.fecha}</p>
+                                    <p class="mb-1"><strong>Hora:</strong> ${postulacion.ticket.hora}</p>
+                                    <p class="mb-3"><strong>Duración:</strong> ${postulacion.ticket.duracion} horas</p>
+                                </div>
 
-                            <c:choose>
-                                <c:when test="${rol == 'Cliente'}">
-                                    <td>${postulacion.usuario.nombre} ${postulacion.usuario.apellido}</td>
-                                    <td>${postulacion.usuario.telefono}</td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td>${postulacion.ticket.usuario.nombre} ${postulacion.ticket.usuario.apellido}</td>
-                                    <td>${postulacion.ticket.usuario.telefono}</td>
-                                </c:otherwise>
-                            </c:choose>
+                                <span class="badge rounded-pill fs-6
+                                    <c:choose>
+                                        <c:when test="${not empty postulacion.aprobado and postulacion.aprobado == true}">bg-success</c:when>
+                                        <c:when test="${not empty postulacion.aprobado and postulacion.aprobado == false}">bg-danger</c:when>
+                                        <c:otherwise>bg-warning text-dark</c:otherwise>
+                                    </c:choose>">
+                                    <c:choose>
+                                        <c:when test="${not empty postulacion.aprobado and postulacion.aprobado == true}">Aceptado</c:when>
+                                        <c:when test="${not empty postulacion.aprobado and postulacion.aprobado == false}">Rechazado</c:when>
+                                        <c:otherwise>Pendiente</c:otherwise>
+                                    </c:choose>
+                                </span>
+                            </div>
 
-                            <td>${postulacion.ticket.fecha}</td>
-                            <td>${postulacion.ticket.hora}</td>
-                            <td>${postulacion.ticket.duracion} horas</td>
-
-                            <td>
-                                <c:choose>
-                                    <c:when test="${postulacion.aprobado == true}">Aceptado</c:when>
-                                    <c:when test="${postulacion.aprobado == false}">Rechazado</c:when>
-                                    <c:otherwise>Pendiente</c:otherwise>
-                                </c:choose>
-                            </td>
-
-                            <td>
-                                <c:if test="${rol == 'Cliente' && postulacion.aprobado == null}">
-                                    <button class="btn btn-success btn-sm me-1"
+                            <c:if test="${rol == 'Cliente' && empty postulacion.aprobado}">
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-success w-50"
                                             onclick="confirmarAccion(${postulacion.id}, true)">
-                                        Aceptar
+                                        <i class="fas fa-check me-1"></i>Aceptar
                                     </button>
-                                    <button class="btn btn-danger btn-sm"
+                                    <button class="btn btn-danger w-50"
                                             onclick="confirmarAccion(${postulacion.id}, false)">
-                                        Rechazar
+                                        <i class="fas fa-times me-1"></i>Rechazar
                                     </button>
-                                </c:if>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </main>
+
+<!-- ✅ Modal para ver el perfil -->
+<div class="modal fade" id="modalPerfil" tabindex="-1" aria-labelledby="modalPerfilLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalPerfilLabel">Perfil del Paseador</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="perfilContenido">
+        <div class="text-center text-muted">Cargando perfil...</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer class="bg-light text-center text-muted py-4 mt-auto">
     <p class="mb-2">&copy; 2025 <span class="text-success">PetGo</span> – Paseos con Amor</p>
@@ -138,9 +158,25 @@
             }
         });
     }
+
+    function verPerfil(idUsuario) {
+        const modal = new bootstrap.Modal(document.getElementById('modalPerfil'));
+        document.getElementById('perfilContenido').innerHTML = '<div class="text-center text-muted">Cargando perfil...</div>';
+
+        fetch('${pageContext.request.contextPath}/PaseadorController?route=verPerfilCliente&id=' + idUsuario)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('perfilContenido').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error al cargar el perfil:', error);
+                document.getElementById('perfilContenido').innerHTML = '<div class="text-danger">Error al cargar el perfil.</div>';
+            });
+
+        modal.show();
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
