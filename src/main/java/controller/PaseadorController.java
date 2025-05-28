@@ -143,8 +143,20 @@ public class PaseadorController extends HttpServlet {
         Usuario paseador = (Usuario) sesion.getAttribute("user");
 
         if (paseador != null) {
-            String tiposTexto = unirValores(req.getParameterValues("tipos"));
-            String serviciosTexto = unirValores(req.getParameterValues("servicios"));
+
+            String[] tiposArray = req.getParameterValues("tipos");
+            String[] serviciosArray = req.getParameterValues("servicios");
+
+            if (tiposArray == null || tiposArray.length == 0 || serviciosArray == null || serviciosArray.length == 0) {
+                sesion.setAttribute("successM", false);
+                sesion.setAttribute("messageM", "Debes seleccionar al menos un tipo de mascota y un servicio ofrecido.");
+                resp.sendRedirect(req.getContextPath() + "/PaseadorController?route=verPerfil");
+                return;
+            }
+
+            // Obtener valores y construir experiencia
+            String tiposTexto = unirValores(tiposArray);
+            String serviciosTexto = unirValores(serviciosArray);
 
             String anios = getParam(req, "anios");
             String zonas = getParam(req, "zonas");
@@ -162,7 +174,7 @@ public class PaseadorController extends HttpServlet {
             String mensaje = paseadorServ.generarMensaje(exito);
 
             if (exito) {
-                sesion.setAttribute("user", paseador);
+                sesion.setAttribute("user", paseador); // Actualiza sesión si se guardó correctamente
             }
 
             sesion.setAttribute("successM", exito);
@@ -171,5 +183,6 @@ public class PaseadorController extends HttpServlet {
 
         resp.sendRedirect(req.getContextPath() + "/PaseadorController?route=verPerfil");
     }
-    
+
+
 }

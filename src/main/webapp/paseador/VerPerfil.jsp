@@ -103,6 +103,19 @@ document.querySelector("form").addEventListener("submit", function (e) {
     const tipos = Array.from(document.querySelectorAll("input[name='tipos']:checked")).map(el => el.value);
     const servicios = Array.from(document.querySelectorAll("input[name='servicios']:checked")).map(el => el.value);
 
+    // Validar que al menos un tipo y un servicio esté seleccionado
+    if (tipos.length === 0 || servicios.length === 0) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'warning',
+            title: 'Faltan campos por seleccionar',
+            text: 'Debes seleccionar al menos un tipo de mascota y un servicio ofrecido.',
+            confirmButtonColor: '#4CAF50'
+        });
+        return;
+    }
+
+    // Validar límite de palabras (máx 60 palabras)
     const textoCompleto = [anios, zonas, horarios, certificaciones, ...tipos, ...servicios].join(" ");
     const palabraCount = textoCompleto.trim().split(/\s+/).length;
 
