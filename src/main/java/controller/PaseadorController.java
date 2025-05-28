@@ -58,7 +58,8 @@ public class PaseadorController extends HttpServlet {
                 return;
             }
 
-            if (paseador.getExperiencia() == null || paseador.getExperiencia().trim().isEmpty()) {
+            // Si no tiene experiencia o está marcado como no disponible
+            if (paseador.getExperiencia() == null || paseador.getExperiencia().trim().isEmpty() || !paseador.isDisponible()) {
                 req.setAttribute("noPerfil", true);
             } else {
                 cargarDatosExperiencia(req, paseador);
