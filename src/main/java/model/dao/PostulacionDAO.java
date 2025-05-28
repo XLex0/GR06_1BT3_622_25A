@@ -38,7 +38,7 @@ public class PostulacionDAO {
     }
 
     public List<Postulacion> listarPostulacionesPorCliente(Long clienteId) {
-        return em.createQuery(
+        List<Postulacion> lista = em.createQuery(
                         "SELECT p FROM Postulacion p " +
                                 "JOIN FETCH p.usuario paseador " +
                                 "JOIN FETCH p.ticket t " +
@@ -46,6 +46,12 @@ public class PostulacionDAO {
                                 "WHERE t.usuario.id = :clienteId", Postulacion.class)
                 .setParameter("clienteId", clienteId)
                 .getResultList();
+
+        for (Postulacion p : lista) {
+            em.refresh(p);
+        }
+
+        return lista;
     }
 
     public void rechazarOtrasPostulaciones(Long ticketId, Long postulacionAceptadaId) {

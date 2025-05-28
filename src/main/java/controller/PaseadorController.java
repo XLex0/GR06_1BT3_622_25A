@@ -34,10 +34,49 @@ public class PaseadorController extends HttpServlet {
             case "actualizarPerfil":
                 actualizarPerfil(req, resp);
                 break;
+            case "verPerfilCliente":
+                verPerfilCliente(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ruta no válida.");
         }
     }
+
+    private void verPerfilCliente(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idParam = req.getParameter("id");
+        if (idParam == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de paseador no proporcionado.");
+            return;
+        }
+
+        try {
+            Long id = Long.parseLong(idParam);
+            Usuario paseador = paseadorServ.buscarPorId(id);
+
+            if (paseador == null) {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Paseador no encontrado.");
+                return;
+            }
+
+            cargarDatosExperiencia(req, paseador);
+            req.setAttribute("paseador", paseador);
+            req.getRequestDispatcher("cliente/VerPerfilCliente.jsp").forward(req, resp);
+
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de paseador inválido.");
+        }
+    }
+    private void cargarDatosExperiencia(HttpServletRequest req, Usuario paseador) {
+        if (paseador.getExperiencia() != null) {
+            req.setAttribute("anios", extraerDato(paseador.getExperiencia(), "Años de experiencia:"));
+            req.setAttribute("zonas", extraerDato(paseador.getExperiencia(), "Zonas de trabajo:"));
+            req.setAttribute("horarios", extraerDato(paseador.getExperiencia(), "Horarios disponibles:"));
+            req.setAttribute("certificaciones", extraerDato(paseador.getExperiencia(), "Certificaciones:"));
+            req.setAttribute("tiposSeleccionados", extraerLista(paseador.getExperiencia(), "Tipos de mascotas:"));
+            req.setAttribute("serviciosSeleccionados", extraerLista(paseador.getExperiencia(), "Servicios ofrecidos:"));
+        }
+    }
+
 
     private void verPerfil(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession sesion = req.getSession();
@@ -125,4 +164,5 @@ public class PaseadorController extends HttpServlet {
 
         resp.sendRedirect(req.getContextPath() + "/PaseadorController?route=verPerfil");
     }
+    
 }
