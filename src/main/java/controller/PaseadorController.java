@@ -58,7 +58,12 @@ public class PaseadorController extends HttpServlet {
                 return;
             }
 
-            cargarDatosExperiencia(req, paseador);
+            if (paseador.getExperiencia() == null || paseador.getExperiencia().trim().isEmpty()) {
+                req.setAttribute("noPerfil", true);
+            } else {
+                cargarDatosExperiencia(req, paseador);
+            }
+
             req.setAttribute("paseador", paseador);
             req.getRequestDispatcher("cliente/VerPerfilCliente.jsp").forward(req, resp);
 
@@ -66,6 +71,7 @@ public class PaseadorController extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de paseador inválido.");
         }
     }
+
     private void cargarDatosExperiencia(HttpServletRequest req, Usuario paseador) {
         if (paseador.getExperiencia() != null) {
             req.setAttribute("anios", extraerDato(paseador.getExperiencia(), "Años de experiencia:"));
